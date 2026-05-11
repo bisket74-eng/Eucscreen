@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EUC Rider Line Art</title>
+    <title>EUC Pro Rider</title>
     <style>
         body {
             margin: 0;
@@ -13,113 +13,192 @@
             height: 100vh;
         }
 
+        /* Large Minimalist Clock */
         #clock {
             position: absolute;
-            top: 10%;
+            top: 5%;
             color: white;
-            font-family: 'Courier New', monospace;
-            font-size: 3rem;
-            border-bottom: 2px solid white;
+            font-family: 'Arial', sans-serif;
+            font-size: 4rem;
+            font-weight: bold;
+            letter-spacing: 4px;
         }
 
-        /* The Road Line */
-        .road-container {
-            position: absolute;
-            bottom: 30%;
+        .stage {
+            position: relative;
             width: 100%;
-            height: 200px;
+            height: 600px;
+            display: flex;
+            align-items: flex-end;
         }
 
-        .flat-road {
+        /* Thicker, bolder road */
+        .road-line {
             position: absolute;
-            bottom: 0;
+            bottom: 50px;
             width: 100%;
-            height: 2px;
+            height: 8px;
             background: white;
         }
 
-        /* The Bump */
-        .bump {
+        /* Larger Hill */
+        .hill {
             position: absolute;
-            bottom: -2px;
+            bottom: 42px;
             left: 50%;
             transform: translateX(-50%);
-            width: 200px;
-            height: 100px;
-            border: 2px solid white;
+            width: 500px;
+            height: 250px;
+            border: 8px solid white;
             border-bottom: none;
-            border-top-left-radius: 110px;
-            border-top-right-radius: 110px;
+            border-top-left-radius: 300px;
+            border-top-right-radius: 300px;
             background: black;
         }
 
-        /* EUC Rider Figure */
-        .rider {
+        /* THE RIDER CONTAINER */
+        .rider-unit {
             position: absolute;
-            bottom: 0;
-            left: -50px;
-            width: 40px;
-            height: 80px;
-            animation: moveRider 6s linear infinite;
+            bottom: 50px;
+            left: -200px;
+            width: 150px;
+            height: 250px;
+            animation: proRide 8s linear infinite;
+            z-index: 10;
         }
 
-        /* The Wheel */
-        .wheel {
+        /* The Electric Unicycle (No pedals, just the body/tire) */
+        .euc-body {
             position: absolute;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 24px;
-            height: 24px;
-            border: 2px solid white;
+            width: 70px;
+            height: 90px;
+            border: 4px solid white;
+            border-radius: 20px;
+            background: black;
+        }
+
+        .tire {
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            border: 5px solid white;
             border-radius: 50%;
         }
 
-        .wheel::before {
+        .tire::after {
             content: '';
             position: absolute;
             top: 50%;
             width: 100%;
-            height: 1px;
+            height: 4px;
             background: white;
-            animation: spin 0.4s linear infinite;
+            animation: spin 0.3s linear infinite;
         }
 
-        /* The Stick Figure Body */
-        .body-line {
+        /* The Person */
+        .person {
             position: absolute;
-            bottom: 24px;
+            bottom: 80px;
             left: 50%;
-            width: 2px;
-            height: 40px;
-            background: white;
-            transform-origin: bottom;
-            transform: rotate(-10deg); /* Leaning into the ride */
+            transform: translateX(-50%);
+            width: 60px;
+            height: 140px;
         }
 
-        .helmet {
+        /* Full Motorcycle Helmet & Head */
+        .helmet-head {
             position: absolute;
-            top: -15px;
-            left: -8px;
-            width: 18px;
-            height: 14px;
-            border: 2px solid white;
-            border-radius: 10px 10px 2px 2px;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 45px;
+            height: 50px;
+            border: 3px solid white;
+            border-radius: 50% 50% 40% 40%;
             background: black;
         }
 
-        /* Movement Logic */
-        @keyframes moveRider {
-            0% { left: -5%; bottom: 0; transform: rotate(0deg); }
-            35% { left: 40%; bottom: 0; transform: rotate(-10deg); }
-            /* Going up the bump */
-            45% { bottom: 85px; transform: rotate(-30deg); }
-            /* Top of bump */
-            50% { left: 50%; bottom: 100px; transform: rotate(0deg); }
-            /* Coming down */
-            55% { bottom: 85px; transform: rotate(30deg); }
-            65% { left: 60%; bottom: 0; transform: rotate(10deg); }
-            100% { left: 110%; bottom: 0; transform: rotate(0deg); }
+        .visor {
+            position: absolute;
+            top: 10px;
+            right: -5px;
+            width: 30px;
+            height: 15px;
+            background: white;
+            border-radius: 0 10px 10px 0;
+        }
+
+        /* Torso and Gear */
+        .torso {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 55px;
+            border: 3px solid white;
+            border-radius: 10px;
+            background: black;
+        }
+
+        /* Arms with Elbow Pads */
+        .arm {
+            position: absolute;
+            top: 55px;
+            width: 8px;
+            height: 45px;
+            background: white;
+            transform: rotate(-20deg);
+        }
+        .arm.front { right: -10px; }
+        .elbow-pad {
+            position: absolute;
+            top: 20px;
+            left: -4px;
+            width: 15px;
+            height: 15px;
+            border: 2px solid black;
+            background: white;
+            border-radius: 4px;
+        }
+
+        /* Legs with Knee Pads */
+        .leg {
+            position: absolute;
+            bottom: -10px;
+            width: 10px;
+            height: 40px;
+            background: white;
+            left: 15px;
+        }
+        .knee-pad {
+            position: absolute;
+            top: 10px;
+            left: -5px;
+            width: 20px;
+            height: 20px;
+            border: 2px solid black;
+            background: white;
+            border-radius: 5px;
+        }
+
+        /* Animation Keyframes */
+        @keyframes proRide {
+            0% { left: -20%; bottom: 50px; transform: rotate(0deg); }
+            35% { left: 35%; bottom: 50px; transform: rotate(-5deg); }
+            /* Climbing the big hill */
+            45% { bottom: 230px; transform: rotate(-25deg); }
+            50% { left: 50%; bottom: 300px; transform: rotate(0deg); }
+            /* Descending */
+            55% { bottom: 230px; transform: rotate(25deg); }
+            65% { left: 65%; bottom: 50px; transform: rotate(5deg); }
+            100% { left: 115%; bottom: 50px; transform: rotate(0deg); }
         }
 
         @keyframes spin {
@@ -132,15 +211,29 @@
 
     <div id="clock">00:00:00</div>
 
-    <div class="road-container">
-        <div class="flat-road"></div>
-        <div class="bump"></div>
-        
-        <div class="rider">
-            <div class="body-line">
-                <div class="helmet"></div>
+    <div class="stage">
+        <div class="road-line"></div>
+        <div class="hill"></div>
+
+        <div class="rider-unit">
+            <!-- The Gear-up Rider -->
+            <div class="person">
+                <div class="helmet-head">
+                    <div class="visor"></div>
+                </div>
+                <div class="torso"></div>
+                <div class="arm front">
+                    <div class="elbow-pad"></div>
+                </div>
+                <div class="leg">
+                    <div class="knee-pad"></div>
+                </div>
             </div>
-            <div class="wheel"></div>
+
+            <!-- The Wheel (EUC) -->
+            <div class="euc-body">
+                <div class="tire"></div>
+            </div>
         </div>
     </div>
 
