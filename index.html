@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EUC Pro Rider</title>
+    <title>EUC Rider - Ski Stance</title>
     <style>
         body {
             margin: 0;
@@ -13,7 +13,6 @@
             height: 100vh;
         }
 
-        /* Large Minimalist Clock */
         #clock {
             position: absolute;
             top: 5%;
@@ -21,187 +20,168 @@
             font-family: 'Arial', sans-serif;
             font-size: 4rem;
             font-weight: bold;
-            letter-spacing: 4px;
         }
 
         .stage {
             position: relative;
             width: 100%;
             height: 600px;
-            display: flex;
-            align-items: flex-end;
         }
 
-        /* Thicker, bolder road */
         .road-line {
             position: absolute;
             bottom: 50px;
             width: 100%;
-            height: 8px;
+            height: 6px;
             background: white;
         }
 
-        /* Larger Hill */
         .hill {
             position: absolute;
-            bottom: 42px;
+            bottom: 44px;
             left: 50%;
             transform: translateX(-50%);
-            width: 500px;
+            width: 600px;
             height: 250px;
-            border: 8px solid white;
+            border: 6px solid white;
             border-bottom: none;
-            border-top-left-radius: 300px;
-            border-top-right-radius: 300px;
+            border-top-left-radius: 350px;
+            border-top-right-radius: 350px;
             background: black;
         }
 
-        /* THE RIDER CONTAINER */
+        /* EUC UNIT */
         .rider-unit {
             position: absolute;
             bottom: 50px;
             left: -200px;
-            width: 150px;
-            height: 250px;
-            animation: proRide 8s linear infinite;
-            z-index: 10;
+            width: 120px;
+            height: 280px;
+            animation: eucJourney 8s linear infinite;
         }
 
-        /* The Electric Unicycle (No pedals, just the body/tire) */
-        .euc-body {
+        /* The actual Wheel (Rounded/Teardrop shape) */
+        .euc-wheel-housing {
             position: absolute;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 70px;
-            height: 90px;
-            border: 4px solid white;
-            border-radius: 20px;
+            width: 60px;
+            height: 85px;
+            border: 3px solid white;
+            border-radius: 30% 30% 50% 50%;
             background: black;
         }
 
-        .tire {
+        /* The Tire spinning inside */
+        .inner-tire {
             position: absolute;
-            bottom: -5px;
+            bottom: 5px;
+            left: 10px;
+            width: 40px;
+            height: 40px;
+            border: 3px dashed white;
+            border-radius: 50%;
+            animation: spinTire 0.4s linear infinite;
+        }
+
+        /* Side Pedals (Footplates) */
+        .pedal {
+            position: absolute;
+            bottom: 25px;
+            width: 35px;
+            height: 6px;
+            background: white;
+            border-radius: 2px;
+        }
+        .pedal.left { left: -10px; }
+        .pedal.right { right: -10px; }
+
+        /* THE RIDER (Skiing Stance) */
+        .rider-body {
+            position: absolute;
+            bottom: 35px; /* Standing on pedals */
             left: 50%;
             transform: translateX(-50%);
             width: 50px;
-            height: 50px;
-            border: 5px solid white;
-            border-radius: 50%;
+            height: 200px;
         }
 
-        .tire::after {
-            content: '';
+        /* Tall, standing legs */
+        .legs {
             position: absolute;
-            top: 50%;
+            bottom: 0;
             width: 100%;
-            height: 4px;
+            height: 80px;
+            display: flex;
+            justify-content: space-around;
+        }
+        .leg-line {
+            width: 8px;
+            height: 100%;
             background: white;
-            animation: spin 0.3s linear infinite;
+            border-radius: 4px;
         }
 
-        /* The Person */
-        .person {
+        .torso {
             position: absolute;
             bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
-            width: 60px;
-            height: 140px;
-        }
-
-        /* Full Motorcycle Helmet & Head */
-        .helmet-head {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 45px;
-            height: 50px;
-            border: 3px solid white;
-            border-radius: 50% 50% 40% 40%;
-            background: black;
-        }
-
-        .visor {
-            position: absolute;
-            top: 10px;
-            right: -5px;
-            width: 30px;
-            height: 15px;
-            background: white;
-            border-radius: 0 10px 10px 0;
-        }
-
-        /* Torso and Gear */
-        .torso {
-            position: absolute;
-            top: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 55px;
+            width: 35px;
+            height: 70px;
             border: 3px solid white;
             border-radius: 10px;
             background: black;
         }
 
-        /* Arms with Elbow Pads */
+        /* Full Face Helmet */
+        .helmet {
+            position: absolute;
+            top: -55px;
+            left: -5px;
+            width: 45px;
+            height: 50px;
+            border: 3px solid white;
+            border-radius: 50% 50% 30% 30%;
+            background: black;
+        }
+        .visor {
+            position: absolute;
+            top: 12px;
+            right: -4px;
+            width: 25px;
+            height: 12px;
+            background: white;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Arms - held out slightly for balance */
         .arm {
             position: absolute;
-            top: 55px;
-            width: 8px;
-            height: 45px;
-            background: white;
-            transform: rotate(-20deg);
-        }
-        .arm.front { right: -10px; }
-        .elbow-pad {
-            position: absolute;
-            top: 20px;
-            left: -4px;
-            width: 15px;
-            height: 15px;
-            border: 2px solid black;
-            background: white;
-            border-radius: 4px;
-        }
-
-        /* Legs with Knee Pads */
-        .leg {
-            position: absolute;
-            bottom: -10px;
-            width: 10px;
-            height: 40px;
-            background: white;
-            left: 15px;
-        }
-        .knee-pad {
-            position: absolute;
             top: 10px;
-            left: -5px;
-            width: 20px;
-            height: 20px;
-            border: 2px solid black;
+            width: 6px;
+            height: 50px;
             background: white;
-            border-radius: 5px;
         }
+        .arm.left { left: -10px; transform: rotate(15deg); }
+        .arm.right { right: -10px; transform: rotate(-15deg); }
 
-        /* Animation Keyframes */
-        @keyframes proRide {
-            0% { left: -20%; bottom: 50px; transform: rotate(0deg); }
-            35% { left: 35%; bottom: 50px; transform: rotate(-5deg); }
-            /* Climbing the big hill */
-            45% { bottom: 230px; transform: rotate(-25deg); }
+        /* Animations */
+        @keyframes eucJourney {
+            0% { left: -15%; bottom: 50px; transform: rotate(0deg); }
+            /* Lean forward to accelerate */
+            30% { left: 30%; bottom: 50px; transform: rotate(-8deg); } 
+            /* Up the hill */
+            45% { bottom: 240px; transform: rotate(-25deg); }
             50% { left: 50%; bottom: 300px; transform: rotate(0deg); }
-            /* Descending */
-            55% { bottom: 230px; transform: rotate(25deg); }
-            65% { left: 65%; bottom: 50px; transform: rotate(5deg); }
+            /* Lean back to brake/descend */
+            55% { bottom: 240px; transform: rotate(25deg); }
+            70% { left: 70%; bottom: 50px; transform: rotate(5deg); }
             100% { left: 115%; bottom: 50px; transform: rotate(0deg); }
         }
 
-        @keyframes spin {
+        @keyframes spinTire {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
@@ -216,37 +196,37 @@
         <div class="hill"></div>
 
         <div class="rider-unit">
-            <!-- The Gear-up Rider -->
-            <div class="person">
-                <div class="helmet-head">
-                    <div class="visor"></div>
-                </div>
-                <div class="torso"></div>
-                <div class="arm front">
-                    <div class="elbow-pad"></div>
-                </div>
-                <div class="leg">
-                    <div class="knee-pad"></div>
-                </div>
+            <!-- EUC Device -->
+            <div class="euc-wheel-housing">
+                <div class="inner-tire"></div>
             </div>
+            <div class="pedal left"></div>
+            <div class="pedal right"></div>
 
-            <!-- The Wheel (EUC) -->
-            <div class="euc-body">
-                <div class="tire"></div>
+            <!-- The Rider -->
+            <div class="rider-body">
+                <div class="legs">
+                    <div class="leg-line"></div>
+                    <div class="leg-line"></div>
+                </div>
+                <div class="torso">
+                    <div class="helmet">
+                        <div class="visor"></div>
+                    </div>
+                    <div class="arm left"></div>
+                    <div class="arm right"></div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        function updateTime() {
+        function updateClock() {
             const now = new Date();
-            const time = now.getHours().toString().padStart(2, '0') + ":" + 
-                         now.getMinutes().toString().padStart(2, '0') + ":" + 
-                         now.getSeconds().toString().padStart(2, '0');
-            document.getElementById('clock').innerText = time;
+            document.getElementById('clock').innerText = now.toLocaleTimeString('en-GB');
         }
-        setInterval(updateTime, 1000);
-        updateTime();
+        setInterval(updateClock, 1000);
+        updateClock();
     </script>
 </body>
 </html>
