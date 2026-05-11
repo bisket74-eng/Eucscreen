@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EUC Rider - Ski Stance</title>
+    <title>EUC Ramp Jump - Profile View</title>
     <style>
         body {
             margin: 0;
@@ -30,158 +30,179 @@
 
         .road-line {
             position: absolute;
-            bottom: 50px;
+            bottom: 100px;
             width: 100%;
-            height: 6px;
+            height: 4px;
             background: white;
         }
 
-        .hill {
+        /* The Ramp (Kicker) */
+        .ramp {
             position: absolute;
-            bottom: 44px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 600px;
-            height: 250px;
-            border: 6px solid white;
-            border-bottom: none;
-            border-top-left-radius: 350px;
-            border-top-right-radius: 350px;
-            background: black;
+            bottom: 100px;
+            left: 45%;
+            width: 150px;
+            height: 80px;
+            background: white;
+            /* Creates the triangle ramp shape */
+            clip-path: polygon(0% 100%, 100% 0%, 100% 100%);
         }
 
-        /* EUC UNIT */
+        /* RIDER CONTAINER */
         .rider-unit {
             position: absolute;
-            bottom: 50px;
-            left: -200px;
-            width: 120px;
-            height: 280px;
-            animation: eucJourney 8s linear infinite;
+            bottom: 100px;
+            left: -150px;
+            width: 80px;
+            height: 200px;
+            animation: jumpSequence 5s linear infinite;
         }
 
-        /* The actual Wheel (Rounded/Teardrop shape) */
-        .euc-wheel-housing {
+        /* Side View EUC Wheel */
+        .euc-wheel {
             position: absolute;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
             width: 60px;
-            height: 85px;
-            border: 3px solid white;
-            border-radius: 30% 30% 50% 50%;
+            height: 60px;
+            border: 4px solid white;
+            border-radius: 50%;
             background: black;
         }
 
-        /* The Tire spinning inside */
-        .inner-tire {
+        .spoke {
             position: absolute;
-            bottom: 5px;
-            left: 10px;
-            width: 40px;
-            height: 40px;
-            border: 3px dashed white;
-            border-radius: 50%;
-            animation: spinTire 0.4s linear infinite;
+            top: 50%;
+            width: 100%;
+            height: 2px;
+            background: white;
+            animation: spin 0.3s linear infinite;
         }
 
-        /* Side Pedals (Footplates) */
-        .pedal {
+        /* Single Side Pedal */
+        .pedal-side {
             position: absolute;
             bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
             width: 35px;
             height: 6px;
             background: white;
-            border-radius: 2px;
+            z-index: 15;
         }
-        .pedal.left { left: -10px; }
-        .pedal.right { right: -10px; }
 
-        /* THE RIDER (Skiing Stance) */
-        .rider-body {
+        /* PROFILE RIDER */
+        .rider-profile {
             position: absolute;
-            bottom: 35px; /* Standing on pedals */
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            width: 50px;
-            height: 200px;
+            width: 40px;
+            height: 160px;
         }
 
-        /* Tall, standing legs */
-        .legs {
+        /* Single leg in profile */
+        .leg {
             position: absolute;
             bottom: 0;
-            width: 100%;
-            height: 80px;
-            display: flex;
-            justify-content: space-around;
-        }
-        .leg-line {
-            width: 8px;
-            height: 100%;
+            left: 15px;
+            width: 12px;
+            height: 70px;
             background: white;
-            border-radius: 4px;
+            border-radius: 6px;
         }
 
         .torso {
             position: absolute;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 35px;
-            height: 70px;
-            border: 3px solid white;
-            border-radius: 10px;
-            background: black;
-        }
-
-        /* Full Face Helmet */
-        .helmet {
-            position: absolute;
-            top: -55px;
-            left: -5px;
-            width: 45px;
-            height: 50px;
-            border: 3px solid white;
-            border-radius: 50% 50% 30% 30%;
-            background: black;
-        }
-        .visor {
-            position: absolute;
-            top: 12px;
-            right: -4px;
-            width: 25px;
-            height: 12px;
+            bottom: 70px;
+            left: 10px;
+            width: 20px;
+            height: 60px;
             background: white;
-            border-radius: 0 8px 8px 0;
+            transform: rotate(-10deg); /* Slight forward lean */
+            border-radius: 5px;
         }
 
-        /* Arms - held out slightly for balance */
+        /* Single arm in profile */
         .arm {
             position: absolute;
-            top: 10px;
-            width: 6px;
+            top: 5px;
+            left: 5px;
+            width: 8px;
             height: 50px;
             background: white;
-        }
-        .arm.left { left: -10px; transform: rotate(15deg); }
-        .arm.right { right: -10px; transform: rotate(-15deg); }
-
-        /* Animations */
-        @keyframes eucJourney {
-            0% { left: -15%; bottom: 50px; transform: rotate(0deg); }
-            /* Lean forward to accelerate */
-            30% { left: 30%; bottom: 50px; transform: rotate(-8deg); } 
-            /* Up the hill */
-            45% { bottom: 240px; transform: rotate(-25deg); }
-            50% { left: 50%; bottom: 300px; transform: rotate(0deg); }
-            /* Lean back to brake/descend */
-            55% { bottom: 240px; transform: rotate(25deg); }
-            70% { left: 70%; bottom: 50px; transform: rotate(5deg); }
-            100% { left: 115%; bottom: 50px; transform: rotate(0deg); }
+            transform: rotate(-30deg);
+            border-radius: 4px;
         }
 
-        @keyframes spinTire {
+        /* Side view helmet */
+        .helmet-side {
+            position: absolute;
+            top: -45px;
+            left: -5px;
+            width: 40px;
+            height: 40px;
+            background: black;
+            border: 3px solid white;
+            border-radius: 50% 50% 10% 40%;
+        }
+
+        .visor-line {
+            position: absolute;
+            top: 10px;
+            right: -2px;
+            width: 20px;
+            height: 10px;
+            background: white;
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* THE JUMP ANIMATION */
+        @keyframes jumpSequence {
+            0% { 
+                left: -10%; 
+                bottom: 100px; 
+                transform: rotate(0deg); 
+            }
+            /* Hits the start of the ramp at 45% of stage */
+            35% { 
+                left: 37%; 
+                bottom: 100px; 
+                transform: rotate(0deg); 
+            }
+            /* Going up the ramp incline */
+            42% { 
+                left: 45%; 
+                bottom: 180px; 
+                transform: rotate(-30deg); 
+            }
+            /* Airborne Arc */
+            50% { 
+                left: 55%; 
+                bottom: 350px; 
+                transform: rotate(-10deg); 
+            }
+            /* Landing */
+            58% { 
+                left: 65%; 
+                bottom: 100px; 
+                transform: rotate(15deg); 
+            }
+            /* Riding away */
+            70% { 
+                left: 75%; 
+                bottom: 100px; 
+                transform: rotate(0deg); 
+            }
+            100% { 
+                left: 110%; 
+                bottom: 100px; 
+                transform: rotate(0deg); 
+            }
+        }
+
+        @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
@@ -193,30 +214,25 @@
 
     <div class="stage">
         <div class="road-line"></div>
-        <div class="hill"></div>
+        <div class="ramp"></div>
 
         <div class="rider-unit">
-            <!-- EUC Device -->
-            <div class="euc-wheel-housing">
-                <div class="inner-tire"></div>
-            </div>
-            <div class="pedal left"></div>
-            <div class="pedal right"></div>
-
-            <!-- The Rider -->
-            <div class="rider-body">
-                <div class="legs">
-                    <div class="leg-line"></div>
-                    <div class="leg-line"></div>
-                </div>
+            <!-- Profile Rider -->
+            <div class="rider-profile">
+                <div class="leg"></div>
                 <div class="torso">
-                    <div class="helmet">
-                        <div class="visor"></div>
+                    <div class="helmet-side">
+                        <div class="visor-line"></div>
                     </div>
-                    <div class="arm left"></div>
-                    <div class="arm right"></div>
+                    <div class="arm"></div>
                 </div>
             </div>
+
+            <!-- Side View EUC -->
+            <div class="euc-wheel">
+                <div class="spoke"></div>
+            </div>
+            <div class="pedal-side"></div>
         </div>
     </div>
 
