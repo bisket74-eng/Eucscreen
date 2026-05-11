@@ -1,176 +1,142 @@
-
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EUC Line Drawing</title>
+    <title>EUC Rider Line Art</title>
     <style>
         body {
             margin: 0;
-            padding: 0;
+            background-color: #000;
             overflow: hidden;
-            background-color: #000; /* Black Background */
-            font-family: 'Courier New', monospace;
-        }
-
-        /* Minimalist White Clock */
-        #clock-container {
-            position: absolute;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #fff;
-            font-size: 2.5rem;
-            letter-spacing: 5px;
-            border-bottom: 2px solid #fff;
-            padding-bottom: 5px;
-            z-index: 10;
-        }
-
-        /* The Road / Line Drawing */
-        .stage {
-            position: relative;
-            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: 100vh;
         }
 
-        /* The white line road with a bump */
-        .road {
+        #clock {
             position: absolute;
-            bottom: 20%;
-            width: 200%; /* Extra width for scrolling feel */
-            height: 4px;
-            background: #fff;
-            left: -50%;
+            top: 10%;
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: 3rem;
+            border-bottom: 2px solid white;
         }
 
-        /* The Hill/Bump */
-        .hill {
+        /* The Road Line */
+        .road-container {
             position: absolute;
-            bottom: calc(20% - 10px);
+            bottom: 30%;
+            width: 100%;
+            height: 200px;
+        }
+
+        .flat-road {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: white;
+        }
+
+        /* The Bump */
+        .bump {
+            position: absolute;
+            bottom: -2px;
             left: 50%;
             transform: translateX(-50%);
-            width: 300px;
-            height: 150px;
-            border: 4px solid #fff;
-            border-bottom: none;
-            border-radius: 150px 150px 0 0;
-        }
-
-        /* EUC Rider Container */
-        .euc-rider {
-            position: absolute;
-            bottom: 20%;
-            left: -100px;
-            width: 50px;
+            width: 200px;
             height: 100px;
-            animation: ride 7s linear infinite;
+            border: 2px solid white;
+            border-bottom: none;
+            border-top-left-radius: 110px;
+            border-top-right-radius: 110px;
+            background: black;
         }
 
-        /* The Unicycle Wheel */
+        /* EUC Rider Figure */
+        .rider {
+            position: absolute;
+            bottom: 0;
+            left: -50px;
+            width: 40px;
+            height: 80px;
+            animation: moveRider 6s linear infinite;
+        }
+
+        /* The Wheel */
         .wheel {
             position: absolute;
             bottom: 0;
-            left: 10px;
-            width: 30px;
-            height: 30px;
-            border: 2px solid #fff;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 24px;
+            border: 2px solid white;
             border-radius: 50%;
-            animation: spin 0.5s linear infinite;
         }
-        
-        .wheel::after {
+
+        .wheel::before {
             content: '';
             position: absolute;
             top: 50%;
-            left: 0;
             width: 100%;
-            height: 2px;
-            background: #fff;
+            height: 1px;
+            background: white;
+            animation: spin 0.4s linear infinite;
         }
 
-        /* The Rider Figure */
+        /* The Stick Figure Body */
         .body-line {
             position: absolute;
-            bottom: 30px;
-            left: 20px;
-            width: 4px;
-            height: 45px;
-            background: #fff;
-            transform: rotate(-10deg); /* Leaning forward */
+            bottom: 24px;
+            left: 50%;
+            width: 2px;
+            height: 40px;
+            background: white;
+            transform-origin: bottom;
+            transform: rotate(-10deg); /* Leaning into the ride */
         }
 
         .helmet {
             position: absolute;
-            top: -20px;
+            top: -15px;
             left: -8px;
-            width: 20px;
-            height: 18px;
-            border: 2px solid #fff;
-            border-radius: 10px 10px 4px 4px;
-            background: #000;
+            width: 18px;
+            height: 14px;
+            border: 2px solid white;
+            border-radius: 10px 10px 2px 2px;
+            background: black;
         }
 
-        /* Animation for the journey */
-        @keyframes ride {
-            0% { 
-                left: -10%; 
-                bottom: 20%; 
-                transform: rotate(0deg); 
-            }
-            /* Approach Hill */
-            35% { 
-                left: 35%; 
-                bottom: 20%; 
-                transform: rotate(-5deg); 
-            }
-            /* Up the Hill */
-            45% { 
-                bottom: 35%; 
-                transform: rotate(-25deg); 
-            }
-            /* Peak */
-            50% { 
-                left: 50%; 
-                bottom: 40%; 
-                transform: rotate(0deg); 
-            }
-            /* Down the Hill */
-            55% { 
-                bottom: 35%; 
-                transform: rotate(25deg); 
-            }
-            /* Back to flat */
-            65% { 
-                left: 65%; 
-                bottom: 20%; 
-                transform: rotate(5deg); 
-            }
-            100% { 
-                left: 110%; 
-                bottom: 20%; 
-                transform: rotate(0deg); 
-            }
+        /* Movement Logic */
+        @keyframes moveRider {
+            0% { left: -5%; bottom: 0; transform: rotate(0deg); }
+            35% { left: 40%; bottom: 0; transform: rotate(-10deg); }
+            /* Going up the bump */
+            45% { bottom: 85px; transform: rotate(-30deg); }
+            /* Top of bump */
+            50% { left: 50%; bottom: 100px; transform: rotate(0deg); }
+            /* Coming down */
+            55% { bottom: 85px; transform: rotate(30deg); }
+            65% { left: 60%; bottom: 0; transform: rotate(10deg); }
+            100% { left: 110%; bottom: 0; transform: rotate(0deg); }
         }
 
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-
     </style>
 </head>
 <body>
 
-    <div id="clock-container">00:00:00</div>
+    <div id="clock">00:00:00</div>
 
-    <div class="stage">
-        <!-- The White Road -->
-        <div class="road"></div>
-        <div class="hill"></div>
-
-        <!-- The EUC Rider -->
-        <div class="euc-rider">
+    <div class="road-container">
+        <div class="flat-road"></div>
+        <div class="bump"></div>
+        
+        <div class="rider">
             <div class="body-line">
                 <div class="helmet"></div>
             </div>
@@ -179,18 +145,15 @@
     </div>
 
     <script>
-        function updateClock() {
+        function updateTime() {
             const now = new Date();
-            const timeString = now.toLocaleTimeString('en-GB', { 
-                hour12: false, 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                second: '2-digit' 
-            });
-            document.getElementById('clock-container').textContent = timeString;
+            const time = now.getHours().toString().padStart(2, '0') + ":" + 
+                         now.getMinutes().toString().padStart(2, '0') + ":" + 
+                         now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('clock').innerText = time;
         }
-        setInterval(updateClock, 1000);
-        updateClock();
+        setInterval(updateTime, 1000);
+        updateTime();
     </script>
 </body>
 </html>
