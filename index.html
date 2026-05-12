@@ -1,136 +1,345 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>LED String Light Fence</title>
+    <title>EUC Dirt Track - LED Twinkle Fence</title>
     <style>
-        body { margin: 0; overflow: hidden; background: #050505; }
-        canvas { display: block; }
+        body {
+            margin: 0;
+            background-color: #000;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* --- RED 12-HOUR CLOCK --- */
+        #clock {
+            position: absolute;
+            top: 5%;
+            color: #ff0000;
+            font-family: 'Arial', sans-serif;
+            font-size: 4rem;
+            font-weight: bold;
+            z-index: 20;
+        }
+
+        .stage {
+            position: relative;
+            width: 100%;
+            height: 600px;
+        }
+
+        /* --- TWINKLING LED FENCE --- */
+        .fence-container {
+            position: absolute;
+            bottom: 100px; /* Aligned with the road */
+            width: 100%;
+            height: 300px;
+            z-index: 1; /* Behind the rider */
+        }
+
+        .pole {
+            position: absolute;
+            bottom: 0;
+            width: 6px;
+            height: 250px;
+            background: linear-gradient(to top, #333, #111);
+            border-radius: 3px;
+        }
+
+        /* Light Strings (SVG for the sag effect) */
+        .string-lights {
+            position: absolute;
+            bottom: 210px;
+            width: 100%;
+            height: 60px;
+            overflow: visible;
+        }
+
+        /* The LED Bulbs */
+        .led {
+            fill: #fff;
+            filter: drop-shadow(0 0 5px #fff);
+            animation: twinkle var(--speed) ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); fill: #ffcccc; }
+        }
+
+        /* --- DIRT TRACK ELEMENTS --- */
+        .road-line {
+            position: absolute;
+            bottom: 100px;
+            width: 100%;
+            height: 4px;
+            background: white;
+            z-index: 2;
+        }
+
+        .mound {
+            position: absolute;
+            bottom: 100px;
+            width: 180px;
+            height: 70px;
+            background: white;
+            border-radius: 50% 50% 0 0;
+            z-index: 2;
+        }
+        .m1 { left: 15%; }
+        .m2 { left: 45%; }
+        .m3 { left: 75%; }
+
+        /* --- RIDER UNIT --- */
+        .rider-unit {
+            position: absolute;
+            bottom: 100px;
+            left: -150px;
+            width: 100px;
+            height: 250px;
+            z-index: 10;
+            animation: tripleJump 8s linear infinite;
+        }
+
+        .euc-wheel {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 70px;
+            border: 5px solid white;
+            border-radius: 50%;
+            background: #111;
+            z-index: 5;
+        }
+
+        .spoke {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            height: 3px;
+            background: white;
+            animation: spin 0.2s linear infinite;
+        }
+
+        .human {
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+            height: 210px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform-origin: bottom center;
+            animation: riderPhysics 8s linear infinite;
+        }
+
+        .boot {
+            position: absolute;
+            bottom: -8px;
+            width: 28px;
+            height: 18px;
+            background: #000;
+            border: 2px solid #ff0000;
+            border-radius: 4px 10px 2px 4px;
+        }
+
+        .leg-main {
+            position: absolute;
+            bottom: 0;
+            width: 22px;
+            height: 95px;
+            background: #1a1a1a;
+            border-radius: 4px;
+        }
+
+        .torso-main {
+            position: absolute;
+            bottom: 90px;
+            width: 38px;
+            height: 85px;
+            background: #333;
+            border-radius: 8px;
+        }
+
+        .arm-main {
+            position: absolute;
+            top: 10px;
+            right: -8px;
+            width: 14px;
+            height: 65px;
+            background: #333;
+            border-radius: 7px;
+        }
+
+        .backpack {
+            position: absolute;
+            top: 12px;
+            left: -15px;
+            width: 18px;
+            height: 55px;
+            background: #d00;
+            border-radius: 4px;
+            border: 1px solid white;
+        }
+
+        .strap {
+            position: absolute;
+            top: 12px;
+            left: -2px;
+            width: 40px;
+            height: 5px;
+            background: #d00;
+            border-radius: 2px;
+        }
+
+        .helmet-red {
+            position: absolute;
+            top: -55px;
+            left: -8px;
+            width: 52px;
+            height: 52px;
+            background: #ff0000;
+            border: 2px solid white;
+            border-radius: 50% 50% 20% 45%;
+        }
+
+        .visor {
+            position: absolute;
+            top: 14px;
+            right: -2px;
+            width: 28px;
+            height: 15px;
+            background: black;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes tripleJump {
+            0% { left: -10%; bottom: 100px; transform: rotate(0deg); }
+            10% { left: 10%; bottom: 100px; transform: rotate(0deg); }
+            15% { left: 18%; bottom: 150px; transform: rotate(-20deg); }
+            20% { left: 26%; bottom: 250px; transform: rotate(0deg); }
+            25% { left: 34%; bottom: 100px; transform: rotate(15deg); }
+            40% { left: 40%; bottom: 100px; transform: rotate(0deg); }
+            45% { left: 48%; bottom: 150px; transform: rotate(-20deg); }
+            50% { left: 56%; bottom: 250px; transform: rotate(0deg); }
+            55% { left: 64%; bottom: 100px; transform: rotate(15deg); }
+            70% { left: 70%; bottom: 100px; transform: rotate(0deg); }
+            75% { left: 78%; bottom: 150px; transform: rotate(-20deg); }
+            80% { left: 86%; bottom: 250px; transform: rotate(0deg); }
+            85% { left: 94%; bottom: 100px; transform: rotate(15deg); }
+            100% { left: 115%; bottom: 100px; transform: rotate(0deg); }
+        }
+
+        @keyframes riderPhysics {
+            0%, 22%, 52%, 82% { transform: scaleY(1); bottom: 30px; }
+            25%, 55%, 85% { transform: scaleY(0.8); bottom: 10px; }
+            30%, 60%, 90% { transform: scaleY(1); bottom: 30px; }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
 
-<script type="importmap">
-    {
-        "imports": {
-            "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+    <div id="clock">00:00:00 PM</div>
+
+    <div class="stage">
+        <!-- LED Fence (Added Poles) -->
+        <div class="fence-container" id="fence-layer">
+            <!-- Poles and Lights will be injected here by script -->
+        </div>
+
+        <div class="road-line"></div>
+        <div class="mound m1"></div>
+        <div class="mound m2"></div>
+        <div class="mound m3"></div>
+
+        <div class="rider-unit">
+            <div class="euc-wheel"><div class="spoke"></div></div>
+            <div class="human">
+                <div class="leg-main"></div>
+                <div class="boot"></div>
+                <div class="torso-main">
+                    <div class="backpack"></div>
+                    <div class="strap"></div>
+                    <div class="helmet-red"><div class="visor"></div></div>
+                    <div class="arm-main"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Update the Clock
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+            document.getElementById('clock').innerText = `${hours}:${minutes}:${seconds} ${ampm}`;
         }
-    }
-</script>
+        setInterval(updateClock, 1000);
+        updateClock();
 
-<script type="module">
-    import * as THREE from 'three';
+        // 2. Generate the LED Fence
+        const fenceLayer = document.getElementById('fence-layer');
+        const poleCount = 8;
+        const screenWidth = window.innerWidth;
+        const spacing = screenWidth / (poleCount - 1);
 
-    // --- SCENE SETUP ---
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+        for (let i = 0; i < poleCount; i++) {
+            // Add a pole
+            const pole = document.createElement('div');
+            pole.className = 'pole';
+            pole.style.left = `${i * spacing - 3}px`;
+            fenceLayer.appendChild(pole);
 
-    // --- CONFIGURATION ---
-    const poleCount = 6;
-    const poleSpacing = 5;
-    const poleHeight = 3.5;
-    const lightsPerSegment = 15;
-    const sagIntensity = 0.5; // How much the string "hangs"
-    const bulbs = [];
+            // Add string lights between poles
+            if (i < poleCount - 1) {
+                const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                svg.setAttribute('class', 'string-lights');
+                svg.style.left = `${i * spacing}px`;
+                svg.style.width = `${spacing}px`;
 
-    // --- MATERIALS ---
-    const poleMaterial = new THREE.MeshStandardMaterial({ color: 0x222222 });
-    const wireMaterial = new THREE.LineBasicMaterial({ color: 0x111111 });
-    const bulbGeometry = new THREE.SphereGeometry(0.05, 8, 8);
+                // The sagging wire path
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                path.setAttribute('d', `M 0 0 Q ${spacing/2} 40 ${spacing} 0`);
+                path.setAttribute('stroke', '#222');
+                path.setAttribute('fill', 'transparent');
+                path.setAttribute('stroke-width', '2');
+                svg.appendChild(path);
 
-    // --- GENERATION LOGIC ---
-    for (let i = 0; i < poleCount; i++) {
-        const xPos = i * poleSpacing - (poleCount * poleSpacing) / 2;
+                // Add 8 bulbs per string
+                for (let j = 1; j < 8; j++) {
+                    const t = j / 8;
+                    // Quadratic Bezier math for bulb placement
+                    const bx = t * spacing;
+                    const by = (1 - t) * (1 - t) * 0 + 2 * (1 - t) * t * 40 + t * t * 0;
 
-        // 1. Create Pole
-        const poleGeo = new THREE.CylinderGeometry(0.08, 0.08, poleHeight);
-        const pole = new THREE.Mesh(poleGeo, poleMaterial);
-        pole.position.set(xPos, poleHeight / 2, 0);
-        scene.add(pole);
-
-        // 2. Create Strings between poles
-        if (i < poleCount - 1) {
-            const nextX = (i + 1) * poleSpacing - (poleCount * poleSpacing) / 2;
-            const curvePoints = [];
-
-            for (let j = 0; j <= lightsPerSegment; j++) {
-                const t = j / lightsPerSegment;
-                const x = THREE.MathUtils.lerp(xPos, nextX, t);
-                
-                // Parabolic sag formula: y = height - (sag * parabolic curve)
-                const y = poleHeight - (sagIntensity * Math.sin(t * Math.PI)); 
-                const z = 0;
-
-                const pos = new THREE.Vector3(x, y, z);
-                curvePoints.push(pos);
-
-                // 3. Create LED Bulbs (except at the very start/end of the string)
-                if (j > 0 && j < lightsPerSegment) {
-                    const lightMat = new THREE.MeshBasicMaterial({ color: 0xffffee });
-                    const bulb = new THREE.Mesh(bulbGeometry, lightMat);
-                    bulb.position.copy(pos);
-                    
-                    // Add custom data for the twinkle effect
-                    bulb.userData = {
-                        offset: Math.random() * Math.PI * 2,
-                        speed: 2 + Math.random() * 3
-                    };
-                    
-                    scene.add(bulb);
-                    bulbs.push(bulb);
-
-                    // Add a tiny point light to a few of them for "glow" 
-                    if (Math.random() > 0.7) {
-                        const pLight = new THREE.PointLight(0xffffff, 0.5, 2);
-                        pLight.position.copy(pos);
-                        scene.add(pLight);
-                    }
+                    const led = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    led.setAttribute('class', 'led');
+                    led.setAttribute('cx', bx);
+                    led.setAttribute('cy', by);
+                    led.setAttribute('r', '3');
+                    led.style.setProperty('--delay', `${Math.random() * 2}s`);
+                    led.style.setProperty('--speed', `${1 + Math.random() * 2}s`);
+                    svg.appendChild(led);
                 }
+                fenceLayer.appendChild(svg);
             }
-
-            // Draw the wire
-            const curve = new THREE.CatmullRomCurve3(curvePoints);
-            const wireGeo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(50));
-            const wire = new THREE.Line(wireGeo, wireMaterial);
-            scene.add(wire);
         }
-    }
-
-    // --- LIGHTING & ENVIRONMENT ---
-    const ambient = new THREE.AmbientLight(0x404040, 0.5);
-    scene.add(ambient);
-
-    camera.position.set(0, 4, 10);
-    camera.lookAt(0, 2, 0);
-
-    // --- ANIMATION LOOP ---
-    function animate(time) {
-        requestAnimationFrame(animate);
-
-        // Make the bulbs twinkle
-        bulbs.forEach(bulb => {
-            const t = time * 0.001; // convert to seconds
-            const brightness = Math.sin(t * bulb.userData.speed + bulb.userData.offset) * 0.5 + 0.5;
-            
-            // Adjust opacity/color to simulate twinkle
-            bulb.material.color.setRGB(brightness, brightness, brightness * 0.8);
-            bulb.scale.setScalar(0.8 + brightness * 0.4);
-        });
-
-        renderer.render(scene, camera);
-    }
-
-    // Handle Resize
-    window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    animate();
-</script>
+    </script>
 </body>
 </html>
