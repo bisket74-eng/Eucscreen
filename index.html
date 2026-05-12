@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EUC Pro - Jump & Landing</title>
+    <title>EUC Pro - Refined Jump</title>
     <style>
         body {
             margin: 0;
@@ -36,12 +36,13 @@
             background: white;
         }
 
+        /* Smoother Kicker Ramp */
         .ramp {
             position: absolute;
             bottom: 100px;
-            left: 40%;
-            width: 200px;
-            height: 100px;
+            left: 42%;
+            width: 180px;
+            height: 80px;
             background: white;
             clip-path: polygon(0% 100%, 100% 0%, 100% 100%);
         }
@@ -52,7 +53,7 @@
             left: -150px;
             width: 100px;
             height: 250px;
-            animation: jumpSequence 5s linear infinite;
+            animation: jumpSequence 5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
 
         /* EUC WHEEL */
@@ -61,12 +62,11 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 75px;
-            height: 75px;
+            width: 70px;
+            height: 70px;
             border: 5px solid white;
             border-radius: 50%;
             background: #111;
-            box-sizing: border-box;
             z-index: 5;
         }
 
@@ -82,54 +82,67 @@
         /* HUMAN RIDER */
         .human {
             position: absolute;
-            bottom: 30px; /* Feet level with pedal/top of wheel */
+            bottom: 30px;
             width: 100%;
-            height: 200px;
+            height: 210px;
             z-index: 10;
             display: flex;
             flex-direction: column;
             align-items: center;
-            animation: kneeBend 5s linear infinite;
+            transform-origin: bottom center;
+            animation: riderPhysics 5s linear infinite;
         }
 
-        /* Black Boot */
+        /* Defined Red and Black Boots */
         .boot {
             position: absolute;
-            bottom: -5px;
-            width: 24px;
-            height: 15px;
+            bottom: -8px;
+            width: 28px;
+            height: 18px;
             background: #000;
-            border: 1px solid #333;
-            border-radius: 4px 8px 2px 2px;
+            border: 2px solid #ff0000; /* Red accents */
+            border-radius: 4px 10px 2px 4px;
+            box-shadow: inset 0 -4px 0 #ff0000;
         }
 
-        /* Black Pants - Straight Leg */
         .leg-main {
             position: absolute;
             bottom: 0;
-            width: 20px;
-            height: 90px;
+            width: 22px;
+            height: 95px;
             background: #1a1a1a;
             border-radius: 4px;
+            border-right: 1px solid #333;
         }
 
-        /* Torso - Straightened Out */
         .torso-main {
             position: absolute;
-            bottom: 85px;
-            width: 34px;
-            height: 80px;
+            bottom: 90px;
+            width: 38px;
+            height: 85px;
             background: #333;
-            border-radius: 6px;
+            border-radius: 8px;
         }
 
-        /* Red Backpack with Straps */
-        .backpack {
+        /* Defined Arm hanging at side */
+        .arm-main {
             position: absolute;
             top: 10px;
-            left: -14px;
-            width: 16px;
-            height: 50px;
+            right: -8px;
+            width: 14px;
+            height: 65px;
+            background: #333;
+            border-radius: 7px;
+            border-bottom: 2px solid #222; /* Forearm definition */
+            transform: rotate(2deg);
+        }
+
+        .backpack {
+            position: absolute;
+            top: 12px;
+            left: -15px;
+            width: 18px;
+            height: 55px;
             background: #d00;
             border-radius: 4px;
             border: 1px solid white;
@@ -137,33 +150,20 @@
 
         .strap {
             position: absolute;
-            top: 10px;
-            left: 0;
-            width: 34px;
-            height: 4px;
+            top: 12px;
+            left: -2px;
+            width: 40px;
+            height: 5px;
             background: #d00;
             border-radius: 2px;
         }
 
-        /* Arm Hanging at Side */
-        .arm-main {
-            position: absolute;
-            top: 10px;
-            right: -6px;
-            width: 12px;
-            height: 60px;
-            background: #333;
-            border-radius: 6px;
-            transform: rotate(5deg);
-        }
-
-        /* Red Helmet */
         .helmet-red {
             position: absolute;
             top: -55px;
             left: -8px;
-            width: 50px;
-            height: 50px;
+            width: 52px;
+            height: 52px;
             background: #ff0000;
             border: 2px solid white;
             border-radius: 50% 50% 20% 45%;
@@ -171,10 +171,10 @@
 
         .visor {
             position: absolute;
-            top: 12px;
+            top: 14px;
             right: -2px;
-            width: 26px;
-            height: 14px;
+            width: 28px;
+            height: 15px;
             background: black;
             border-radius: 0 8px 8px 0;
         }
@@ -182,20 +182,22 @@
         /* ANIMATIONS */
         @keyframes jumpSequence {
             0% { left: -10%; bottom: 100px; transform: rotate(0deg); }
-            30% { left: 32%; bottom: 100px; transform: rotate(0deg); }
-            40% { left: 40%; bottom: 100px; transform: rotate(-26deg); } /* Up Ramp */
-            45% { left: 50%; bottom: 200px; transform: rotate(-15deg); }
-            52% { left: 60%; bottom: 330px; transform: rotate(0deg); } /* Peak - lower height */
-            60% { left: 78%; bottom: 100px; transform: rotate(5deg); } /* Landing */
-            75% { left: 90%; bottom: 100px; transform: rotate(0deg); }
-            100% { left: 120%; bottom: 100px; transform: rotate(0deg); }
+            30% { left: 35%; bottom: 100px; transform: rotate(0deg); }
+            40% { left: 42%; bottom: 100px; transform: rotate(-22deg); } /* Incline */
+            45% { left: 52%; bottom: 180px; transform: rotate(-10deg); } /* Launch */
+            52% { left: 62%; bottom: 280px; transform: rotate(0deg); }  /* Smooth Peak */
+            60% { left: 78%; bottom: 100px; transform: rotate(5deg); }  /* Land */
+            75% { left: 95%; bottom: 100px; transform: rotate(0deg); }
+            100% { left: 125%; bottom: 100px; transform: rotate(0deg); }
         }
 
-        @keyframes kneeBend {
-            /* Syncing knee bend with landing at 60% mark */
-            0%, 58% { transform: scaleY(1); bottom: 30px; }
-            60% { transform: scaleY(0.85); bottom: 15px; } /* Squash on landing */
-            65%, 100% { transform: scaleY(1); bottom: 30px; }
+        @keyframes riderPhysics {
+            /* Pre-jump bend at 30%, Landing bend at 60% */
+            0%, 25% { transform: scaleY(1); bottom: 30px; }
+            30% { transform: scaleY(0.85); bottom: 15px; } /* Crouch before ramp */
+            40%, 55% { transform: scaleY(1); bottom: 30px; }
+            60% { transform: scaleY(0.8); bottom: 10px; }  /* Impact absorption */
+            70%, 100% { transform: scaleY(1); bottom: 30px; }
         }
 
         @keyframes spin {
