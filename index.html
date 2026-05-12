@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EUC Motocross - NWEF Rainbow Wave</title>
+    <title>EUC Motocross - Refined Silhouette</title>
     <style>
         body {
             margin: 0;
@@ -24,35 +24,26 @@
         }
 
         #nwef {
-            /* Big Block Letters */
             font-size: 10rem;
             font-weight: 900;
             margin: 0;
             line-height: 0.8;
             letter-spacing: -2px;
             text-transform: uppercase;
-            
-            /* Rainbow Wave Effect */
-            background: linear-gradient(
-                to right, 
-                #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000
-            );
+            background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000);
             background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: rainbowWave 3s linear infinite;
         }
 
-        @keyframes rainbowWave {
-            to { background-position: 200% center; }
-        }
+        @keyframes rainbowWave { to { background-position: 200% center; } }
 
         #countdown {
             color: #fff;
             font-size: 1.8rem;
             font-weight: bold;
             margin-top: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
         #clock {
@@ -64,49 +55,21 @@
             z-index: 20;
         }
 
-        /* --- STAGE ELEMENTS --- */
         .stage {
             position: relative;
             width: 100%;
             height: 600px;
         }
 
-        .fence-container {
-            position: absolute;
-            bottom: 100px;
-            width: 100%;
-            height: 300px;
-            z-index: 1;
-        }
-
-        .pole {
-            position: absolute;
-            bottom: 0;
-            width: 4px;
-            height: 220px;
-            background: #222;
-        }
-
-        .led {
-            fill: #fff;
-            filter: drop-shadow(0 0 5px #fff);
-            animation: twinkle var(--speed) ease-in-out infinite;
-            animation-delay: var(--delay);
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; fill: #ff0000; }
-        }
-
-        /* Motocross Mounds */
+        /* --- BROWN DIRT MOUNDS (Flat Top) --- */
         .mound {
             position: absolute;
             bottom: 100px;
-            width: 150px;
-            height: 45px;
-            background: white;
-            clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+            width: 180px;
+            height: 50px;
+            background: #5d4037; /* Brown Dirt */
+            /* Tabletop shape: Angled sides, flat top */
+            clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
             z-index: 2;
         }
         .m1 { left: 15%; }
@@ -122,12 +85,12 @@
             z-index: 2;
         }
 
-        /* --- RIDER UNIT --- */
+        /* --- REFINED RIDER UNIT --- */
         .rider-unit {
             position: absolute;
             bottom: 100px;
             left: -150px;
-            width: 100px;
+            width: 120px;
             height: 250px;
             z-index: 10;
             animation: tripleJump 8s linear infinite;
@@ -140,115 +103,159 @@
             transform: translateX(-50%);
             width: 70px;
             height: 70px;
-            border: 5px solid white;
+            border: 6px solid #fff;
             border-radius: 50%;
             background: #111;
             z-index: 5;
         }
 
-        .spoke {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            height: 3px;
-            background: white;
-            animation: spin 0.2s linear infinite;
-        }
-
         .human {
             position: absolute;
-            bottom: 30px;
+            bottom: 25px;
             width: 100%;
-            height: 210px;
+            height: 220px;
             z-index: 10;
             display: flex;
             flex-direction: column;
             align-items: center;
+            transform: rotate(-10deg); /* Leaning forward */
             transform-origin: bottom center;
             animation: riderPhysics 8s linear infinite;
         }
 
+        /* Shaped Legs */
+        .leg-container {
+            position: absolute;
+            bottom: 0;
+            width: 30px;
+            height: 100px;
+        }
+
+        .thigh {
+            position: absolute;
+            top: 0;
+            width: 24px;
+            height: 55px;
+            background: #1a1a1a;
+            border-radius: 12px 12px 5px 5px;
+        }
+
+        .calf {
+            position: absolute;
+            top: 50px;
+            width: 18px;
+            height: 45px;
+            background: #1a1a1a;
+            border-radius: 4px 4px 8px 8px;
+        }
+
+        .mx-boot {
+            position: absolute;
+            bottom: -5px;
+            left: -5px;
+            width: 35px;
+            height: 20px;
+            background: #000;
+            border: 1px solid #444;
+            border-radius: 4px 12px 4px 4px;
+        }
+
+        /* Silhouette Torso */
         .jersey {
             position: absolute;
-            bottom: 90px;
-            width: 42px;
-            height: 85px;
-            background: #eee;
-            border-radius: 5px;
-            background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,0,0,0.1) 5px, rgba(255,0,0,0.1) 10px);
-            border-left: 4px solid #ff0000;
+            bottom: 95px;
+            width: 45px;
+            height: 90px;
+            background: #fff;
+            border-radius: 20px 20px 5px 5px;
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 11px);
+        }
+
+        /* Bent Arm */
+        .arm-bent {
+            position: absolute;
+            top: 15px;
+            right: -15px;
+            width: 45px;
+            height: 50px;
+        }
+
+        .upper-arm {
+            position: absolute;
+            width: 16px;
+            height: 35px;
+            background: #fff;
+            transform: rotate(-30deg);
+            border-radius: 8px;
+        }
+
+        .forearm {
+            position: absolute;
+            top: 25px;
+            right: 0px;
+            width: 14px;
+            height: 35px;
+            background: #fff;
+            transform: rotate(40deg);
+            border-radius: 7px;
         }
 
         .mx-helmet {
             position: absolute;
-            top: -60px;
-            width: 55px;
-            height: 50px;
+            top: -55px;
+            left: -2px;
+            width: 52px;
+            height: 52px;
             background: #ff0000;
-            border-radius: 40% 40% 20% 20%;
+            border-radius: 50% 50% 30% 30%;
             border: 2px solid white;
         }
 
-        .mx-helmet::after {
-            content: '';
+        .mx-peak {
             position: absolute;
-            top: 5px;
-            right: -15px;
-            width: 30px;
-            height: 6px;
-            background: #ff0000;
-            border: 2px solid white;
-            transform: rotate(-10deg);
-            border-radius: 0 5px 5px 0;
-        }
-
-        .mx-face-opening {
-            position: absolute;
-            top: 15px;
-            right: -2px;
-            width: 35px;
-            height: 20px;
-            background: #000;
-            border-radius: 0 5px 5px 0;
-        }
-
-        .sunglasses {
-            position: absolute;
-            top: 4px;
-            right: 5px;
+            top: 8px;
+            right: -12px;
             width: 25px;
-            height: 8px;
-            background: #555;
-            border-radius: 2px;
-            border-bottom: 1px solid #fff;
+            height: 5px;
+            background: #ff0000;
+            border: 1px solid white;
+            border-radius: 0 10px 10px 0;
         }
 
-        .leg-main { position: absolute; bottom: 0; width: 22px; height: 95px; background: #1a1a1a; border-radius: 4px; }
-        .boot { position: absolute; bottom: -8px; width: 28px; height: 18px; background: #000; border: 2px solid #ff0000; border-radius: 4px 10px 2px 4px; }
-        .arm-main { position: absolute; top: 10px; right: -12px; width: 16px; height: 70px; background: #eee; border-radius: 8px; border-right: 3px solid #ff0000; }
+        .face-mask-small {
+            position: absolute;
+            top: 20px;
+            right: 0;
+            width: 28px;
+            height: 12px;
+            background: #111;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* --- FENCE & LIGHTS --- */
+        .pole { position: absolute; bottom: 100px; width: 4px; height: 220px; background: #222; }
+        .led { fill: #fff; animation: twinkle var(--speed) ease-in-out infinite; animation-delay: var(--delay); }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; fill: #ff0000; } }
 
         /* Animations */
         @keyframes tripleJump {
-            0% { left: -10%; bottom: 100px; transform: rotate(0deg); }
-            10% { left: 10%; bottom: 100px; transform: rotate(0deg); }
-            15% { left: 18%; bottom: 130px; transform: rotate(-20deg); }
-            20% { left: 26%; bottom: 200px; transform: rotate(0deg); }
-            25% { left: 34%; bottom: 100px; transform: rotate(15deg); }
-            40% { left: 40%; bottom: 100px; transform: rotate(0deg); }
-            45% { left: 48%; bottom: 130px; transform: rotate(-20deg); }
-            50% { left: 56%; bottom: 200px; transform: rotate(0deg); }
-            55% { left: 64%; bottom: 100px; transform: rotate(15deg); }
-            70% { left: 70%; bottom: 100px; transform: rotate(0deg); }
-            75% { left: 78%; bottom: 130px; transform: rotate(-20deg); }
-            80% { left: 86%; bottom: 200px; transform: rotate(0deg); }
-            85% { left: 94%; bottom: 100px; transform: rotate(15deg); }
-            100% { left: 115%; bottom: 100px; transform: rotate(0deg); }
+            0%, 10%, 100% { left: -10%; bottom: 100px; }
+            15% { left: 18%; bottom: 130px; transform: rotate(-15deg); }
+            20% { left: 26%; bottom: 210px; transform: rotate(0deg); }
+            25% { left: 34%; bottom: 100px; transform: rotate(10deg); }
+            45% { left: 48%; bottom: 130px; transform: rotate(-15deg); }
+            50% { left: 56%; bottom: 210px; transform: rotate(0deg); }
+            55% { left: 64%; bottom: 100px; transform: rotate(10deg); }
+            75% { left: 78%; bottom: 130px; transform: rotate(-15deg); }
+            80% { left: 86%; bottom: 210px; transform: rotate(0deg); }
+            85% { left: 94%; bottom: 100px; transform: rotate(10deg); }
+            110% { left: 115%; }
         }
 
         @keyframes riderPhysics {
-            0%, 22%, 52%, 82% { transform: scaleY(1); bottom: 30px; }
-            25%, 55%, 85% { transform: scaleY(0.7); bottom: 5px; }
-            30%, 60%, 90% { transform: scaleY(1); bottom: 30px; }
+            0%, 22%, 52%, 82% { transform: scaleY(1) rotate(-10deg); bottom: 25px; }
+            25%, 55%, 85% { transform: scaleY(0.75) rotate(-15deg); bottom: 10px; }
+            30%, 60%, 90% { transform: scaleY(1) rotate(-10deg); bottom: 25px; }
         }
 
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -260,96 +267,68 @@
 
     <div id="header-container">
         <h1 id="nwef">NWEF</h1>
-        <div id="countdown">Loading Countdown...</div>
+        <div id="countdown">Loading...</div>
     </div>
 
     <div class="stage">
-        <div class="fence-container" id="fence-layer"></div>
+        <div id="fence-layer"></div>
         <div class="road-line"></div>
         <div class="mound m1"></div>
         <div class="mound m2"></div>
         <div class="mound m3"></div>
 
         <div class="rider-unit">
-            <div class="euc-wheel"><div class="spoke"></div></div>
+            <div class="euc-wheel"><div style="position:absolute;top:50%;width:100%;height:3px;background:#fff;animation:spin 0.2s linear infinite;"></div></div>
             <div class="human">
-                <div class="leg-main"></div>
-                <div class="boot"></div>
+                <div class="leg-container">
+                    <div class="thigh"></div>
+                    <div class="calf"></div>
+                    <div class="mx-boot"></div>
+                </div>
                 <div class="jersey">
-                    <div class="mx-helmet">
-                        <div class="mx-face-opening">
-                            <div class="sunglasses"></div>
-                        </div>
+                    <div class="arm-bent">
+                        <div class="upper-arm"></div>
+                        <div class="forearm"></div>
                     </div>
-                    <div class="arm-main"></div>
+                    <div class="mx-helmet">
+                        <div class="mx-peak"></div>
+                        <div class="face-mask-small"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 1. Time & Countdown Logic
         const targetDate = new Date("July 15, 2026 00:00:00").getTime();
-
         function updateUI() {
             const now = new Date();
             let h = now.getHours();
-            const m = String(now.getMinutes()).padStart(2, '0');
-            const s = String(now.getSeconds()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0'), s = String(now.getSeconds()).padStart(2, '0');
             const ampm = h >= 12 ? 'PM' : 'AM';
             h = h % 12 || 12;
             document.getElementById('clock').innerText = `${h}:${m}:${s} ${ampm}`;
-
             const diff = targetDate - now.getTime();
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const secs = Math.floor((diff % (1000 * 60)) / 1000);
-
-            document.getElementById('countdown').innerText = 
-                `${days} Days | ${hours}h ${mins}m ${secs}s until July 15th, 2026`;
+            const d = Math.floor(diff / 864e5), hh = Math.floor((diff % 864e5) / 36e5), mm = Math.floor((diff % 36e5) / 6e4), ss = Math.floor((diff % 6e4) / 1e3);
+            document.getElementById('countdown').innerText = `${d} Days | ${hh}h ${mm}m ${ss}s until July 15th, 2026`;
         }
-        setInterval(updateUI, 1000);
-        updateUI();
+        setInterval(updateUI, 1000); updateUI();
 
-        // 2. Fence Generator
-        const fenceLayer = document.getElementById('fence-layer');
-        const poleCount = 10;
-        const spacing = window.innerWidth / (poleCount - 1);
-
-        for (let i = 0; i < poleCount; i++) {
-            const pole = document.createElement('div');
-            pole.className = 'pole';
-            pole.style.left = `${i * spacing}px`;
-            fenceLayer.appendChild(pole);
-
-            if (i < poleCount - 1) {
+        const layer = document.getElementById('fence-layer'), count = 10, space = window.innerWidth / (count - 1);
+        for (let i = 0; i < count; i++) {
+            const p = document.createElement('div'); p.className = 'pole'; p.style.left = `${i * space}px`; layer.appendChild(p);
+            if (i < count - 1) {
                 const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                svg.style.position = "absolute";
-                svg.style.bottom = "180px";
-                svg.style.left = `${i * spacing}px`;
-                svg.style.width = `${spacing}px`;
-                svg.style.height = "50px";
-                svg.style.overflow = "visible";
-
+                svg.setAttribute('style', `position:absolute;bottom:280px;left:${i*space}px;width:${space}px;height:50px;overflow:visible;`);
                 const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                path.setAttribute('d', `M 0 0 Q ${spacing/2} 30 ${spacing} 0`);
-                path.setAttribute('stroke', '#333');
-                path.setAttribute('fill', 'none');
-                svg.appendChild(path);
-
+                path.setAttribute('d', `M 0 0 Q ${space/2} 30 ${space} 0`); path.setAttribute('stroke', '#333'); path.setAttribute('fill', 'none'); svg.appendChild(path);
                 for (let j = 1; j < 6; j++) {
-                    const t = j / 6;
-                    const bx = t * spacing;
-                    const by = (1-t)*(1-t)*0 + 2*(1-t)*t*30 + t*t*0;
-                    const led = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                    led.setAttribute('class', 'led');
-                    led.setAttribute('cx', bx); led.setAttribute('cy', by); led.setAttribute('r', '2.5');
-                    led.style.setProperty('--delay', `${Math.random()*2}s`);
-                    led.style.setProperty('--speed', `${1+Math.random()}s`);
-                    svg.appendChild(led);
+                    const t = j / 6, bx = t * space, by = (1-t)*(1-t)*0 + 2*(1-t)*t*30 + t*t*0;
+                    const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    c.setAttribute('class', 'led'); c.setAttribute('cx', bx); c.setAttribute('cy', by); c.setAttribute('r', '2.5');
+                    c.style.setProperty('--delay', `${Math.random()*2}s`); c.style.setProperty('--speed', `${1+Math.random()}s`); svg.appendChild(c);
                 }
-                fenceLayer.appendChild(svg);
+                layer.appendChild(svg);
             }
         }
     </script>
