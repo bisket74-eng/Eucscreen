@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EUC Ramp Jump - Profile View</title>
+    <title>EUC Pro - Red Helmet Jump</title>
     <style>
         body {
             margin: 0;
@@ -28,6 +28,7 @@
             height: 600px;
         }
 
+        /* The Road */
         .road-line {
             position: absolute;
             bottom: 100px;
@@ -36,15 +37,14 @@
             background: white;
         }
 
-        /* The Ramp (Kicker) */
+        /* The Kicker Ramp */
         .ramp {
             position: absolute;
             bottom: 100px;
-            left: 45%;
-            width: 150px;
-            height: 80px;
+            left: 40%; /* Positioned for the animation timing */
+            width: 180px;
+            height: 90px;
             background: white;
-            /* Creates the triangle ramp shape */
             clip-path: polygon(0% 100%, 100% 0%, 100% 100%);
         }
 
@@ -64,11 +64,12 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 60px;
-            height: 60px;
+            width: 65px;
+            height: 65px;
             border: 4px solid white;
             border-radius: 50%;
             background: black;
+            box-sizing: border-box;
         }
 
         .spoke {
@@ -80,16 +81,17 @@
             animation: spin 0.3s linear infinite;
         }
 
-        /* Single Side Pedal */
+        /* Side Pedal */
         .pedal-side {
             position: absolute;
             bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
-            width: 35px;
-            height: 6px;
+            width: 38px;
+            height: 7px;
             background: white;
             z-index: 15;
+            border-radius: 2px;
         }
 
         /* PROFILE RIDER */
@@ -102,101 +104,105 @@
             height: 160px;
         }
 
-        /* Single leg in profile */
         .leg {
             position: absolute;
             bottom: 0;
-            left: 15px;
+            left: 14px;
             width: 12px;
-            height: 70px;
+            height: 75px;
             background: white;
             border-radius: 6px;
         }
 
         .torso {
             position: absolute;
-            bottom: 70px;
-            left: 10px;
-            width: 20px;
-            height: 60px;
+            bottom: 75px;
+            left: 8px;
+            width: 22px;
+            height: 65px;
             background: white;
-            transform: rotate(-10deg); /* Slight forward lean */
+            transform: rotate(-12deg);
             border-radius: 5px;
         }
 
-        /* Single arm in profile */
         .arm {
             position: absolute;
             top: 5px;
-            left: 5px;
+            left: 4px;
             width: 8px;
-            height: 50px;
+            height: 55px;
             background: white;
-            transform: rotate(-30deg);
+            transform: rotate(-35deg);
             border-radius: 4px;
         }
 
-        /* Side view helmet */
-        .helmet-side {
+        /* RED HELMET */
+        .helmet-red {
             position: absolute;
-            top: -45px;
-            left: -5px;
-            width: 40px;
-            height: 40px;
-            background: black;
+            top: -48px;
+            left: -6px;
+            width: 42px;
+            height: 42px;
+            background: #ff0000; /* Bright Red */
             border: 3px solid white;
-            border-radius: 50% 50% 10% 40%;
+            border-radius: 50% 50% 15% 45%;
         }
 
         .visor-line {
             position: absolute;
             top: 10px;
             right: -2px;
-            width: 20px;
-            height: 10px;
-            background: white;
-            border-radius: 0 5px 5px 0;
+            width: 22px;
+            height: 12px;
+            background: black;
+            border-radius: 0 6px 6px 0;
         }
 
-        /* THE JUMP ANIMATION */
+        /* UPDATED JUMP ANIMATION */
         @keyframes jumpSequence {
             0% { 
                 left: -10%; 
                 bottom: 100px; 
                 transform: rotate(0deg); 
             }
-            /* Hits the start of the ramp at 45% of stage */
-            35% { 
-                left: 37%; 
+            /* Reaches the ramp base exactly at 40% of screen */
+            30% { 
+                left: 32%; 
                 bottom: 100px; 
                 transform: rotate(0deg); 
             }
-            /* Going up the ramp incline */
-            42% { 
-                left: 45%; 
-                bottom: 180px; 
-                transform: rotate(-30deg); 
+            /* Riding up the incline (starts at 40% left) */
+            40% { 
+                left: 40%; 
+                bottom: 100px; 
+                transform: rotate(-26deg); 
             }
-            /* Airborne Arc */
-            50% { 
-                left: 55%; 
-                bottom: 350px; 
-                transform: rotate(-10deg); 
+            /* Launching from the tip */
+            45% { 
+                left: 48%; 
+                bottom: 190px; 
+                transform: rotate(-20deg); 
             }
-            /* Landing */
-            58% { 
-                left: 65%; 
+            /* Peak of air time */
+            52% { 
+                left: 58%; 
+                bottom: 380px; 
+                transform: rotate(-5deg); 
+            }
+            /* Landing back on the road */
+            60% { 
+                left: 72%; 
                 bottom: 100px; 
                 transform: rotate(15deg); 
             }
-            /* Riding away */
+            /* Leveling out */
             70% { 
-                left: 75%; 
+                left: 85%; 
                 bottom: 100px; 
                 transform: rotate(0deg); 
             }
             100% { 
-                left: 110%; 
+                left: 115%; 
                 bottom: 100px; 
                 transform: rotate(0deg); 
             }
@@ -217,18 +223,16 @@
         <div class="ramp"></div>
 
         <div class="rider-unit">
-            <!-- Profile Rider -->
             <div class="rider-profile">
                 <div class="leg"></div>
                 <div class="torso">
-                    <div class="helmet-side">
+                    <div class="helmet-red">
                         <div class="visor-line"></div>
                     </div>
                     <div class="arm"></div>
                 </div>
             </div>
 
-            <!-- Side View EUC -->
             <div class="euc-wheel">
                 <div class="spoke"></div>
             </div>
