@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EUC Mountain Trail - Precision Slalom</title>
+    <title>EUC Motocross Slalom</title>
     <style>
         body {
             margin: 0;
@@ -30,28 +30,28 @@
             overflow: hidden;
         }
 
-        /* The Winding Dirt Trail - Centered to Animation */
+        /* The Trail - Standard Width */
         .trail-path {
             position: absolute;
             width: 100%;
             height: 100%;
             fill: none;
-            stroke: #3d2b1f; 
-            stroke-width: 80;
+            stroke: #4d331f; 
+            stroke-width: 45; /* Narrower, realistic trail */
             stroke-linecap: round;
             stroke-linejoin: round;
             z-index: 1;
         }
 
-        /* Brown Dirt Jumps - Centered on Path */
+        /* Dirt Mounds - Contained within the path width */
         .mound {
             position: absolute;
-            width: 160px;
-            height: 40px;
-            background: #8B4513; 
+            width: 42px; /* Matches trail width */
+            height: 25px;
+            background: #6e462a; 
             border-radius: 50% 50% 0 0;
             z-index: 5;
-            transform: translateX(-50%); /* Ensures left % is the center of the mound */
+            transform: translateX(-50%);
         }
         .m1 { top: 20%; left: 30%; }
         .m2 { top: 50%; left: 70%; }
@@ -63,8 +63,7 @@
             height: 180px;
             z-index: 20;
             transform: translateX(-50%);
-            /* Using a smoother bezier for the 'carving' feel */
-            animation: precisionSlalom 12s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+            animation: proSlalom 12s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
         }
 
         .euc-wheel {
@@ -72,8 +71,8 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 55px;
-            height: 55px;
+            width: 45px; /* Scaled to fit path better */
+            height: 45px;
             border: 4px solid white;
             border-radius: 50%;
             background: #111;
@@ -103,131 +102,116 @@
         .boot {
             position: absolute;
             bottom: -5px;
-            width: 24px;
-            height: 16px;
+            width: 20px;
+            height: 14px;
             background: #000;
             border: 2px solid #ff0000;
-            border-radius: 4px 10px 2px 4px;
+            border-radius: 3px 7px 2px 3px;
         }
 
         .leg-main {
             position: absolute;
             bottom: 0;
-            width: 20px;
-            height: 80px;
-            background: #1a1a1a;
-            border-radius: 4px;
-        }
-
-        .torso-main {
-            position: absolute;
-            bottom: 75px;
-            width: 34px;
+            width: 18px;
             height: 75px;
-            background: #333;
-            border-radius: 6px;
-        }
-
-        .backpack {
-            position: absolute;
-            top: 10px;
-            left: -14px;
-            width: 16px;
-            height: 48px;
-            background: #d00;
+            background: #1a1a1a; /* Black Motocross Pants */
             border-radius: 4px;
-            border: 1px solid white;
         }
 
-        .strap {
+        /* Racing Jersey */
+        .jersey-torso {
             position: absolute;
-            top: 10px;
-            left: -2px;
-            width: 38px;
-            height: 5px;
-            background: #d00;
+            bottom: 70px;
+            width: 30px;
+            height: 70px;
+            background: #ff0000; /* Red/White Jersey */
+            border-right: 8px solid white;
+            border-radius: 5px;
         }
 
         .arm-main {
             position: absolute;
-            top: 12px;
+            top: 10px;
             right: -6px;
-            width: 12px;
+            width: 11px;
             height: 55px;
-            background: #333;
-            border-radius: 6px;
+            background: #ff0000;
+            border-radius: 5px;
+            border-bottom: 3px solid #000; /* Glove detail */
         }
 
-        .helmet-red {
+        /* Motocross Helmet - Extended Chin Guard */
+        .helmet-mx {
             position: absolute;
-            top: -50px;
+            top: -55px;
             left: -8px;
-            width: 48px;
-            height: 48px;
+            width: 50px;
+            height: 45px;
             background: #ff0000;
             border: 2px solid white;
-            border-radius: 50% 50% 20% 45%;
+            border-radius: 40% 45% 10% 45%;
         }
 
-        .visor {
+        /* Open Face / Goggle Area */
+        .visor-mx {
             position: absolute;
-            top: 12px;
-            right: -2px;
+            top: 8px;
+            right: -5px;
+            width: 32px;
+            height: 12px;
+            background: #000;
+            clip-path: polygon(0% 0%, 100% 20%, 100% 80%, 0% 100%);
+        }
+        
+        .chin-guard {
+            position: absolute;
+            bottom: -5px;
+            right: -8px;
             width: 25px;
-            height: 14px;
-            background: black;
-            border-radius: 0 8px 8px 0;
+            height: 15px;
+            background: #ff0000;
+            border: 2px solid white;
+            border-radius: 0 0 5px 15px;
         }
 
-        /* PRECISION SLALOM WITH SMOOTH TURNS */
-        @keyframes precisionSlalom {
+        /* ANIMATION */
+        @keyframes proSlalom {
             0%   { top: -10%; left: 30%; transform: translateX(-50%) scaleX(1); }
-            
-            /* Jump 1 */
             18%  { top: 18%; left: 30%; } 
-            22%  { top: 12%; left: 30%; } /* Hop over mound 1 */
+            22%  { top: 14%; left: 30%; } /* Jump 1 */
             26%  { top: 22%; left: 30%; } 
             
-            /* Smooth carve to Right Turn */
             35%  { top: 35%; left: 50%; transform: translateX(-50%) scaleX(1); } 
-            40%  { top: 50%; left: 70%; transform: translateX(-50%) scaleX(1); } /* Approach Jump 2 */
+            40%  { top: 50%; left: 70%; transform: translateX(-50%) scaleX(1); } 
             
-            /* Smooth 3D-ish Pivot */
-            41%  { transform: translateX(-50%) scaleX(0.1); } /* Mid-turn compression */
-            42%  { transform: translateX(-50%) scaleX(-1); } /* Face Left */
+            41%  { transform: translateX(-50%) scaleX(0.1); } 
+            42%  { transform: translateX(-50%) scaleX(-1); } 
 
-            /* Jump 2 */
             48%  { top: 50%; left: 70%; }
-            52%  { top: 42%; left: 70%; } /* Hop over mound 2 */
+            52%  { top: 46%; left: 70%; } /* Jump 2 */
             56%  { top: 55%; left: 70%; }
 
-            /* Smooth carve back to Left Turn */
             65%  { top: 65%; left: 50%; transform: translateX(-50%) scaleX(-1); }
-            70%  { top: 80%; left: 30%; transform: translateX(-50%) scaleX(-1); } /* Approach Jump 3 */
+            70%  { top: 80%; left: 30%; transform: translateX(-50%) scaleX(-1); } 
             
-            /* Smooth 3D-ish Pivot */
             71%  { transform: translateX(-50%) scaleX(-0.1); }
-            72%  { transform: translateX(-50%) scaleX(1); } /* Face Right */
+            72%  { transform: translateX(-50%) scaleX(1); } 
 
-            /* Jump 3 */
             78%  { top: 80%; left: 30%; }
-            82%  { top: 72%; left: 30%; } /* Hop over mound 3 */
+            82%  { top: 76%; left: 30%; } /* Jump 3 */
             86%  { top: 88%; left: 30%; }
             
             100% { top: 110%; left: 50%; transform: translateX(-50%) scaleX(1); }
         }
 
         @keyframes kneePhysics {
-            /* Synchronized with Jump 1 */
-            18%, 20% { transform: scaleY(0.75); bottom: 10px; } 
+            18%, 22% { transform: scaleY(0.75); bottom: 10px; } /* Crouch on jump */
             26%      { transform: scaleY(1); bottom: 25px; } 
             
-            /* Synchronized with Jump 2 */
-            48%, 50% { transform: scaleY(0.75); bottom: 10px; } 
+            48%, 52% { transform: scaleY(0.75); bottom: 10px; } 
             56%      { transform: scaleY(1); bottom: 25px; } 
 
-            /* Synchronized with Jump 3 */
-            78%, 80% { transform: scaleY(0.75); bottom: 10px; } 
+            78%, 82% { transform: scaleY(0.75); bottom: 10px; } 
             86%      { transform: scaleY(1); bottom: 25px; }
         }
 
@@ -242,7 +226,6 @@
     <div id="clock">12:00:00 PM</div>
 
     <div class="mountain-container">
-        <!-- SVG Trail precisely following the animation keypoints (30% -> 70% -> 30%) -->
         <svg class="trail-path" viewBox="0 0 100 100" preserveAspectRatio="none">
             <path d="M 30 -10 L 30 25 L 70 55 L 30 85 L 50 110" />
         </svg>
@@ -256,10 +239,11 @@
             <div class="human">
                 <div class="leg-main"></div>
                 <div class="boot"></div>
-                <div class="torso-main">
-                    <div class="backpack"></div>
-                    <div class="strap"></div>
-                    <div class="helmet-red"><div class="visor"></div></div>
+                <div class="jersey-torso">
+                    <div class="helmet-mx">
+                        <div class="visor-mx"></div>
+                        <div class="chin-guard"></div>
+                    </div>
                     <div class="arm-main"></div>
                 </div>
             </div>
