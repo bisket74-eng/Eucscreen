@@ -1,267 +1,136 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>EUC Motocross Slalom</title>
+    <meta charset="UTF-8">
+    <title>LED String Light Fence</title>
     <style>
-        body {
-            margin: 0;
-            background-color: #000;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        #clock {
-            position: absolute;
-            top: 5%;
-            color: #ff0000;
-            font-family: 'Arial', sans-serif;
-            font-size: 4rem;
-            font-weight: bold;
-            z-index: 100;
-        }
-
-        .mountain-container {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* The Trail - Standard Width */
-        .trail-path {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            fill: none;
-            stroke: #4d331f; 
-            stroke-width: 45; /* Narrower, realistic trail */
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            z-index: 1;
-        }
-
-        /* Dirt Mounds - Contained within the path width */
-        .mound {
-            position: absolute;
-            width: 42px; /* Matches trail width */
-            height: 25px;
-            background: #6e462a; 
-            border-radius: 50% 50% 0 0;
-            z-index: 5;
-            transform: translateX(-50%);
-        }
-        .m1 { top: 20%; left: 30%; }
-        .m2 { top: 50%; left: 70%; }
-        .m3 { top: 80%; left: 30%; }
-
-        .rider-unit {
-            position: absolute;
-            width: 100px;
-            height: 180px;
-            z-index: 20;
-            transform: translateX(-50%);
-            animation: proSlalom 12s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-        }
-
-        .euc-wheel {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 45px; /* Scaled to fit path better */
-            height: 45px;
-            border: 4px solid white;
-            border-radius: 50%;
-            background: #111;
-        }
-
-        .spoke {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            height: 3px;
-            background: white;
-            animation: spin 0.2s linear infinite;
-        }
-
-        .human {
-            position: absolute;
-            bottom: 25px;
-            width: 100%;
-            height: 180px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transform-origin: bottom center;
-            animation: kneePhysics 12s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-        }
-
-        .boot {
-            position: absolute;
-            bottom: -5px;
-            width: 20px;
-            height: 14px;
-            background: #000;
-            border: 2px solid #ff0000;
-            border-radius: 3px 7px 2px 3px;
-        }
-
-        .leg-main {
-            position: absolute;
-            bottom: 0;
-            width: 18px;
-            height: 75px;
-            background: #1a1a1a; /* Black Motocross Pants */
-            border-radius: 4px;
-        }
-
-        /* Racing Jersey */
-        .jersey-torso {
-            position: absolute;
-            bottom: 70px;
-            width: 30px;
-            height: 70px;
-            background: #ff0000; /* Red/White Jersey */
-            border-right: 8px solid white;
-            border-radius: 5px;
-        }
-
-        .arm-main {
-            position: absolute;
-            top: 10px;
-            right: -6px;
-            width: 11px;
-            height: 55px;
-            background: #ff0000;
-            border-radius: 5px;
-            border-bottom: 3px solid #000; /* Glove detail */
-        }
-
-        /* Motocross Helmet - Extended Chin Guard */
-        .helmet-mx {
-            position: absolute;
-            top: -55px;
-            left: -8px;
-            width: 50px;
-            height: 45px;
-            background: #ff0000;
-            border: 2px solid white;
-            border-radius: 40% 45% 10% 45%;
-        }
-
-        /* Open Face / Goggle Area */
-        .visor-mx {
-            position: absolute;
-            top: 8px;
-            right: -5px;
-            width: 32px;
-            height: 12px;
-            background: #000;
-            clip-path: polygon(0% 0%, 100% 20%, 100% 80%, 0% 100%);
-        }
-        
-        .chin-guard {
-            position: absolute;
-            bottom: -5px;
-            right: -8px;
-            width: 25px;
-            height: 15px;
-            background: #ff0000;
-            border: 2px solid white;
-            border-radius: 0 0 5px 15px;
-        }
-
-        /* ANIMATION */
-        @keyframes proSlalom {
-            0%   { top: -10%; left: 30%; transform: translateX(-50%) scaleX(1); }
-            18%  { top: 18%; left: 30%; } 
-            22%  { top: 14%; left: 30%; } /* Jump 1 */
-            26%  { top: 22%; left: 30%; } 
-            
-            35%  { top: 35%; left: 50%; transform: translateX(-50%) scaleX(1); } 
-            40%  { top: 50%; left: 70%; transform: translateX(-50%) scaleX(1); } 
-            
-            41%  { transform: translateX(-50%) scaleX(0.1); } 
-            42%  { transform: translateX(-50%) scaleX(-1); } 
-
-            48%  { top: 50%; left: 70%; }
-            52%  { top: 46%; left: 70%; } /* Jump 2 */
-            56%  { top: 55%; left: 70%; }
-
-            65%  { top: 65%; left: 50%; transform: translateX(-50%) scaleX(-1); }
-            70%  { top: 80%; left: 30%; transform: translateX(-50%) scaleX(-1); } 
-            
-            71%  { transform: translateX(-50%) scaleX(-0.1); }
-            72%  { transform: translateX(-50%) scaleX(1); } 
-
-            78%  { top: 80%; left: 30%; }
-            82%  { top: 76%; left: 30%; } /* Jump 3 */
-            86%  { top: 88%; left: 30%; }
-            
-            100% { top: 110%; left: 50%; transform: translateX(-50%) scaleX(1); }
-        }
-
-        @keyframes kneePhysics {
-            18%, 22% { transform: scaleY(0.75); bottom: 10px; } /* Crouch on jump */
-            26%      { transform: scaleY(1); bottom: 25px; } 
-            
-            48%, 52% { transform: scaleY(0.75); bottom: 10px; } 
-            56%      { transform: scaleY(1); bottom: 25px; } 
-
-            78%, 82% { transform: scaleY(0.75); bottom: 10px; } 
-            86%      { transform: scaleY(1); bottom: 25px; }
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+        body { margin: 0; overflow: hidden; background: #050505; }
+        canvas { display: block; }
     </style>
 </head>
 <body>
 
-    <div id="clock">12:00:00 PM</div>
-
-    <div class="mountain-container">
-        <svg class="trail-path" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <path d="M 30 -10 L 30 25 L 70 55 L 30 85 L 50 110" />
-        </svg>
-
-        <div class="mound m1"></div>
-        <div class="mound m2"></div>
-        <div class="mound m3"></div>
-
-        <div class="rider-unit">
-            <div class="euc-wheel"><div class="spoke"></div></div>
-            <div class="human">
-                <div class="leg-main"></div>
-                <div class="boot"></div>
-                <div class="jersey-torso">
-                    <div class="helmet-mx">
-                        <div class="visor-mx"></div>
-                        <div class="chin-guard"></div>
-                    </div>
-                    <div class="arm-main"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function updateClock() {
-            const now = new Date();
-            let hours = now.getHours();
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12 || 12;
-            document.getElementById('clock').innerText = `${hours}:${minutes}:${seconds} ${ampm}`;
+<script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
         }
-        setInterval(updateClock, 1000);
-        updateClock();
-    </script>
+    }
+</script>
+
+<script type="module">
+    import * as THREE from 'three';
+
+    // --- SCENE SETUP ---
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // --- CONFIGURATION ---
+    const poleCount = 6;
+    const poleSpacing = 5;
+    const poleHeight = 3.5;
+    const lightsPerSegment = 15;
+    const sagIntensity = 0.5; // How much the string "hangs"
+    const bulbs = [];
+
+    // --- MATERIALS ---
+    const poleMaterial = new THREE.MeshStandardMaterial({ color: 0x222222 });
+    const wireMaterial = new THREE.LineBasicMaterial({ color: 0x111111 });
+    const bulbGeometry = new THREE.SphereGeometry(0.05, 8, 8);
+
+    // --- GENERATION LOGIC ---
+    for (let i = 0; i < poleCount; i++) {
+        const xPos = i * poleSpacing - (poleCount * poleSpacing) / 2;
+
+        // 1. Create Pole
+        const poleGeo = new THREE.CylinderGeometry(0.08, 0.08, poleHeight);
+        const pole = new THREE.Mesh(poleGeo, poleMaterial);
+        pole.position.set(xPos, poleHeight / 2, 0);
+        scene.add(pole);
+
+        // 2. Create Strings between poles
+        if (i < poleCount - 1) {
+            const nextX = (i + 1) * poleSpacing - (poleCount * poleSpacing) / 2;
+            const curvePoints = [];
+
+            for (let j = 0; j <= lightsPerSegment; j++) {
+                const t = j / lightsPerSegment;
+                const x = THREE.MathUtils.lerp(xPos, nextX, t);
+                
+                // Parabolic sag formula: y = height - (sag * parabolic curve)
+                const y = poleHeight - (sagIntensity * Math.sin(t * Math.PI)); 
+                const z = 0;
+
+                const pos = new THREE.Vector3(x, y, z);
+                curvePoints.push(pos);
+
+                // 3. Create LED Bulbs (except at the very start/end of the string)
+                if (j > 0 && j < lightsPerSegment) {
+                    const lightMat = new THREE.MeshBasicMaterial({ color: 0xffffee });
+                    const bulb = new THREE.Mesh(bulbGeometry, lightMat);
+                    bulb.position.copy(pos);
+                    
+                    // Add custom data for the twinkle effect
+                    bulb.userData = {
+                        offset: Math.random() * Math.PI * 2,
+                        speed: 2 + Math.random() * 3
+                    };
+                    
+                    scene.add(bulb);
+                    bulbs.push(bulb);
+
+                    // Add a tiny point light to a few of them for "glow" 
+                    if (Math.random() > 0.7) {
+                        const pLight = new THREE.PointLight(0xffffff, 0.5, 2);
+                        pLight.position.copy(pos);
+                        scene.add(pLight);
+                    }
+                }
+            }
+
+            // Draw the wire
+            const curve = new THREE.CatmullRomCurve3(curvePoints);
+            const wireGeo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(50));
+            const wire = new THREE.Line(wireGeo, wireMaterial);
+            scene.add(wire);
+        }
+    }
+
+    // --- LIGHTING & ENVIRONMENT ---
+    const ambient = new THREE.AmbientLight(0x404040, 0.5);
+    scene.add(ambient);
+
+    camera.position.set(0, 4, 10);
+    camera.lookAt(0, 2, 0);
+
+    // --- ANIMATION LOOP ---
+    function animate(time) {
+        requestAnimationFrame(animate);
+
+        // Make the bulbs twinkle
+        bulbs.forEach(bulb => {
+            const t = time * 0.001; // convert to seconds
+            const brightness = Math.sin(t * bulb.userData.speed + bulb.userData.offset) * 0.5 + 0.5;
+            
+            // Adjust opacity/color to simulate twinkle
+            bulb.material.color.setRGB(brightness, brightness, brightness * 0.8);
+            bulb.scale.setScalar(0.8 + brightness * 0.4);
+        });
+
+        renderer.render(scene, camera);
+    }
+
+    // Handle Resize
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    animate();
+</script>
 </body>
 </html>
