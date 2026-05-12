@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EUC Motocross - Custom LEDs</title>
+    <title>EUC Motocross - Flashlight & Suspension</title>
     <style>
         body {
             margin: 0;
@@ -76,7 +76,6 @@
             animation: singleJump 5s linear infinite;
         }
 
-        /* Begode / King Song Style EUC */
         .euc-body {
             position: absolute;
             bottom: 0;
@@ -100,40 +99,17 @@
 
         .rim {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 42px;
-            height: 42px;
-            border: 4px solid #fff;
-            border-radius: 50%;
+            top: 10px; left: 10px; width: 42px; height: 42px;
+            border: 4px solid #fff; border-radius: 50%;
         }
 
         .shell {
             position: absolute;
-            top: 0;
-            left: 15px;
-            width: 50px;
-            height: 60px;
-            background: #222;
-            border-radius: 10px 10px 5px 5px;
-            border-left: 3px solid #ff0000;
+            top: 0; left: 15px; width: 50px; height: 60px;
+            background: #222; border-radius: 10px; border-left: 3px solid #ff0000;
         }
 
-        /* --- HELMET & GEAR LEDS --- */
-        .gear-led {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            filter: blur(1px);
-            animation: gearTwinkle var(--speed) ease-in-out infinite;
-        }
-
-        @keyframes gearTwinkle {
-            0%, 100% { opacity: 0.2; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-
+        /* --- THE HUMAN RIDER --- */
         .human {
             position: absolute;
             bottom: 60px;
@@ -145,7 +121,16 @@
             align-items: center;
             transform: rotate(15deg);
             transform-origin: bottom center;
-            animation: riderPhysics 5s linear infinite;
+            animation: suspensionPhysics 5s linear infinite;
+        }
+
+        /* Legs with Suspension Animation */
+        .leg-container {
+            position: absolute;
+            bottom: 0;
+            width: 30px;
+            height: 60px;
+            transform-origin: bottom center;
         }
 
         .thigh { position: absolute; bottom: 0; width: 22px; height: 50px; background: #1a1a1a; border-radius: 10px; }
@@ -154,78 +139,88 @@
         .jersey {
             position: absolute;
             bottom: 45px;
-            width: 32px;
+            width: 30px;
             height: 80px;
             background: #fff;
             border-radius: 15px 15px 8px 8px;
         }
 
-        .arm-side {
+        /* Arm & Flashlight */
+        .arm-tucked {
             position: absolute;
-            top: 15px;
-            right: -10px;
-            width: 16px;
-            height: 60px;
+            top: 20px;
+            right: -8px;
+            width: 14px;
+            height: 45px;
             background: #fff;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            transform: rotate(-5deg);
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            transform: rotate(-10deg);
+        }
+
+        .flashlight {
+            position: absolute;
+            bottom: -5px;
+            right: -2px;
+            width: 15px;
+            height: 6px;
+            background: #333;
+            border-radius: 2px;
+            transform: rotate(10deg);
+        }
+
+        .light-beam {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            width: 150px;
+            height: 40px;
+            background: radial-gradient(ellipse at left, rgba(255,255,200,0.4) 0%, transparent 70%);
+            transform: translateY(-50%);
+            pointer-events: none;
         }
 
         .mx-helmet {
             position: absolute;
-            top: -50px;
-            left: -5px;
-            width: 48px;
-            height: 48px;
-            background: #ff0000;
-            border-radius: 50% 50% 30% 30%;
-            border: 2px solid white;
+            top: -50px; left: -5px; width: 48px; height: 48px;
+            background: #ff0000; border-radius: 50% 50% 30% 30%; border: 2px solid white;
         }
 
-        .mx-peak {
-            position: absolute;
-            top: 8px;
-            right: -10px;
-            width: 20px;
-            height: 4px;
-            background: #ff0000;
-            border: 1px solid white;
-            border-radius: 0 10px 10px 0;
+        /* Gear LEDs */
+        .gear-led {
+            position: absolute; width: 4px; height: 4px; border-radius: 50%;
+            animation: gearTwinkle var(--speed) ease-in-out infinite;
         }
-
-        .face-mask-tiny {
-            position: absolute;
-            top: 20px;
-            right: 0;
-            width: 18px;
-            height: 8px;
-            background: #111;
-            border-radius: 0 4px 4px 0;
-        }
-
-        /* --- FENCE LEDS --- */
-        .pole { position: absolute; bottom: 100px; width: 4px; height: 220px; background: #222; }
-        .led { fill: #fff; animation: twinkle var(--speed) ease-in-out infinite; animation-delay: var(--delay); }
-        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; fill: #ff0000; } }
+        @keyframes gearTwinkle { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
 
         /* --- ANIMATIONS --- */
         @keyframes singleJump {
             0% { left: -20%; bottom: 100px; }
-            35% { left: 38%; bottom: 100px; }
-            40% { left: 45%; bottom: 145px; }
-            50% { left: 50%; bottom: 260px; }
-            60% { left: 55%; bottom: 100px; }
+            30% { left: 30%; bottom: 100px; } 
+            35% { left: 40%; bottom: 100px; } /* Approach */
+            40% { left: 45%; bottom: 145px; } /* Climb */
+            50% { left: 50%; bottom: 260px; } /* Peak */
+            60% { left: 55%; bottom: 100px; } /* Impact */
+            63% { bottom: 115px; } /* Bounce Up */
+            66% { bottom: 100px; } /* Land Solid */
             100% { left: 110%; bottom: 100px; }
         }
 
-        @keyframes riderPhysics {
-            0%, 58% { transform: scaleY(1) rotate(15deg); }
-            60% { transform: scaleY(0.8) rotate(20deg); }
-            65%, 100% { transform: scaleY(1) rotate(15deg); }
+        @keyframes suspensionPhysics {
+            /* Knees bending right before the climb */
+            0%, 30% { transform: scaleY(1) rotate(15deg); }
+            35% { transform: scaleY(0.7) rotate(15deg); } /* Pre-load squat */
+            40%, 55% { transform: scaleY(1.1) rotate(15deg); } /* Stretch in air */
+            60% { transform: scaleY(0.65) rotate(20deg); } /* Big Impact landing */
+            63% { transform: scaleY(0.9) rotate(15deg); } /* Bounce recoil */
+            66% { transform: scaleY(1) rotate(15deg); } /* Recovery */
         }
 
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
+        .pole { position: absolute; bottom: 100px; width: 4px; height: 220px; background: #222; }
+        .led { fill: #fff; animation: twinkle var(--speed) ease-in-out infinite; animation-delay: var(--delay); }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; fill: #ff0000; } }
     </style>
 </head>
 <body>
@@ -243,11 +238,9 @@
         <div class="mound"></div>
 
         <div class="rider-unit">
-            <!-- EUC with Body LEDs -->
             <div class="euc-body">
                 <div class="shell">
                     <div class="gear-led" style="top:10px; left:5px; background:cyan; --speed:1.2s;"></div>
-                    <div class="gear-led" style="top:25px; left:5px; background:magenta; --speed:0.8s;"></div>
                     <div class="gear-led" style="top:40px; left:5px; background:lime; --speed:1.5s;"></div>
                 </div>
                 <div class="tire">
@@ -257,21 +250,21 @@
                 </div>
             </div>
 
-            <!-- Rider with Helmet LEDs -->
             <div class="human">
-                <div style="position:absolute;bottom:0;width:30px;height:60px;">
+                <div class="leg-container">
                     <div class="thigh"></div>
                     <div class="mx-boot"></div>
                 </div>
                 <div class="jersey">
-                    <div class="arm-side"></div>
+                    <div class="arm-tucked">
+                        <div class="flashlight">
+                            <div class="light-beam"></div>
+                        </div>
+                    </div>
                     <div class="mx-helmet">
-                        <!-- Helmet LEDs -->
                         <div class="gear-led" style="top:5px; left:10px; background:yellow; --speed:1s;"></div>
-                        <div class="gear-led" style="top:5px; left:30px; background:orange; --speed:1.3s;"></div>
-                        
-                        <div class="mx-peak"></div>
-                        <div class="face-mask-tiny"></div>
+                        <div class="mx-peak" style="position:absolute; top:8px; right:-10px; width:20px; height:4px; background:#ff0000; border:1px solid white; border-radius:0 10px 10px 0;"></div>
+                        <div style="position:absolute; top:20px; right:0; width:18px; height:8px; background:#111; border-radius:0 4px 4px 0;"></div>
                     </div>
                 </div>
             </div>
