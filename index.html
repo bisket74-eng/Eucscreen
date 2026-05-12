@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EUC Pro - Side Profile Jump</title>
+    <title>EUC Pro - Gear & Backpack</title>
     <style>
         body {
             margin: 0;
@@ -36,7 +36,6 @@
             background: white;
         }
 
-        /* The Kicker Ramp */
         .ramp {
             position: absolute;
             bottom: 100px;
@@ -47,27 +46,26 @@
             clip-path: polygon(0% 100%, 100% 0%, 100% 100%);
         }
 
-        /* RIDER CONTAINER */
         .rider-unit {
             position: absolute;
             bottom: 100px;
             left: -150px;
-            width: 80px;
-            height: 220px;
+            width: 100px;
+            height: 240px;
             animation: jumpSequence 5s linear infinite;
         }
 
-        /* Side View EUC Wheel */
+        /* EUC WHEEL */
         .euc-wheel {
             position: absolute;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 70px;
-            height: 70px;
-            border: 4px solid white;
+            width: 75px;
+            height: 75px;
+            border: 5px solid white;
             border-radius: 50%;
-            background: black;
+            background: #222;
             box-sizing: border-box;
             z-index: 5;
         }
@@ -76,138 +74,121 @@
             position: absolute;
             top: 50%;
             width: 100%;
-            height: 2px;
+            height: 3px;
             background: white;
-            animation: spin 0.3s linear infinite;
+            animation: spin 0.2s linear infinite;
         }
 
-        /* Side Pedal - Placed behind the leg */
-        .pedal-side {
+        .pedal {
             position: absolute;
             bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
-            width: 45px;
-            height: 8px;
-            background: white;
+            width: 50px;
+            height: 10px;
+            background: #777;
+            border: 1px solid white;
             z-index: 4;
-            border-radius: 2px;
         }
 
-        /* PROFILE RIDER */
-        .rider-profile {
+        /* HUMAN RIDER */
+        .human {
             position: absolute;
             bottom: 0;
             width: 100%;
             height: 100%;
-            z-index: 10; /* Leg is now outside the wheel */
+            z-index: 10;
         }
 
-        /* Leg standing on pedal */
-        .leg {
+        /* Black Pants - Thicker Leg */
+        .leg-main {
             position: absolute;
-            bottom: 28px;
+            bottom: 30px;
+            left: 42px;
+            width: 18px;
+            height: 90px;
+            background: #222; /* Black Pants */
+            border: 1px solid #444;
+            border-radius: 8px;
+            transform: rotate(-3deg);
+        }
+
+        /* T-Shirt Torso */
+        .torso-main {
+            position: absolute;
+            bottom: 115px;
             left: 35px;
-            width: 14px;
-            height: 85px;
-            background: white;
-            border-radius: 7px;
-            transform: rotate(-5deg);
+            width: 32px;
+            height: 75px;
+            background: #444; /* Grey T-Shirt */
+            border-radius: 8px;
+            transform: rotate(-10deg);
         }
 
-        /* Torso connected properly to the leg */
-        .torso {
+        /* Red Backpack */
+        .backpack {
             position: absolute;
-            bottom: 105px;
-            left: 28px;
-            width: 24px;
-            height: 70px;
-            background: white;
-            transform: rotate(-15deg);
-            border-radius: 6px;
-        }
-
-        /* Arm connected to the front of the torso */
-        .arm {
-            position: absolute;
-            top: 5px;
-            right: -10px;
-            width: 10px;
-            height: 55px;
-            background: white;
-            transform: rotate(-45deg);
+            top: 10px;
+            left: -12px;
+            width: 18px;
+            height: 45px;
+            background: #d00; /* Red */
             border-radius: 5px;
+            border: 1px solid white;
         }
 
-        /* RED HELMET */
+        /* Human Arm */
+        .arm-main {
+            position: absolute;
+            top: 10px;
+            right: -8px;
+            width: 12px;
+            height: 55px;
+            background: #444; /* Match T-shirt */
+            border-radius: 6px;
+            transform: rotate(-40deg);
+            transform-origin: top center;
+        }
+
+        /* Red Helmet */
         .helmet-red {
             position: absolute;
-            top: -50px;
+            top: -55px;
             left: -5px;
-            width: 45px;
-            height: 45px;
+            width: 48px;
+            height: 48px;
             background: #ff0000;
-            border: 3px solid white;
-            border-radius: 50% 50% 15% 45%;
+            border: 2px solid white;
+            border-radius: 50% 50% 20% 45%;
         }
 
-        .visor-line {
+        .visor {
             position: absolute;
             top: 12px;
             right: -2px;
-            width: 24px;
-            height: 12px;
+            width: 25px;
+            height: 14px;
             background: black;
-            border-radius: 0 6px 6px 0;
+            border-radius: 0 8px 8px 0;
         }
 
-        /* JUMP ANIMATION - CALIBRATED TO RAMP HEIGHT */
+        /* PHYSICS ANIMATION */
         @keyframes jumpSequence {
-            0% { 
-                left: -10%; 
-                bottom: 100px; 
-                transform: rotate(0deg); 
-            }
-            /* Arrival at Ramp Base */
-            30% { 
-                left: 33%; 
-                bottom: 100px; 
-                transform: rotate(0deg); 
-            }
-            /* Riding UP the Ramp - Bottom of wheel follows white edge */
+            0% { left: -10%; bottom: 100px; transform: rotate(0deg); }
+            30% { left: 32%; bottom: 100px; transform: rotate(0deg); }
+            /* Wheel base hits ramp and angles up */
             40% { 
                 left: 40%; 
                 bottom: 100px; 
-                transform: rotate(-26.5deg); /* Slope of the ramp */
+                transform: rotate(-26deg); 
             }
-            /* Reaching the Peak */
-            45% { 
-                left: 50%; 
-                bottom: 200px; 
-                transform: rotate(-20deg); 
-            }
-            /* Airborne Arc */
-            52% { 
-                left: 60%; 
-                bottom: 380px; 
-                transform: rotate(-5deg); 
-            }
+            /* Airborne */
+            45% { left: 50%; bottom: 200px; transform: rotate(-15deg); }
+            52% { left: 60%; bottom: 380px; transform: rotate(0deg); }
             /* Landing */
-            60% { 
-                left: 75%; 
-                bottom: 100px; 
-                transform: rotate(10deg); 
-            }
-            70% { 
-                left: 85%; 
-                bottom: 100px; 
-                transform: rotate(0deg); 
-            }
-            100% { 
-                left: 115%; 
-                bottom: 100px; 
-                transform: rotate(0deg); 
-            }
+            60% { left: 75%; bottom: 100px; transform: rotate(10deg); }
+            70% { left: 85%; bottom: 100px; transform: rotate(0deg); }
+            100% { left: 115%; bottom: 100px; transform: rotate(0deg); }
         }
 
         @keyframes spin {
@@ -225,20 +206,15 @@
         <div class="ramp"></div>
 
         <div class="rider-unit">
-            <!-- EUC Base Components -->
-            <div class="euc-wheel">
-                <div class="spoke"></div>
-            </div>
-            <div class="pedal-side"></div>
+            <div class="euc-wheel"><div class="spoke"></div></div>
+            <div class="pedal"></div>
 
-            <!-- Profile Rider - Now Layered in Front -->
-            <div class="rider-profile">
-                <div class="leg"></div>
-                <div class="torso">
-                    <div class="helmet-red">
-                        <div class="visor-line"></div>
-                    </div>
-                    <div class="arm"></div>
+            <div class="human">
+                <div class="leg-main"></div>
+                <div class="torso-main">
+                    <div class="backpack"></div>
+                    <div class="helmet-red"><div class="visor"></div></div>
+                    <div class="arm-main"></div>
                 </div>
             </div>
         </div>
