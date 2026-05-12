@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EUC Pro - Refined Jump</title>
+    <title>EUC Dirt Track - Triple Jumps</title>
     <style>
         body {
             margin: 0;
@@ -13,13 +13,15 @@
             height: 100vh;
         }
 
+        /* Red 12-Hour Clock */
         #clock {
             position: absolute;
             top: 5%;
-            color: white;
+            color: #ff0000; /* Red Clock */
             font-family: 'Arial', sans-serif;
             font-size: 4rem;
             font-weight: bold;
+            z-index: 20;
         }
 
         .stage {
@@ -28,6 +30,7 @@
             height: 600px;
         }
 
+        /* Continuous Road */
         .road-line {
             position: absolute;
             bottom: 100px;
@@ -36,16 +39,19 @@
             background: white;
         }
 
-        /* Smoother Kicker Ramp */
-        .ramp {
+        /* Dirt Mound Jumps (3 total) */
+        .mound {
             position: absolute;
             bottom: 100px;
-            left: 42%;
             width: 180px;
-            height: 80px;
+            height: 70px;
             background: white;
-            clip-path: polygon(0% 100%, 100% 0%, 100% 100%);
+            /* Curved mound shape */
+            border-radius: 50% 50% 0 0;
         }
+        .m1 { left: 15%; }
+        .m2 { left: 45%; }
+        .m3 { left: 75%; }
 
         .rider-unit {
             position: absolute;
@@ -53,7 +59,7 @@
             left: -150px;
             width: 100px;
             height: 250px;
-            animation: jumpSequence 5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            animation: tripleJump 8s linear infinite;
         }
 
         /* EUC WHEEL */
@@ -90,19 +96,17 @@
             flex-direction: column;
             align-items: center;
             transform-origin: bottom center;
-            animation: riderPhysics 5s linear infinite;
+            animation: riderPhysics 8s linear infinite;
         }
 
-        /* Defined Red and Black Boots */
         .boot {
             position: absolute;
             bottom: -8px;
             width: 28px;
             height: 18px;
             background: #000;
-            border: 2px solid #ff0000; /* Red accents */
+            border: 2px solid #ff0000;
             border-radius: 4px 10px 2px 4px;
-            box-shadow: inset 0 -4px 0 #ff0000;
         }
 
         .leg-main {
@@ -112,7 +116,6 @@
             height: 95px;
             background: #1a1a1a;
             border-radius: 4px;
-            border-right: 1px solid #333;
         }
 
         .torso-main {
@@ -124,7 +127,6 @@
             border-radius: 8px;
         }
 
-        /* Defined Arm hanging at side */
         .arm-main {
             position: absolute;
             top: 10px;
@@ -133,8 +135,6 @@
             height: 65px;
             background: #333;
             border-radius: 7px;
-            border-bottom: 2px solid #222; /* Forearm definition */
-            transform: rotate(2deg);
         }
 
         .backpack {
@@ -179,25 +179,36 @@
             border-radius: 0 8px 8px 0;
         }
 
-        /* ANIMATIONS */
-        @keyframes jumpSequence {
+        /* TRIPLE JUMP ANIMATION */
+        @keyframes tripleJump {
             0% { left: -10%; bottom: 100px; transform: rotate(0deg); }
-            30% { left: 35%; bottom: 100px; transform: rotate(0deg); }
-            40% { left: 42%; bottom: 100px; transform: rotate(-22deg); } /* Incline */
-            45% { left: 52%; bottom: 180px; transform: rotate(-10deg); } /* Launch */
-            52% { left: 62%; bottom: 280px; transform: rotate(0deg); }  /* Smooth Peak */
-            60% { left: 78%; bottom: 100px; transform: rotate(5deg); }  /* Land */
-            75% { left: 95%; bottom: 100px; transform: rotate(0deg); }
-            100% { left: 125%; bottom: 100px; transform: rotate(0deg); }
+            
+            /* Jump 1 */
+            10% { left: 10%; bottom: 100px; transform: rotate(0deg); }
+            15% { left: 18%; bottom: 150px; transform: rotate(-20deg); }
+            20% { left: 26%; bottom: 250px; transform: rotate(0deg); }
+            25% { left: 34%; bottom: 100px; transform: rotate(15deg); }
+            
+            /* Jump 2 */
+            40% { left: 40%; bottom: 100px; transform: rotate(0deg); }
+            45% { left: 48%; bottom: 150px; transform: rotate(-20deg); }
+            50% { left: 56%; bottom: 250px; transform: rotate(0deg); }
+            55% { left: 64%; bottom: 100px; transform: rotate(15deg); }
+
+            /* Jump 3 */
+            70% { left: 70%; bottom: 100px; transform: rotate(0deg); }
+            75% { left: 78%; bottom: 150px; transform: rotate(-20deg); }
+            80% { left: 86%; bottom: 250px; transform: rotate(0deg); }
+            85% { left: 94%; bottom: 100px; transform: rotate(15deg); }
+
+            100% { left: 115%; bottom: 100px; transform: rotate(0deg); }
         }
 
         @keyframes riderPhysics {
-            /* Pre-jump bend at 30%, Landing bend at 60% */
-            0%, 25% { transform: scaleY(1); bottom: 30px; }
-            30% { transform: scaleY(0.85); bottom: 15px; } /* Crouch before ramp */
-            40%, 55% { transform: scaleY(1); bottom: 30px; }
-            60% { transform: scaleY(0.8); bottom: 10px; }  /* Impact absorption */
-            70%, 100% { transform: scaleY(1); bottom: 30px; }
+            /* Crouching for each jump impact */
+            0%, 22%, 52%, 82% { transform: scaleY(1); bottom: 30px; }
+            25%, 55%, 85% { transform: scaleY(0.8); bottom: 10px; } /* Squash on landing */
+            30%, 60%, 90% { transform: scaleY(1); bottom: 30px; }
         }
 
         @keyframes spin {
@@ -208,15 +219,16 @@
 </head>
 <body>
 
-    <div id="clock">00:00:00</div>
+    <div id="clock">00:00:00 PM</div>
 
     <div class="stage">
         <div class="road-line"></div>
-        <div class="ramp"></div>
+        <div class="mound m1"></div>
+        <div class="mound m2"></div>
+        <div class="mound m3"></div>
 
         <div class="rider-unit">
             <div class="euc-wheel"><div class="spoke"></div></div>
-
             <div class="human">
                 <div class="leg-main"></div>
                 <div class="boot"></div>
@@ -233,7 +245,15 @@
     <script>
         function updateClock() {
             const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString('en-GB');
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            hours = hours % 12;
+            hours = hours ? hours : 12; // Convert '0' to '12'
+            
+            document.getElementById('clock').innerText = `${hours}:${minutes}:${seconds} ${ampm}`;
         }
         setInterval(updateClock, 1000);
         updateClock();
