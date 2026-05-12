@@ -1,94 +1,104 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>NWEF EUC - Moonlit Forest Prime</title>
+    <title>NWEF EUC - Organic Forest Night</title>
     <style>
         body { margin: 0; background-color: #000; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'Segoe UI', sans-serif; }
 
-        /* --- GIANT EVERGREEN FOREST BACKDROP --- */
-        .forest-backdrop {
+        /* --- ORGANIC LAYERED FOREST --- */
+        .forest-container {
             position: absolute;
             bottom: 20px; /* Anchored to road */
-            width: 100%; height: 95vh; /* Giant trees reaching behind NWEF */
-            /* Detailed Evergreen Path: stepping tiers for a real pine look */
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200" preserveAspectRatio="none"><path d="M50 0 L55 15 L52 15 L60 35 L55 35 L68 65 L60 65 L80 110 L20 110 L40 65 L32 65 L45 35 L40 35 L48 15 L45 15 Z" fill="%23050505" stroke="rgba(255,255,255,0.4)" stroke-width="0.2"/></svg>');
-            background-size: 300px 100%; 
-            background-repeat: repeat-x; 
-            background-position: bottom;
+            width: 100%; height: 100vh;
             z-index: 0;
-            /* Fades the bottom of trees into the dark road */
-            mask-image: linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15%);
-            -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15%);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            overflow: hidden;
+            opacity: 0.8;
+        }
+
+        /* Procedural tree styling */
+        .tree {
+            background-color: #050505;
+            clip-path: polygon(50% 0%, 55% 10%, 52% 10%, 60% 25%, 54% 25%, 65% 45%, 58% 45%, 75% 70%, 65% 70%, 90% 100%, 10% 100%, 35% 70%, 25% 70%, 42% 45%, 35% 45%, 46% 25%, 40% 25%, 48% 10%, 45% 10%);
+            border-top: 1px solid rgba(255,255,255,0.15); /* Ghostly gray rim */
+            flex-shrink: 0;
+            transform-origin: bottom center;
         }
 
         /* --- DASHBOARD --- */
-        #dashboard { position: absolute; top: 5%; display: flex; align-items: center; justify-content: space-between; width: 92%; z-index: 50; }
+        #dashboard { position: absolute; top: 5%; display: flex; align-items: center; justify-content: space-between; width: 92%; z-index: 100; }
         #clock { color: #bc13fe; font-size: 3.5rem; font-weight: 900; text-shadow: 0 0 20px #bc13fe; font-family: monospace; }
-        #nwef { font-size: 16rem; font-weight: 900; background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: rainbowWave 3s linear infinite; text-shadow: 0 0 30px rgba(0,0,0,0.8); }
+        #nwef { font-size: 15rem; font-weight: 900; background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: rainbowWave 3s linear infinite; }
         #countdown { color: #ff9100; font-size: 2.2rem; font-weight: 900; text-align: right; text-shadow: 0 0 15px #ff9100; line-height: 1.1; }
         @keyframes rainbowWave { to { background-position: 200% center; } }
 
-        /* --- STAGE (Fully Lowered) --- */
-        .stage { position: relative; width: 100%; height: 100vh; z-index: 1; }
-        .road-line { position: absolute; bottom: 20px; width: 100%; height: 6px; background: #222; z-index: 5; }
+        /* --- STAGE --- */
+        .stage { position: relative; width: 100%; height: 100vh; z-index: 10; }
+        .road-line { position: absolute; bottom: 20px; width: 100%; height: 6px; background: #222; z-index: 15; }
 
         .mound {
             position: absolute; bottom: 20px; width: 450px; height: 35px; background: #4e342e;
-            clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%); left: 35%; z-index: 6;
-            background-image: linear-gradient(to right, transparent, rgba(255,255,200,0.6), transparent);
+            clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%); left: 35%; z-index: 16;
+            background-image: linear-gradient(to right, transparent, rgba(255,255,200,0.5), transparent);
             background-size: 200px 100%; background-repeat: no-repeat; background-position: -200px 0;
             animation: spotlightPass 7s linear infinite;
         }
-        @keyframes spotlightPass { 0%, 35% { background-position: -200px 0; } 40%, 55% { background-position: 550px 0; } 60%, 100% { background-position: 550px 0; } }
+        @keyframes spotlightPass { 0%, 35% { background-position: -200px 0; } 40%, 55% { background-position: 600px 0; } 60%, 100% { background-position: 600px 0; } }
 
         /* --- RIDER UNIT --- */
         .rider-unit {
             position: absolute; bottom: 20px; left: -300px;
-            width: 200px; height: 350px; z-index: 20;
+            width: 200px; height: 350px; z-index: 50;
             animation: proJump 7s linear infinite;
         }
 
-        .euc-body { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 110px; height: 130px; z-index: 10; }
+        /* WHEEL LAYER (Lower Z) */
+        .euc-base { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 110px; height: 130px; z-index: 20; }
         .tire { position: absolute; bottom: 0; left: 10px; width: 95px; height: 95px; background: #111; border: 5px solid #333; border-radius: 50%; }
         .shell { position: absolute; top: 0; left: 22px; width: 70px; height: 90px; background: #222; border-radius: 15px; border-left: 5px solid #ff0000; }
 
+        /* HUMAN LAYER (Top Z) */
         .human {
             position: absolute; bottom: 45px; width: 100%; height: 300px;
-            z-index: 30; display: flex; flex-direction: column; align-items: center;
+            z-index: 60; /* Forced above wheel */
+            display: flex; flex-direction: column; align-items: center;
             transform: rotate(15deg); transform-origin: bottom center;
             animation: suspension 7s linear infinite;
         }
 
-        .leg-full { position: absolute; bottom: 0; width: 32px; height: 110px; }
+        .leg-ext { position: absolute; bottom: 0; width: 32px; height: 110px; }
         .thigh { position: absolute; top: 0; width: 32px; height: 65px; background: #1a1a1a; border-radius: 15px; }
         .calf { position: absolute; top: 55px; left: 4px; width: 24px; height: 50px; background: #1a1a1a; border-radius: 5px; }
-        .boot { position: absolute; bottom: -5px; left: -10px; width: 55px; height: 26px; background: #000; border: 1px solid #444; border-radius: 4px 15px 3px 5px; box-shadow: inset 0 0 5px #ff0000; }
+        .boot { position: absolute; bottom: -5px; left: -12px; width: 60px; height: 26px; background: #000; border: 1.5px solid #444; border-radius: 4px 15px 3px 5px; box-shadow: inset 0 0 5px #ff0000; }
 
-        .torso-box { position: absolute; bottom: 110px; width: 42px; height: 130px; background: #fff; border-radius: 20px; }
+        .torso { position: absolute; bottom: 110px; width: 42px; height: 130px; background: #fff; border-radius: 20px; }
         
-        /* Shoulder-height arm */
-        .arm-group { position: absolute; top: 15px; right: -25px; width: 85px; height: 100px; }
+        /* Shoulder-anchored arm */
+        .arm-proper { position: absolute; top: 15px; right: -20px; width: 85px; height: 100px; }
         .upper { position: absolute; top: 0; right: 35px; width: 20px; height: 55px; background: #fff; border-radius: 10px; }
-        .fore { position: absolute; top: 40px; right: -5px; width: 18px; height: 60px; background: #fff; border-radius: 9px; transform: rotate(50deg); border: 1px solid #ddd; }
+        .fore { position: absolute; top: 40px; right: -10px; width: 18px; height: 60px; background: #fff; border-radius: 9px; transform: rotate(50deg); border: 1px solid #ddd; }
         
-        .flashlight-fixed { position: absolute; bottom: -12px; right: -25px; width: 35px; height: 14px; background: #333; border-radius: 3px; transform: rotate(-8deg); }
-        .light-beam { position: absolute; top: 50%; left: 30px; width: 380px; height: 120px; background: radial-gradient(ellipse at left, rgba(255,255,200,0.4) 0%, transparent 80%); transform: translateY(-50%); }
+        .flashlight-hand { position: absolute; bottom: -12px; right: -25px; width: 35px; height: 14px; background: #333; border-radius: 3px; transform: rotate(-8deg); }
+        .light-beam { position: absolute; top: 50%; left: 30px; width: 400px; height: 120px; background: radial-gradient(ellipse at left, rgba(255,255,200,0.4) 0%, transparent 80%); transform: translateY(-50%); }
 
         .mtb-helmet {
             position: absolute; top: -55px; left: -2px; width: 52px; height: 50px;
             background: #ff0000; border: 2px solid white; border-radius: 45%;
         }
-        .chin-line { position: absolute; bottom: 10px; right: -3px; width: 15px; height: 3px; background: #ff0000; border: 1px solid white; }
+        .chin-line { position: absolute; bottom: 10px; right: -3px; width: 18px; height: 4px; background: #ff0000; border: 1px solid white; }
 
-        .pole { position: absolute; bottom: 20px; width: 6px; height: 260px; background: #222; }
+        .pole { position: absolute; bottom: 20px; width: 6px; height: 260px; background: #222; z-index: 15; }
 
+        /* --- ANIMATIONS --- */
         @keyframes proJump {
             0% { left: -25%; bottom: 20px; }
             35% { left: 30%; bottom: 18px; }
             40% { left: 45%; bottom: 80px; } 
             50% { left: 55%; bottom: 170px; } 
             60% { left: 85%; bottom: 20px; } 
-            100% { left: 120%; bottom: 20px; }
+            100% { left: 125%; bottom: 20px; }
         }
 
         @keyframes suspension {
@@ -100,6 +110,7 @@
         }
 
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; fill: #ff0000; } }
     </style>
 </head>
 <body>
@@ -110,7 +121,8 @@
         <div id="countdown">T-MINUS<br>-- DAYS<br>--:--:--</div>
     </div>
 
-    <div class="forest-backdrop"></div>
+    <!-- Procedural Forest -->
+    <div class="forest-container" id="forest"></div>
 
     <div class="stage">
         <div id="fence-layer"></div>
@@ -118,7 +130,7 @@
         <div class="mound"></div>
 
         <div class="rider-unit">
-            <div class="euc-body">
+            <div class="euc-base">
                 <div class="shell"></div>
                 <div class="tire">
                     <div style="position:absolute;top:50%;left:50%;width:40px;height:40px;border:4px solid #fff;border-radius:50%;transform:translate(-50%,-50%);">
@@ -128,16 +140,16 @@
             </div>
 
             <div class="human">
-                <div class="leg-full">
+                <div class="leg-ext">
                     <div class="thigh"></div>
                     <div class="calf"></div>
                     <div class="boot"></div>
                 </div>
-                <div class="torso-box">
-                    <div class="arm-group">
+                <div class="torso">
+                    <div class="arm-proper">
                         <div class="upper"></div>
                         <div class="fore">
-                            <div class="flashlight-fixed"><div class="light-beam"></div></div>
+                            <div class="flashlight-hand"><div class="light-beam"></div></div>
                         </div>
                     </div>
                     <div class="mtb-helmet">
@@ -150,6 +162,21 @@
     </div>
 
     <script>
+        // Generate Forest
+        const forest = document.getElementById('forest');
+        for(let i=0; i<25; i++) {
+            const tree = document.createElement('div');
+            tree.className = 'tree';
+            const h = 40 + Math.random() * 60; // Random heights
+            const w = 150 + Math.random() * 200;
+            tree.style.height = h + 'vh';
+            tree.style.width = w + 'px';
+            tree.style.marginLeft = (Math.random() * -50) + 'px';
+            tree.style.zIndex = Math.floor(h);
+            forest.appendChild(tree);
+        }
+
+        // Time Logic
         const targetDate = new Date("July 15, 2026 00:00:00").getTime();
         function updateUI() {
             const now = new Date();
@@ -157,19 +184,18 @@
             const ampm = h >= 12 ? 'PM' : 'AM';
             h = h % 12 || 12;
             document.getElementById('clock').innerText = `${String(h).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')} ${ampm}`;
-
             const diff = targetDate - now.getTime();
             const d = Math.floor(diff / 864e5), hh = Math.floor((diff % 864e5) / 36e5), mm = Math.floor((diff % 36e5) / 6e4), ss = Math.floor((diff % 6e4) / 1e3);
             document.getElementById('countdown').innerHTML = `T-MINUS<br>${d} DAYS<br>${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;
         }
         setInterval(updateUI, 1000); updateUI();
 
-        const layer = document.getElementById('fence-layer'), count = 5, space = window.innerWidth / (count - 1);
+        // Fence Logic
+        const layer = document.getElementById('fence-layer'), count = 4, space = window.innerWidth / (count - 1);
         for (let i = 0; i < count; i++) {
             const p = document.createElement('div'); p.className = 'pole'; p.style.left = `${i * space}px`; layer.appendChild(p);
             if (i < count - 1) {
                 const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                // Lowered LED wires to follow the new road position
                 svg.setAttribute('style', `position:absolute;bottom:280px;left:${i*space}px;width:${space}px;height:100px;overflow:visible;`);
                 const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
                 path.setAttribute('d', `M 0 0 Q ${space/2} 80 ${space} 0`); path.setAttribute('stroke', '#333'); path.setAttribute('fill', 'none'); svg.appendChild(path);
