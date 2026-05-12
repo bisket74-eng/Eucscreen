@@ -1,135 +1,108 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>NWEF EUC - Pro Build</title>
+    <title>NWEF EUC - Final Anatomy Fix</title>
     <style>
         body { margin: 0; background-color: #000; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'Segoe UI', sans-serif; }
 
         /* --- GROUNDED FOREST --- */
         .forest-backdrop {
             position: absolute;
-            bottom: 20px; /* Locked to road */
+            bottom: 20px; /* Aligned to road */
             width: 100%; height: 500px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M20 100 L35 20 L50 100 Z M50 100 L65 10 L80 100 Z M0 100 L15 40 L30 100 Z M75 100 L90 30 L100 100 Z" fill="%231a221a"/></svg>');
-            background-size: 400px 100%; background-repeat: repeat-x; background-position: bottom;
-            z-index: 0; opacity: 0.9;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M20 100 L35 20 L50 100 Z M50 100 L65 10 L80 100 Z M80 100 L95 30 L100 100 Z" fill="%231a221a"/></svg>');
+            background-size: 500px 100%; background-repeat: repeat-x; background-position: bottom;
+            z-index: 0; opacity: 1;
         }
 
-        /* --- RACING HUD --- */
-        #dashboard { position: absolute; top: 5%; display: flex; align-items: center; justify-content: space-between; width: 90%; z-index: 30; }
-        
-        #clock {
-            color: #bc13fe; font-size: 3.5rem; font-weight: 900;
-            text-shadow: 0 0 20px #bc13fe, 0 0 40px #bc13fe;
-            font-family: monospace; letter-spacing: 2px;
-        }
-
-        #nwef {
-            font-size: 14rem; font-weight: 900; margin: 0;
-            background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000);
-            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: rainbowWave 3s linear infinite;
-        }
-
-        #countdown {
-            color: #ff9100; font-size: 1.8rem; font-weight: 900;
-            text-align: right; text-shadow: 0 0 15px #ff9100;
-            line-height: 1.2;
-        }
-
+        /* --- DASHBOARD --- */
+        #dashboard { position: absolute; top: 5%; display: flex; align-items: center; justify-content: space-between; width: 90%; z-index: 50; }
+        #clock { color: #bc13fe; font-size: 3.5rem; font-weight: 900; text-shadow: 0 0 20px #bc13fe; font-family: monospace; }
+        #nwef { font-size: 14rem; font-weight: 900; background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: rainbowWave 3s linear infinite; }
+        #countdown { color: #ff9100; font-size: 2rem; font-weight: 900; text-align: right; text-shadow: 0 0 15px #ff9100; line-height: 1.1; }
         @keyframes rainbowWave { to { background-position: 200% center; } }
 
-        /* --- STAGE & ROAD --- */
+        /* --- STAGE --- */
         .stage { position: relative; width: 100%; height: 600px; z-index: 1; }
-        .road-line { position: absolute; bottom: 20px; width: 100%; height: 6px; background: #222; z-index: 2; }
+        .road-line { position: absolute; bottom: 20px; width: 100%; height: 6px; background: #222; z-index: 5; }
 
+        /* DYNAMIC MOUND */
         .mound {
-            position: absolute; bottom: 20px; width: 450px; height: 35px;
-            background: #4e342e; /* Base Dark Brown */
-            clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
-            left: 35%; z-index: 2;
-            /* Spotlight Animation */
+            position: absolute; bottom: 20px; width: 450px; height: 35px; background: #4e342e;
+            clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%); left: 35%; z-index: 6;
             background-image: linear-gradient(to right, transparent, rgba(255,255,200,0.6), transparent);
-            background-size: 200px 100%;
-            background-repeat: no-repeat;
-            background-position: -200px 0;
+            background-size: 200px 100%; background-repeat: no-repeat; background-position: -200px 0;
             animation: spotlightPass 7s linear infinite;
         }
+        @keyframes spotlightPass { 0%, 35% { background-position: -200px 0; } 40%, 55% { background-position: 500px 0; } 60%, 100% { background-position: 500px 0; } }
 
-        @keyframes spotlightPass {
-            0%, 35% { background-position: -200px 0; }
-            40%, 55% { background-position: 500px 0; }
-            60%, 100% { background-position: 500px 0; }
-        }
-
-        /* --- THE ACTUAL RIDER --- */
+        /* --- RIDER UNIT --- */
         .rider-unit {
             position: absolute; bottom: 20px; left: -250px;
-            width: 200px; height: 350px; z-index: 10;
+            width: 200px; height: 350px; z-index: 20;
             animation: proJump 7s linear infinite;
         }
 
-        .euc-body {
-            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 110px; height: 130px; z-index: 6;
-        }
-        .shell { position: absolute; top: 0; left: 20px; width: 70px; height: 85px; background: #222; border-radius: 15px; border-left: 5px solid #ff0000; }
+        /* WHEEL LAYER */
+        .euc-body { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 110px; height: 130px; z-index: 10; }
         .tire { position: absolute; bottom: 0; left: 10px; width: 90px; height: 90px; background: #111; border: 5px solid #333; border-radius: 50%; }
+        .shell { position: absolute; top: 0; left: 20px; width: 70px; height: 85px; background: #222; border-radius: 15px; border-left: 5px solid #ff0000; }
 
+        /* HUMAN LAYER (Sits on top of Wheel) */
         .human {
-            position: absolute; bottom: 85px; width: 100%; height: 260px;
+            position: absolute; bottom: 45px; width: 100%; height: 280px;
+            z-index: 30; /* FORCED TOP LAYER */
             display: flex; flex-direction: column; align-items: center;
             transform: rotate(15deg); transform-origin: bottom center;
-            animation: suspensionPhysics 7s linear infinite;
+            animation: suspension 7s linear infinite;
         }
 
-        /* FULL BODY STRUCTURE */
-        .leg { position: absolute; bottom: 0; width: 25px; height: 80px; background: #1a1a1a; border-radius: 10px; }
-        .boot { position: absolute; bottom: -10px; left: -5px; width: 45px; height: 20px; background: #000; border: 1px solid #444; border-radius: 5px 15px 3px 5px; }
-        
-        .torso { position: absolute; bottom: 70px; width: 38px; height: 110px; background: #fff; border-radius: 20px; }
-        
-        /* ARM AT SHOULDER */
-        .arm-group { position: absolute; top: 15px; right: -15px; width: 60px; height: 90px; }
-        .upper-arm { position: absolute; top: 0; right: 15px; width: 18px; height: 45px; background: #fff; border-radius: 9px; transform: rotate(-5deg); }
-        .forearm { position: absolute; top: 30px; right: -15px; width: 16px; height: 50px; background: #fff; border-radius: 8px; transform: rotate(55deg); }
-        
-        .hand { position: absolute; bottom: -5px; right: -5px; width: 15px; height: 15px; background: #fff; border-radius: 50%; }
-        .flashlight { position: absolute; bottom: -8px; right: -25px; width: 28px; height: 12px; background: #333; border-radius: 3px; transform: rotate(-10deg); }
-        .light-beam { 
-            position: absolute; top: 50%; left: 25px; width: 300px; height: 90px; 
-            background: radial-gradient(ellipse at left, rgba(255,255,200,0.4) 0%, transparent 80%); 
-            transform: translateY(-50%); 
-        }
+        /* DEFINED LEGS */
+        .leg-full { position: absolute; bottom: 0; width: 32px; height: 110px; transform-origin: top center; }
+        .thigh { position: absolute; top: 0; width: 32px; height: 60px; background: #1a1a1a; border-radius: 15px; }
+        .calf { position: absolute; top: 50px; left: 4px; width: 24px; height: 50px; background: #1a1a1a; border-radius: 5px; }
+        .boot { position: absolute; bottom: -5px; left: -10px; width: 50px; height: 24px; background: #000; border: 1px solid #444; border-radius: 4px 15px 3px 5px; box-shadow: inset 0 0 5px #ff0000; }
 
-        .mx-helmet {
-            position: absolute; top: -55px; left: 0; width: 50px; height: 45px;
-            background: #ff0000; border: 2px solid white; border-radius: 40%;
+        /* TORSO & ARM */
+        .torso-box { position: absolute; bottom: 100px; width: 40px; height: 120px; background: #fff; border-radius: 20px; }
+        
+        .arm-proper { position: absolute; top: 15px; right: -15px; width: 70px; height: 90px; }
+        .upper { position: absolute; top: 0; right: 25px; width: 20px; height: 50px; background: #fff; border-radius: 10px; }
+        .fore { position: absolute; top: 35px; right: -5px; width: 18px; height: 55px; background: #fff; border-radius: 9px; transform: rotate(50deg); border: 1px solid #ddd; }
+        
+        .flashlight-hand { position: absolute; bottom: -8px; right: -20px; width: 30px; height: 12px; background: #333; border-radius: 3px; transform: rotate(-5deg); }
+        .light-beam { position: absolute; top: 50%; left: 25px; width: 320px; height: 100px; background: radial-gradient(ellipse at left, rgba(255,255,200,0.4) 0%, transparent 80%); transform: translateY(-50%); }
+
+        /* SLEEK MTB HELMET */
+        .mtb-helmet {
+            position: absolute; top: -55px; left: -2px; width: 52px; height: 50px;
+            background: #ff0000; border: 2px solid white; border-radius: 45%;
         }
-        .chin-guard { position: absolute; bottom: 0; right: -5px; width: 22px; height: 6px; background: #ff0000; border: 1px solid white; }
+        .chin-strap-thin { position: absolute; bottom: 8px; right: -3px; width: 20px; height: 4px; background: #ff0000; border: 1px solid white; }
+        .visor-pro { position: absolute; top: 10px; right: -8px; width: 15px; height: 3px; background: #111; }
 
         /* --- FENCE --- */
         .pole { position: absolute; bottom: 20px; width: 6px; height: 260px; background: #222; }
 
+        /* --- PHYSICS --- */
         @keyframes proJump {
             0% { left: -25%; bottom: 20px; }
-            35% { left: 30%; bottom: 18px; } /* Pre-load */
-            40% { left: 45%; bottom: 85px; } 
+            35% { left: 30%; bottom: 18px; }
+            40% { left: 45%; bottom: 80px; } 
             50% { left: 55%; bottom: 170px; } 
             60% { left: 85%; bottom: 20px; } 
             100% { left: 115%; bottom: 20px; }
         }
 
-        @keyframes suspensionPhysics {
+        @keyframes suspension {
             0%, 30% { transform: scaleY(1) translateY(0) rotate(15deg); }
-            35% { transform: scaleY(0.55) translateY(25px) rotate(15deg); } 
+            35% { transform: scaleY(0.55) translateY(35px) rotate(15deg); } 
             40%, 55% { transform: scaleY(1.1) translateY(-10px) rotate(15deg); } 
-            60% { transform: scaleY(0.6) translateY(30px) rotate(20deg); } 
+            60% { transform: scaleY(0.6) translateY(35px) rotate(20deg); } 
             66% { transform: scaleY(1) translateY(0) rotate(15deg); }
         }
 
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; fill: #ff0000; } }
     </style>
 </head>
 <body>
@@ -148,6 +121,7 @@
         <div class="mound"></div>
 
         <div class="rider-unit">
+            <!-- Wheel layer is lower -->
             <div class="euc-body">
                 <div class="shell"></div>
                 <div class="tire">
@@ -157,22 +131,24 @@
                 </div>
             </div>
 
+            <!-- Human layer is forced on top -->
             <div class="human">
-                <div class="leg">
+                <div class="leg-full">
+                    <div class="thigh"></div>
+                    <div class="calf"></div>
                     <div class="boot"></div>
                 </div>
-                <div class="torso">
-                    <div class="arm-group">
-                        <div class="upper-arm"></div>
-                        <div class="forearm">
-                            <div class="hand"></div>
-                            <div class="flashlight"><div class="light-beam"></div></div>
+                <div class="torso-box">
+                    <div class="arm-proper">
+                        <div class="upper"></div>
+                        <div class="fore">
+                            <div class="flashlight-hand"><div class="light-beam"></div></div>
                         </div>
                     </div>
-                    <div class="mx-helmet">
-                        <div class="chin-guard"></div>
-                        <div style="position:absolute; top:4px; right:-8px; width:12px; height:3px; background:#111;"></div>
-                        <div style="position:absolute; top:15px; right:0; width:10px; height:8px; background:#111; border-radius:2px;"></div>
+                    <div class="mtb-helmet">
+                        <div class="chin-strap-thin"></div>
+                        <div class="visor-pro"></div>
+                        <div style="position:absolute; top:20px; right:0; width:10px; height:10px; background:#111; border-radius:2px;"></div>
                     </div>
                 </div>
             </div>
@@ -186,8 +162,7 @@
             let h = now.getHours();
             const ampm = h >= 12 ? 'PM' : 'AM';
             h = h % 12 || 12;
-            const clockStr = `${String(h).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')} ${ampm}`;
-            document.getElementById('clock').innerText = clockStr;
+            document.getElementById('clock').innerText = `${String(h).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')} ${ampm}`;
 
             const diff = targetDate - now.getTime();
             const d = Math.floor(diff / 864e5), hh = Math.floor((diff % 864e5) / 36e5), mm = Math.floor((diff % 36e5) / 6e4), ss = Math.floor((diff % 6e4) / 1e3);
@@ -213,5 +188,6 @@
             }
         }
     </script>
+    <style>@keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; fill: #ff0000; } }</style>
 </body>
 </html>
