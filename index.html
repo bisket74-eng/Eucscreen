@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>NWEF EUC - Forest Night Ride</title>
+    <title>NWEF EUC - Pro Jump Physics</title>
     <style>
         body {
             margin: 0;
@@ -14,195 +14,131 @@
             font-family: 'Arial', sans-serif;
         }
 
-        /* --- FOREST BACKGROUND --- */
+        /* --- VISIBLE FOREST BACKDROP --- */
         .forest-backdrop {
             position: absolute;
-            bottom: 60px;
+            bottom: 40px;
             width: 200%;
-            height: 500px;
-            background-color: #0a0a0a;
-            /* Creates a jagged tree-line silhouette */
+            height: 550px;
+            background-color: #1a1d1a; /* Brighter, visible deep green */
             clip-path: polygon(
-                0% 100%, 0% 20%, 2% 40%, 5% 10%, 8% 35%, 12% 5%, 15% 45%, 18% 15%, 22% 40%, 25% 10%, 
-                28% 35%, 32% 5%, 35% 45%, 38% 10%, 42% 35%, 45% 0%, 48% 40%, 52% 5%, 55% 45%, 58% 15%, 
-                62% 40%, 65% 5%, 68% 35%, 72% 0%, 75% 45%, 78% 10%, 82% 35%, 85% 5%, 88% 40%, 92% 10%, 
-                95% 35%, 98% 5%, 100% 40%, 100% 100%
+                0% 100%, 0% 30%, 3% 50%, 6% 20%, 9% 45%, 12% 15%, 15% 55%, 18% 25%, 22% 50%, 25% 20%, 
+                30% 55%, 35% 15%, 40% 50%, 45% 10%, 50% 60%, 55% 15%, 60% 50%, 65% 10%, 70% 55%, 75% 20%, 
+                80% 50%, 85% 15%, 90% 55%, 95% 20%, 100% 50%, 100% 100%
             );
             z-index: 0;
-            opacity: 0.8;
+            opacity: 0.6;
             animation: forestPan 60s linear infinite;
+            border-top: 1px solid #2a2f2a; /* Treeline highlight */
         }
 
-        @keyframes forestPan {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
+        @keyframes forestPan { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-        /* --- HEADER & RAINBOW WAVE --- */
-        #header-container {
-            position: absolute;
-            top: 10%;
-            text-align: center;
-            z-index: 20;
-            width: 100%;
-        }
-
+        /* --- HEADER --- */
+        #header-container { position: absolute; top: 8%; text-align: center; z-index: 20; width: 100%; }
         #nwef {
-            font-size: 13rem;
-            font-weight: 900;
-            margin: 0;
-            line-height: 0.8;
-            letter-spacing: -4px;
-            text-transform: uppercase;
-            background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: rainbowWave 3s linear infinite;
+            font-size: 13rem; font-weight: 900; margin: 0; line-height: 0.8; letter-spacing: -4px;
+            text-transform: uppercase; background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000);
+            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: rainbowWave 3s linear infinite;
         }
-
         @keyframes rainbowWave { to { background-position: 200% center; } }
-
         #countdown { color: #fff; font-size: 2rem; font-weight: bold; margin-top: 20px; }
         #clock { position: absolute; top: 2%; color: #ff0000; font-size: 2.5rem; font-weight: bold; z-index: 20; }
 
+        /* --- LOWERED ROAD & MOUNDS --- */
         .stage { position: relative; width: 100%; height: 600px; z-index: 1; }
-
-        /* --- TRACK ELEMENTS --- */
-        .mound {
+        
+        .road-line {
             position: absolute;
-            bottom: 60px;
-            width: 250px;
-            height: 50px;
-            background: #5d4037;
-            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
-            left: 40%;
+            bottom: 40px; /* Lowered even more */
+            width: 100%; height: 6px;
+            background: #222; /* Matches poles */
             z-index: 2;
         }
 
-        .road-line {
+        .mound {
             position: absolute;
-            bottom: 60px;
-            width: 100%;
-            height: 5px;
-            background: white;
+            bottom: 40px;
+            width: 350px; /* Longer jump */
+            height: 35px; /* Not as high */
+            background: #5d4037;
+            clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
+            left: 35%;
             z-index: 2;
+            animation: moundLight 7s linear infinite; /* Reactive light */
+        }
+
+        @keyframes moundLight {
+            0%, 35%, 65%, 100% { filter: brightness(1); }
+            45%, 55% { filter: brightness(1.8); box-shadow: 0 -10px 20px rgba(255,255,200,0.2); }
         }
 
         /* --- RIDER UNIT --- */
         .rider-unit {
             position: absolute;
-            bottom: 60px;
+            bottom: 40px;
             left: -250px;
             width: 150px;
             height: 300px;
             z-index: 10;
-            animation: singleJump 7s linear infinite;
+            animation: longJump 7s linear infinite;
         }
 
         .euc-body {
             position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 95px;
-            height: 110px;
-            z-index: 6;
+            bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 95px; height: 110px; z-index: 6;
         }
-
-        .tire {
-            position: absolute;
-            bottom: 0; left: 7px; width: 85px; height: 85px;
-            background: #111; border: 5px solid #333; border-radius: 50%;
-        }
-
-        .rim {
-            position: absolute;
-            top: 12px; left: 12px; width: 51px; height: 51px;
-            border: 5px solid #fff; border-radius: 50%;
-        }
-
-        .shell {
-            position: absolute;
-            top: 0; left: 18px; width: 60px; height: 75px;
-            background: #222; border-radius: 12px; border-left: 4px solid #ff0000;
-        }
+        .tire { position: absolute; bottom: 0; left: 7px; width: 85px; height: 85px; background: #111; border: 5px solid #333; border-radius: 50%; }
+        .rim { position: absolute; top: 12px; left: 12px; width: 51px; height: 51px; border: 5px solid #fff; border-radius: 50%; }
+        .shell { position: absolute; top: 0; left: 18px; width: 60px; height: 75px; background: #222; border-radius: 12px; border-left: 4px solid #ff0000; }
 
         .human {
             position: absolute;
-            bottom: 75px;
-            width: 100%;
-            height: 220px;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transform: rotate(15deg);
-            transform-origin: bottom center;
-            animation: suspensionPhysics 7s linear infinite;
+            bottom: 75px; width: 100%; height: 220px; z-index: 10;
+            display: flex; flex-direction: column; align-items: center;
+            transform: rotate(15deg); transform-origin: bottom center;
+            animation: activeSuspension 7s linear infinite;
         }
 
-        .jersey {
-            position: absolute;
-            bottom: 55px; width: 38px; height: 100px;
-            background: #fff; border-radius: 18px 18px 10px 10px;
+        .jersey { position: absolute; bottom: 55px; width: 34px; height: 100px; background: #fff; border-radius: 18px 18px 8px 8px; }
+        
+        /* SLEEK MTB HELMET */
+        .mtb-helmet {
+            position: absolute; top: -58px; left: 2px; width: 44px; height: 48px;
+            background: #ff0000; border-radius: 50% 50% 40% 40%; border: 2px solid white;
         }
+        .mtb-peak { position: absolute; top: 8px; right: -10px; width: 18px; height: 4px; background: #ff0000; border: 1px solid white; border-radius: 0 10px 10px 0; }
+        .mtb-opening { position: absolute; top: 20px; right: 0; width: 10px; height: 8px; background: #111; border-radius: 0 4px 4px 0; }
 
-        .arm-tucked {
-            position: absolute;
-            top: 25px; right: -10px; width: 18px; height: 55px;
-            background: #fff; border: 1px solid #ddd; border-radius: 9px; transform: rotate(-10deg);
-        }
-
-        .flashlight {
-            position: absolute;
-            bottom: -6px; right: -2px; width: 18px; height: 8px;
-            background: #333; border-radius: 2px; transform: rotate(10deg);
-        }
-
-        .light-beam {
-            position: absolute;
-            top: 50%; left: 18px; width: 180px; height: 50px;
-            background: radial-gradient(ellipse at left, rgba(255,255,200,0.3) 0%, transparent 70%);
-            transform: translateY(-50%);
-        }
-
-        .mx-helmet {
-            position: absolute;
-            top: -65px; left: -5px; width: 58px; height: 58px;
-            background: #ff0000; border-radius: 50% 50% 35% 35%; border: 2px solid white;
-        }
-
-        .face-mask-bmx {
-            position: absolute;
-            top: 24px; right: 0; width: 12px; height: 8px;
-            background: #111; border-radius: 0 4px 4px 0;
-        }
+        .flashlight { position: absolute; top: 35px; right: -12px; width: 18px; height: 8px; background: #333; border-radius: 2px; transform: rotate(5deg); }
+        .light-beam { position: absolute; top: 50%; left: 18px; width: 220px; height: 60px; background: radial-gradient(ellipse at left, rgba(255,255,200,0.3) 0%, transparent 80%); transform: translateY(-50%); }
 
         /* --- FENCE --- */
-        .pole { position: absolute; bottom: 60px; width: 5px; height: 260px; background: #222; }
-        .led { fill: #fff; animation: twinkle var(--speed) ease-in-out infinite; animation-delay: var(--delay); }
+        .pole { position: absolute; bottom: 40px; width: 5px; height: 280px; background: #222; }
+        .led { fill: #fff; animation: twinkle var(--speed) ease-in-out infinite; }
         @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; fill: #ff0000; } }
 
-        /* --- ANIMATIONS --- */
-        @keyframes singleJump {
-            0% { left: -25%; bottom: 60px; }
-            30% { left: 25%; bottom: 60px; } 
-            40% { left: 45%; bottom: 105px; } 
-            50% { left: 50%; bottom: 240px; } 
-            60% { left: 55%; bottom: 60px; } 
-            63% { bottom: 80px; } 
-            66% { bottom: 60px; } 
-            100% { left: 110%; bottom: 60px; }
+        /* --- LOGIC: SQUAT WITHOUT LIFTING WHEEL --- */
+        @keyframes longJump {
+            0% { left: -25%; bottom: 40px; }
+            30% { left: 20%; bottom: 40px; } 
+            35% { left: 35%; bottom: 38px; } /* COMPRESSION: Pushing into dirt */
+            40% { left: 45%; bottom: 75px; } /* Low Climb */
+            50% { left: 55%; bottom: 160px; } /* Long trajectory peak */
+            60% { left: 70%; bottom: 40px; } /* Distant landing */
+            63% { bottom: 55px; } /* Bounce */
+            66% { bottom: 40px; } 
+            100% { left: 115%; bottom: 40px; }
         }
 
-        @keyframes suspensionPhysics {
-            0%, 30% { transform: scaleY(1) rotate(15deg); }
-            35% { transform: scaleY(0.7) rotate(15deg); } 
-            40%, 55% { transform: scaleY(1.1) rotate(15deg); } 
-            60% { transform: scaleY(0.65) rotate(20deg); } 
-            63% { transform: scaleY(0.9) rotate(15deg); } 
-            66% { transform: scaleY(1) rotate(15deg); }
+        @keyframes activeSuspension {
+            0%, 30% { transform: scaleY(1) translateY(0) rotate(15deg); }
+            35% { transform: scaleY(0.65) translateY(15px) rotate(15deg); } /* SQUAT: Body goes down, wheel stays */
+            40%, 55% { transform: scaleY(1.1) translateY(-5px) rotate(15deg); } /* Tucked in air */
+            60% { transform: scaleY(0.6) translateY(20px) rotate(20deg); } /* Impact */
+            63% { transform: scaleY(0.9) translateY(5px) rotate(15deg); }
+            66% { transform: scaleY(1) translateY(0) rotate(15deg); }
         }
 
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -211,7 +147,6 @@
 <body>
 
     <div id="clock">00:00:00 PM</div>
-
     <div class="forest-backdrop"></div>
 
     <div id="header-container">
@@ -226,9 +161,7 @@
 
         <div class="rider-unit">
             <div class="euc-body">
-                <div class="shell">
-                    <div style="position:absolute; width:4px; height:4px; border-radius:50%; top:10px; left:5px; background:cyan; animation: twinkle 1s infinite;"></div>
-                </div>
+                <div class="shell"></div>
                 <div class="tire">
                     <div class="rim">
                          <div style="position:absolute;top:50%;width:100%;height:3px;background:#fff;animation:spin 0.2s linear infinite;"></div>
@@ -239,14 +172,12 @@
             <div class="human">
                 <div style="position:absolute; bottom:0; width:35px; height:75px;">
                     <div style="position:absolute; bottom:0; width:28px; height:60px; background:#1a1a1a; border-radius:12px;"></div>
-                    <div style="position:absolute; bottom:-12px; left:-2px; width:42px; height:22px; background:#000; border:1px solid #444; border-radius:5px 12px 3px 5px;"></div>
                 </div>
                 <div class="jersey">
-                    <div class="arm-tucked">
-                        <div class="flashlight"><div class="light-beam"></div></div>
-                    </div>
-                    <div class="mx-helmet">
-                        <div class="face-mask-bmx"></div>
+                    <div class="flashlight"><div class="light-beam"></div></div>
+                    <div class="mtb-helmet">
+                        <div class="mtb-peak"></div>
+                        <div class="mtb-opening"></div>
                     </div>
                 </div>
             </div>
@@ -268,14 +199,14 @@
         }
         setInterval(updateUI, 1000); updateUI();
 
-        const layer = document.getElementById('fence-layer'), count = 10, space = window.innerWidth / (count - 1);
+        const layer = document.getElementById('fence-layer'), count = 12, space = window.innerWidth / (count - 1);
         for (let i = 0; i < count; i++) {
             const p = document.createElement('div'); p.className = 'pole'; p.style.left = `${i * space}px`; layer.appendChild(p);
             if (i < count - 1) {
                 const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                svg.setAttribute('style', `position:absolute;bottom:280px;left:${i*space}px;width:${space}px;height:50px;overflow:visible;`);
+                svg.setAttribute('style', `position:absolute;bottom:320px;left:${i*space}px;width:${space}px;height:50px;overflow:visible;`);
                 const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                path.setAttribute('d', `M 0 0 Q ${space/2} 30 ${space} 0`); path.setAttribute('stroke', '#333'); path.setAttribute('fill', 'none'); svg.appendChild(path);
+                path.setAttribute('d', `M 0 0 Q ${space/2} 30 ${space} 0`); path.setAttribute('stroke', '#222'); path.setAttribute('fill', 'none'); svg.appendChild(path);
                 for (let j = 1; j < 6; j++) {
                     const t = j / 6, bx = t * space, by = (1-t)*(1-t)*0 + 2*(1-t)*t*30 + t*t*0;
                     const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
