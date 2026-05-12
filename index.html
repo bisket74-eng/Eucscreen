@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>NWEF EUC - Final Anatomy Fix</title>
+    <title>NWEF EUC - Pro Anatomy & Moonlit Forest</title>
     <style>
         body { margin: 0; background-color: #000; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'Segoe UI', sans-serif; }
 
-        /* --- GROUNDED FOREST --- */
+        /* --- MOONLIT EVERGREEN FOREST --- */
         .forest-backdrop {
             position: absolute;
-            bottom: 20px; /* Aligned to road */
+            bottom: 20px; /* Grounded to road */
             width: 100%; height: 500px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M20 100 L35 20 L50 100 Z M50 100 L65 10 L80 100 Z M80 100 L95 30 L100 100 Z" fill="%231a221a"/></svg>');
-            background-size: 500px 100%; background-repeat: repeat-x; background-position: bottom;
-            z-index: 0; opacity: 1;
+            /* Improved Evergreen Silhouette with Moonlight Rim */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" preserveAspectRatio="none"><path d="M50 5 L62 35 L54 35 L72 65 L58 65 L88 105 L12 105 L42 65 L28 65 L46 35 L38 35 Z" fill="%23050505" stroke="%23ffffff" stroke-width="0.3" opacity="0.9"/></svg>');
+            background-size: 200px 100%; 
+            background-repeat: repeat-x; 
+            background-position: bottom;
+            z-index: 0;
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.15));
         }
 
         /* --- DASHBOARD --- */
-        #dashboard { position: absolute; top: 5%; display: flex; align-items: center; justify-content: space-between; width: 90%; z-index: 50; }
+        #dashboard { position: absolute; top: 5%; display: flex; align-items: center; justify-content: space-between; width: 92%; z-index: 50; }
         #clock { color: #bc13fe; font-size: 3.5rem; font-weight: 900; text-shadow: 0 0 20px #bc13fe; font-family: monospace; }
-        #nwef { font-size: 14rem; font-weight: 900; background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: rainbowWave 3s linear infinite; }
-        #countdown { color: #ff9100; font-size: 2rem; font-weight: 900; text-align: right; text-shadow: 0 0 15px #ff9100; line-height: 1.1; }
+        #nwef { font-size: 16rem; font-weight: 900; background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: rainbowWave 3s linear infinite; }
+        #countdown { color: #ff9100; font-size: 2.2rem; font-weight: 900; text-align: right; text-shadow: 0 0 15px #ff9100; line-height: 1.1; }
         @keyframes rainbowWave { to { background-position: 200% center; } }
 
         /* --- STAGE --- */
         .stage { position: relative; width: 100%; height: 600px; z-index: 1; }
         .road-line { position: absolute; bottom: 20px; width: 100%; height: 6px; background: #222; z-index: 5; }
 
-        /* DYNAMIC MOUND */
         .mound {
             position: absolute; bottom: 20px; width: 450px; height: 35px; background: #4e342e;
             clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%); left: 35%; z-index: 6;
@@ -34,71 +37,66 @@
             background-size: 200px 100%; background-repeat: no-repeat; background-position: -200px 0;
             animation: spotlightPass 7s linear infinite;
         }
-        @keyframes spotlightPass { 0%, 35% { background-position: -200px 0; } 40%, 55% { background-position: 500px 0; } 60%, 100% { background-position: 500px 0; } }
+        @keyframes spotlightPass { 0%, 35% { background-position: -200px 0; } 40%, 55% { background-position: 550px 0; } 60%, 100% { background-position: 550px 0; } }
 
         /* --- RIDER UNIT --- */
         .rider-unit {
-            position: absolute; bottom: 20px; left: -250px;
+            position: absolute; bottom: 20px; left: -300px;
             width: 200px; height: 350px; z-index: 20;
             animation: proJump 7s linear infinite;
         }
 
-        /* WHEEL LAYER */
         .euc-body { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 110px; height: 130px; z-index: 10; }
-        .tire { position: absolute; bottom: 0; left: 10px; width: 90px; height: 90px; background: #111; border: 5px solid #333; border-radius: 50%; }
-        .shell { position: absolute; top: 0; left: 20px; width: 70px; height: 85px; background: #222; border-radius: 15px; border-left: 5px solid #ff0000; }
+        .tire { position: absolute; bottom: 0; left: 10px; width: 95px; height: 95px; background: #111; border: 5px solid #333; border-radius: 50%; }
+        .shell { position: absolute; top: 0; left: 22px; width: 70px; height: 90px; background: #222; border-radius: 15px; border-left: 5px solid #ff0000; }
 
-        /* HUMAN LAYER (Sits on top of Wheel) */
+        /* HUMAN LAYER */
         .human {
-            position: absolute; bottom: 45px; width: 100%; height: 280px;
-            z-index: 30; /* FORCED TOP LAYER */
-            display: flex; flex-direction: column; align-items: center;
+            position: absolute; bottom: 45px; width: 100%; height: 300px;
+            z-index: 30; display: flex; flex-direction: column; align-items: center;
             transform: rotate(15deg); transform-origin: bottom center;
             animation: suspension 7s linear infinite;
         }
 
-        /* DEFINED LEGS */
-        .leg-full { position: absolute; bottom: 0; width: 32px; height: 110px; transform-origin: top center; }
-        .thigh { position: absolute; top: 0; width: 32px; height: 60px; background: #1a1a1a; border-radius: 15px; }
-        .calf { position: absolute; top: 50px; left: 4px; width: 24px; height: 50px; background: #1a1a1a; border-radius: 5px; }
-        .boot { position: absolute; bottom: -5px; left: -10px; width: 50px; height: 24px; background: #000; border: 1px solid #444; border-radius: 4px 15px 3px 5px; box-shadow: inset 0 0 5px #ff0000; }
+        .leg-full { position: absolute; bottom: 0; width: 32px; height: 110px; }
+        .thigh { position: absolute; top: 0; width: 32px; height: 65px; background: #1a1a1a; border-radius: 15px; }
+        .calf { position: absolute; top: 55px; left: 4px; width: 24px; height: 50px; background: #1a1a1a; border-radius: 5px; }
+        .boot { position: absolute; bottom: -5px; left: -10px; width: 55px; height: 26px; background: #000; border: 1px solid #444; border-radius: 4px 15px 3px 5px; box-shadow: inset 0 0 5px #ff0000; }
 
-        /* TORSO & ARM */
-        .torso-box { position: absolute; bottom: 100px; width: 40px; height: 120px; background: #fff; border-radius: 20px; }
+        .torso-box { position: absolute; bottom: 110px; width: 42px; height: 130px; background: #fff; border-radius: 20px; }
         
-        .arm-proper { position: absolute; top: 15px; right: -15px; width: 70px; height: 90px; }
-        .upper { position: absolute; top: 0; right: 25px; width: 20px; height: 50px; background: #fff; border-radius: 10px; }
-        .fore { position: absolute; top: 35px; right: -5px; width: 18px; height: 55px; background: #fff; border-radius: 9px; transform: rotate(50deg); border: 1px solid #ddd; }
+        /* IMPROVED ARM ANATOMY */
+        .arm-group { position: absolute; top: 15px; right: -20px; width: 80px; height: 100px; }
+        .upper { position: absolute; top: 0; right: 30px; width: 20px; height: 55px; background: #fff; border-radius: 10px; transform: rotate(-5deg); }
+        .fore { position: absolute; top: 40px; right: -10px; width: 18px; height: 60px; background: #fff; border-radius: 9px; transform: rotate(50deg); border: 1px solid #ddd; }
         
-        .flashlight-hand { position: absolute; bottom: -8px; right: -20px; width: 30px; height: 12px; background: #333; border-radius: 3px; transform: rotate(-5deg); }
-        .light-beam { position: absolute; top: 50%; left: 25px; width: 320px; height: 100px; background: radial-gradient(ellipse at left, rgba(255,255,200,0.4) 0%, transparent 80%); transform: translateY(-50%); }
+        .hand-point { position: absolute; bottom: -5px; right: -10px; width: 18px; height: 18px; background: #fff; border-radius: 50%; }
+        .flashlight-fixed { position: absolute; bottom: -12px; right: -25px; width: 32px; height: 14px; background: #333; border-radius: 3px; transform: rotate(-8deg); }
+        .light-beam { position: absolute; top: 50%; left: 28px; width: 350px; height: 110px; background: radial-gradient(ellipse at left, rgba(255,255,200,0.4) 0%, transparent 80%); transform: translateY(-50%); }
 
-        /* SLEEK MTB HELMET */
         .mtb-helmet {
             position: absolute; top: -55px; left: -2px; width: 52px; height: 50px;
             background: #ff0000; border: 2px solid white; border-radius: 45%;
         }
-        .chin-strap-thin { position: absolute; bottom: 8px; right: -3px; width: 20px; height: 4px; background: #ff0000; border: 1px solid white; }
+        .chin-line { position: absolute; bottom: 8px; right: -3px; width: 18px; height: 4px; background: #ff0000; border: 1px solid white; }
         .visor-pro { position: absolute; top: 10px; right: -8px; width: 15px; height: 3px; background: #111; }
 
-        /* --- FENCE --- */
         .pole { position: absolute; bottom: 20px; width: 6px; height: 260px; background: #222; }
 
-        /* --- PHYSICS --- */
         @keyframes proJump {
             0% { left: -25%; bottom: 20px; }
             35% { left: 30%; bottom: 18px; }
             40% { left: 45%; bottom: 80px; } 
             50% { left: 55%; bottom: 170px; } 
             60% { left: 85%; bottom: 20px; } 
-            100% { left: 115%; bottom: 20px; }
+            100% { left: 120%; bottom: 20px; }
         }
 
         @keyframes suspension {
             0%, 30% { transform: scaleY(1) translateY(0) rotate(15deg); }
-            35% { transform: scaleY(0.55) translateY(35px) rotate(15deg); } 
+            35% { transform: scaleY(0.55) translateY(40px) rotate(15deg); } 
             40%, 55% { transform: scaleY(1.1) translateY(-10px) rotate(15deg); } 
-            60% { transform: scaleY(0.6) translateY(35px) rotate(20deg); } 
+            60% { transform: scaleY(0.6) translateY(40px) rotate(20deg); } 
             66% { transform: scaleY(1) translateY(0) rotate(15deg); }
         }
 
@@ -121,7 +119,6 @@
         <div class="mound"></div>
 
         <div class="rider-unit">
-            <!-- Wheel layer is lower -->
             <div class="euc-body">
                 <div class="shell"></div>
                 <div class="tire">
@@ -131,7 +128,6 @@
                 </div>
             </div>
 
-            <!-- Human layer is forced on top -->
             <div class="human">
                 <div class="leg-full">
                     <div class="thigh"></div>
@@ -139,14 +135,15 @@
                     <div class="boot"></div>
                 </div>
                 <div class="torso-box">
-                    <div class="arm-proper">
+                    <div class="arm-group">
                         <div class="upper"></div>
                         <div class="fore">
-                            <div class="flashlight-hand"><div class="light-beam"></div></div>
+                            <div class="hand-point"></div>
+                            <div class="flashlight-fixed"><div class="light-beam"></div></div>
                         </div>
                     </div>
                     <div class="mtb-helmet">
-                        <div class="chin-strap-thin"></div>
+                        <div class="chin-line"></div>
                         <div class="visor-pro"></div>
                         <div style="position:absolute; top:20px; right:0; width:10px; height:10px; background:#111; border-radius:2px;"></div>
                     </div>
