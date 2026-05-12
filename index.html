@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>NWEF EUC - Pro Anatomy & Moonlit Forest</title>
+    <title>NWEF EUC - Moonlit Forest Prime</title>
     <style>
         body { margin: 0; background-color: #000; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'Segoe UI', sans-serif; }
 
-        /* --- MOONLIT EVERGREEN FOREST --- */
+        /* --- GIANT EVERGREEN FOREST BACKDROP --- */
         .forest-backdrop {
             position: absolute;
-            bottom: 20px; /* Grounded to road */
-            width: 100%; height: 500px;
-            /* Improved Evergreen Silhouette with Moonlight Rim */
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" preserveAspectRatio="none"><path d="M50 5 L62 35 L54 35 L72 65 L58 65 L88 105 L12 105 L42 65 L28 65 L46 35 L38 35 Z" fill="%23050505" stroke="%23ffffff" stroke-width="0.3" opacity="0.9"/></svg>');
-            background-size: 200px 100%; 
+            bottom: 20px; /* Anchored to road */
+            width: 100%; height: 95vh; /* Giant trees reaching behind NWEF */
+            /* Detailed Evergreen Path: stepping tiers for a real pine look */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200" preserveAspectRatio="none"><path d="M50 0 L55 15 L52 15 L60 35 L55 35 L68 65 L60 65 L80 110 L20 110 L40 65 L32 65 L45 35 L40 35 L48 15 L45 15 Z" fill="%23050505" stroke="rgba(255,255,255,0.4)" stroke-width="0.2"/></svg>');
+            background-size: 300px 100%; 
             background-repeat: repeat-x; 
             background-position: bottom;
             z-index: 0;
-            filter: drop-shadow(0 0 8px rgba(255,255,255,0.15));
+            /* Fades the bottom of trees into the dark road */
+            mask-image: linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15%);
+            -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15%);
         }
 
         /* --- DASHBOARD --- */
         #dashboard { position: absolute; top: 5%; display: flex; align-items: center; justify-content: space-between; width: 92%; z-index: 50; }
         #clock { color: #bc13fe; font-size: 3.5rem; font-weight: 900; text-shadow: 0 0 20px #bc13fe; font-family: monospace; }
-        #nwef { font-size: 16rem; font-weight: 900; background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: rainbowWave 3s linear infinite; }
+        #nwef { font-size: 16rem; font-weight: 900; background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: rainbowWave 3s linear infinite; text-shadow: 0 0 30px rgba(0,0,0,0.8); }
         #countdown { color: #ff9100; font-size: 2.2rem; font-weight: 900; text-align: right; text-shadow: 0 0 15px #ff9100; line-height: 1.1; }
         @keyframes rainbowWave { to { background-position: 200% center; } }
 
-        /* --- STAGE --- */
-        .stage { position: relative; width: 100%; height: 600px; z-index: 1; }
+        /* --- STAGE (Fully Lowered) --- */
+        .stage { position: relative; width: 100%; height: 100vh; z-index: 1; }
         .road-line { position: absolute; bottom: 20px; width: 100%; height: 6px; background: #222; z-index: 5; }
 
         .mound {
@@ -50,7 +52,6 @@
         .tire { position: absolute; bottom: 0; left: 10px; width: 95px; height: 95px; background: #111; border: 5px solid #333; border-radius: 50%; }
         .shell { position: absolute; top: 0; left: 22px; width: 70px; height: 90px; background: #222; border-radius: 15px; border-left: 5px solid #ff0000; }
 
-        /* HUMAN LAYER */
         .human {
             position: absolute; bottom: 45px; width: 100%; height: 300px;
             z-index: 30; display: flex; flex-direction: column; align-items: center;
@@ -65,21 +66,19 @@
 
         .torso-box { position: absolute; bottom: 110px; width: 42px; height: 130px; background: #fff; border-radius: 20px; }
         
-        /* IMPROVED ARM ANATOMY */
-        .arm-group { position: absolute; top: 15px; right: -20px; width: 80px; height: 100px; }
-        .upper { position: absolute; top: 0; right: 30px; width: 20px; height: 55px; background: #fff; border-radius: 10px; transform: rotate(-5deg); }
-        .fore { position: absolute; top: 40px; right: -10px; width: 18px; height: 60px; background: #fff; border-radius: 9px; transform: rotate(50deg); border: 1px solid #ddd; }
+        /* Shoulder-height arm */
+        .arm-group { position: absolute; top: 15px; right: -25px; width: 85px; height: 100px; }
+        .upper { position: absolute; top: 0; right: 35px; width: 20px; height: 55px; background: #fff; border-radius: 10px; }
+        .fore { position: absolute; top: 40px; right: -5px; width: 18px; height: 60px; background: #fff; border-radius: 9px; transform: rotate(50deg); border: 1px solid #ddd; }
         
-        .hand-point { position: absolute; bottom: -5px; right: -10px; width: 18px; height: 18px; background: #fff; border-radius: 50%; }
-        .flashlight-fixed { position: absolute; bottom: -12px; right: -25px; width: 32px; height: 14px; background: #333; border-radius: 3px; transform: rotate(-8deg); }
-        .light-beam { position: absolute; top: 50%; left: 28px; width: 350px; height: 110px; background: radial-gradient(ellipse at left, rgba(255,255,200,0.4) 0%, transparent 80%); transform: translateY(-50%); }
+        .flashlight-fixed { position: absolute; bottom: -12px; right: -25px; width: 35px; height: 14px; background: #333; border-radius: 3px; transform: rotate(-8deg); }
+        .light-beam { position: absolute; top: 50%; left: 30px; width: 380px; height: 120px; background: radial-gradient(ellipse at left, rgba(255,255,200,0.4) 0%, transparent 80%); transform: translateY(-50%); }
 
         .mtb-helmet {
             position: absolute; top: -55px; left: -2px; width: 52px; height: 50px;
             background: #ff0000; border: 2px solid white; border-radius: 45%;
         }
-        .chin-line { position: absolute; bottom: 8px; right: -3px; width: 18px; height: 4px; background: #ff0000; border: 1px solid white; }
-        .visor-pro { position: absolute; top: 10px; right: -8px; width: 15px; height: 3px; background: #111; }
+        .chin-line { position: absolute; bottom: 10px; right: -3px; width: 15px; height: 3px; background: #ff0000; border: 1px solid white; }
 
         .pole { position: absolute; bottom: 20px; width: 6px; height: 260px; background: #222; }
 
@@ -138,13 +137,11 @@
                     <div class="arm-group">
                         <div class="upper"></div>
                         <div class="fore">
-                            <div class="hand-point"></div>
                             <div class="flashlight-fixed"><div class="light-beam"></div></div>
                         </div>
                     </div>
                     <div class="mtb-helmet">
                         <div class="chin-line"></div>
-                        <div class="visor-pro"></div>
                         <div style="position:absolute; top:20px; right:0; width:10px; height:10px; background:#111; border-radius:2px;"></div>
                     </div>
                 </div>
@@ -172,6 +169,7 @@
             const p = document.createElement('div'); p.className = 'pole'; p.style.left = `${i * space}px`; layer.appendChild(p);
             if (i < count - 1) {
                 const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                // Lowered LED wires to follow the new road position
                 svg.setAttribute('style', `position:absolute;bottom:280px;left:${i*space}px;width:${space}px;height:100px;overflow:visible;`);
                 const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
                 path.setAttribute('d', `M 0 0 Q ${space/2} 80 ${space} 0`); path.setAttribute('stroke', '#333'); path.setAttribute('fill', 'none'); svg.appendChild(path);
