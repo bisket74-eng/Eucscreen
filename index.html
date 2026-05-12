@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EUC Dirt Track - Triple Jumps</title>
+    <title>EUC Mountain Slalom</title>
     <style>
         body {
             margin: 0;
@@ -17,49 +17,41 @@
         #clock {
             position: absolute;
             top: 5%;
-            color: #ff0000; /* Red Clock */
+            color: #ff0000;
             font-family: 'Arial', sans-serif;
             font-size: 4rem;
             font-weight: bold;
-            z-index: 20;
+            z-index: 50;
         }
 
-        .stage {
+        .mountain-container {
             position: relative;
-            width: 100%;
-            height: 600px;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        /* Continuous Road */
-        .road-line {
-            position: absolute;
-            bottom: 100px;
-            width: 100%;
-            height: 4px;
-            background: white;
-        }
-
-        /* Dirt Mound Jumps (3 total) */
+        /* Brown Dirt Jumps */
         .mound {
             position: absolute;
-            bottom: 100px;
-            width: 180px;
-            height: 70px;
-            background: white;
-            /* Curved mound shape */
+            width: 150px;
+            height: 40px;
+            background: #8B4513; /* Brown Dirt */
             border-radius: 50% 50% 0 0;
+            z-index: 5;
         }
-        .m1 { left: 15%; }
-        .m2 { left: 45%; }
-        .m3 { left: 75%; }
+        /* Positioned along the zigzag path */
+        .m1 { top: 25%; left: 30%; transform: rotate(15deg); }
+        .m2 { top: 50%; left: 60%; transform: rotate(-15deg); }
+        .m3 { top: 75%; left: 30%; transform: rotate(15deg); }
 
+        /* THE RIDER UNIT */
         .rider-unit {
             position: absolute;
-            bottom: 100px;
-            left: -150px;
-            width: 100px;
-            height: 250px;
-            animation: tripleJump 8s linear infinite;
+            width: 80px;
+            height: 150px;
+            z-index: 10;
+            animation: slalomJourney 10s linear infinite;
         }
 
         /* EUC WHEEL */
@@ -68,19 +60,18 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 70px;
-            height: 70px;
-            border: 5px solid white;
+            width: 50px;
+            height: 50px;
+            border: 4px solid white;
             border-radius: 50%;
             background: #111;
-            z-index: 5;
         }
 
         .spoke {
             position: absolute;
             top: 50%;
             width: 100%;
-            height: 3px;
+            height: 2px;
             background: white;
             animation: spin 0.2s linear infinite;
         }
@@ -88,82 +79,80 @@
         /* HUMAN RIDER */
         .human {
             position: absolute;
-            bottom: 30px;
+            bottom: 25px;
             width: 100%;
-            height: 210px;
-            z-index: 10;
+            height: 160px;
             display: flex;
             flex-direction: column;
             align-items: center;
             transform-origin: bottom center;
-            animation: riderPhysics 8s linear infinite;
+            animation: riderPhysics 10s linear infinite;
         }
 
         .boot {
             position: absolute;
-            bottom: -8px;
-            width: 28px;
-            height: 18px;
+            bottom: -5px;
+            width: 22px;
+            height: 14px;
             background: #000;
-            border: 2px solid #ff0000;
-            border-radius: 4px 10px 2px 4px;
+            border: 1.5px solid #ff0000;
+            border-radius: 3px 8px 2px 3px;
         }
 
         .leg-main {
             position: absolute;
             bottom: 0;
-            width: 22px;
-            height: 95px;
+            width: 16px;
+            height: 70px;
             background: #1a1a1a;
             border-radius: 4px;
         }
 
         .torso-main {
             position: absolute;
-            bottom: 90px;
-            width: 38px;
-            height: 85px;
-            background: #333;
-            border-radius: 8px;
-        }
-
-        .arm-main {
-            position: absolute;
-            top: 10px;
-            right: -8px;
-            width: 14px;
+            bottom: 65px;
+            width: 28px;
             height: 65px;
             background: #333;
-            border-radius: 7px;
+            border-radius: 6px;
         }
 
         .backpack {
             position: absolute;
-            top: 12px;
-            left: -15px;
-            width: 18px;
-            height: 55px;
+            top: 8px;
+            left: -12px;
+            width: 14px;
+            height: 40px;
             background: #d00;
-            border-radius: 4px;
+            border-radius: 3px;
             border: 1px solid white;
         }
 
         .strap {
             position: absolute;
-            top: 12px;
+            top: 8px;
             left: -2px;
-            width: 40px;
-            height: 5px;
+            width: 32px;
+            height: 4px;
             background: #d00;
-            border-radius: 2px;
+        }
+
+        .arm-main {
+            position: absolute;
+            top: 10px;
+            right: -5px;
+            width: 10px;
+            height: 50px;
+            background: #333;
+            border-radius: 5px;
         }
 
         .helmet-red {
             position: absolute;
-            top: -55px;
-            left: -8px;
-            width: 52px;
-            height: 52px;
+            top: -45px;
+            left: -5px;
+            width: 40px;
+            height: 40px;
             background: #ff0000;
             border: 2px solid white;
             border-radius: 50% 50% 20% 45%;
@@ -171,44 +160,45 @@
 
         .visor {
             position: absolute;
-            top: 14px;
+            top: 10px;
             right: -2px;
-            width: 28px;
-            height: 15px;
+            width: 22px;
+            height: 12px;
             background: black;
-            border-radius: 0 8px 8px 0;
+            border-radius: 0 6px 6px 0;
         }
 
-        /* TRIPLE JUMP ANIMATION */
-        @keyframes tripleJump {
-            0% { left: -10%; bottom: 100px; transform: rotate(0deg); }
+        /* SLALOM ZIGZAG ANIMATION */
+        @keyframes slalomJourney {
+            /* Start Top Left */
+            0% { top: -10%; left: 10%; transform: scaleX(1); }
             
-            /* Jump 1 */
-            10% { left: 10%; bottom: 100px; transform: rotate(0deg); }
-            15% { left: 18%; bottom: 150px; transform: rotate(-20deg); }
-            20% { left: 26%; bottom: 250px; transform: rotate(0deg); }
-            25% { left: 34%; bottom: 100px; transform: rotate(15deg); }
-            
-            /* Jump 2 */
-            40% { left: 40%; bottom: 100px; transform: rotate(0deg); }
-            45% { left: 48%; bottom: 150px; transform: rotate(-20deg); }
-            50% { left: 56%; bottom: 250px; transform: rotate(0deg); }
-            55% { left: 64%; bottom: 100px; transform: rotate(15deg); }
+            /* First leg: Down to Right + Jump 1 */
+            15% { top: 15%; left: 25%; }
+            20% { top: 20%; left: 30%; z-index: 15; } /* Hit Jump 1 */
+            25% { top: 10%; left: 40%; } /* Air time */
+            30% { top: 35%; left: 55%; transform: scaleX(1); } /* Landing */
 
-            /* Jump 3 */
-            70% { left: 70%; bottom: 100px; transform: rotate(0deg); }
-            75% { left: 78%; bottom: 150px; transform: rotate(-20deg); }
-            80% { left: 86%; bottom: 250px; transform: rotate(0deg); }
-            85% { left: 94%; bottom: 100px; transform: rotate(15deg); }
+            /* Turn: Slide to Left + Jump 2 */
+            35% { transform: scaleX(-1); } /* Pivot face left */
+            45% { top: 45%; left: 65%; }
+            50% { top: 45%; left: 60%; z-index: 15; } /* Hit Jump 2 */
+            55% { top: 35%; left: 45%; } /* Air time */
+            65% { top: 65%; left: 25%; transform: scaleX(-1); } /* Landing */
 
-            100% { left: 115%; bottom: 100px; transform: rotate(0deg); }
+            /* Final leg: Back to Right + Jump 3 */
+            70% { transform: scaleX(1); } /* Pivot face right */
+            75% { top: 70%; left: 30%; }
+            80% { top: 70%; left: 35%; z-index: 15; } /* Hit Jump 3 */
+            85% { top: 60%; left: 55%; } /* Air time */
+            100% { top: 110%; left: 90%; transform: scaleX(1); } /* Exit */
         }
 
         @keyframes riderPhysics {
-            /* Crouching for each jump impact */
-            0%, 22%, 52%, 82% { transform: scaleY(1); bottom: 30px; }
-            25%, 55%, 85% { transform: scaleY(0.8); bottom: 10px; } /* Squash on landing */
-            30%, 60%, 90% { transform: scaleY(1); bottom: 30px; }
+            /* Knees bending on landing phases */
+            0%, 28%, 63%, 88% { transform: scaleY(1); }
+            30%, 65%, 90% { transform: scaleY(0.8); } /* Impact absorption */
+            35%, 70%, 100% { transform: scaleY(1); }
         }
 
         @keyframes spin {
@@ -219,10 +209,10 @@
 </head>
 <body>
 
-    <div id="clock">00:00:00 PM</div>
+    <div id="clock">12:00:00 PM</div>
 
-    <div class="stage">
-        <div class="road-line"></div>
+    <div class="mountain-container">
+        <!-- Trail Jumps -->
         <div class="mound m1"></div>
         <div class="mound m2"></div>
         <div class="mound m3"></div>
@@ -249,10 +239,7 @@
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
             const ampm = hours >= 12 ? 'PM' : 'AM';
-            
-            hours = hours % 12;
-            hours = hours ? hours : 12; // Convert '0' to '12'
-            
+            hours = hours % 12 || 12;
             document.getElementById('clock').innerText = `${hours}:${minutes}:${seconds} ${ampm}`;
         }
         setInterval(updateClock, 1000);
