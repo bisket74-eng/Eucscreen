@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>NWEF EUC - Forest Night Jump</title>
+    <title>NWEF EUC - Electric Night</title>
     <style>
         body {
             margin: 0;
@@ -11,153 +11,157 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Courier New', monospace;
         }
 
-        /* --- STATIC EVERGREEN FOREST --- */
+        /* --- BACKGROUND & FOREST --- */
         .forest-backdrop {
             position: absolute;
             bottom: 20px;
             width: 100%;
-            height: 600px;
-            background-image: 
-                /* Layered Evergreens using repeating gradients */
-                linear-gradient(rgba(20, 30, 20, 0.4), transparent),
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M50 0 L100 100 L0 100 Z" fill="%231a221a"/></svg>');
-            background-size: 80px 300px, 120px 400px;
+            height: 500px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M30 100 L50 10 L70 100 Z M0 100 L20 30 L40 100 Z M60 100 L80 20 L100 100 Z" fill="%231a221a"/></svg>');
+            background-size: 300px 100%;
             background-repeat: repeat-x;
             background-position: bottom;
             z-index: 0;
-            opacity: 0.7;
+            opacity: 0.8;
         }
 
-        /* --- HEADER --- */
-        #header-container { position: absolute; top: 5%; text-align: center; z-index: 20; width: 100%; }
-        #nwef {
-            font-size: 13rem; font-weight: 900; margin: 0; line-height: 0.8; letter-spacing: -4px;
-            text-transform: uppercase; background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000);
-            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: rainbowWave 3s linear infinite;
-        }
-        @keyframes rainbowWave { to { background-position: 200% center; } }
-        #countdown { color: #fff; font-size: 2rem; font-weight: bold; margin-top: 15px; }
-        #clock { position: absolute; top: 1%; color: #ff0000; font-size: 2.2rem; font-weight: bold; z-index: 20; }
-
-        /* --- STAGE ELEMENTS (Lowered) --- */
-        .stage { position: relative; width: 100%; height: 600px; z-index: 1; }
-        
-        .road-line {
+        /* --- ELECTRIC DASHBOARD --- */
+        #dashboard {
             position: absolute;
-            bottom: 20px; 
-            width: 100%; height: 6px;
-            background: #222;
-            z-index: 2;
+            top: 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            width: 95%;
+            z-index: 30;
         }
+
+        #clock {
+            color: #00f2ff;
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 0 0 15px #00f2ff;
+            border: 2px solid #00f2ff;
+            padding: 10px;
+            background: rgba(0,0,0,0.7);
+        }
+
+        #nwef {
+            font-size: 15rem;
+            font-weight: 900;
+            margin: 0;
+            background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbowWave 3s linear infinite;
+        }
+
+        #countdown {
+            color: #ff0000;
+            font-size: 1.5rem;
+            text-align: left;
+            text-shadow: 0 0 10px #ff0000;
+            border-left: 5px solid #ff0000;
+            padding-left: 15px;
+        }
+
+        @keyframes rainbowWave { to { background-position: 200% center; } }
+
+        /* --- STAGE ELEMENTS --- */
+        .stage { position: relative; width: 100%; height: 600px; z-index: 1; }
+        .road-line { position: absolute; bottom: 20px; width: 100%; height: 6px; background: #222; z-index: 2; }
 
         .mound {
             position: absolute;
-            bottom: 20px;
-            width: 350px;
-            height: 35px;
+            bottom: 20px; width: 400px; height: 35px;
             background: #5d4037;
-            clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
-            left: 35%;
-            z-index: 2;
-            animation: predictiveMoundLight 7s linear infinite;
+            clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+            left: 35%; z-index: 2;
+            animation: syncedLight 7s linear infinite;
         }
 
-        /* Shine starts BEFORE the wheel arrives (at ~25% of loop) */
-        @keyframes predictiveMoundLight {
-            0%, 20%, 65%, 100% { filter: brightness(1); }
-            30%, 55% { filter: brightness(2); box-shadow: 0 -15px 30px rgba(255,255,200,0.3); }
+        /* Lighting synced exactly to the jump approach */
+        @keyframes syncedLight {
+            0%, 35%, 55%, 100% { filter: brightness(1); }
+            38%, 50% { filter: brightness(2.5); box-shadow: 0 -20px 40px rgba(255,255,200,0.4); }
         }
 
-        /* --- RIDER UNIT --- */
+        /* --- RIDER & EUC --- */
         .rider-unit {
             position: absolute;
-            bottom: 20px;
-            left: -250px;
-            width: 180px;
-            height: 320px;
-            z-index: 10;
-            animation: longJump 7s linear infinite;
+            bottom: 20px; left: -250px;
+            width: 200px; height: 350px; z-index: 10;
+            animation: proJump 7s linear infinite;
         }
 
         .euc-body {
-            position: absolute;
-            bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 100px; height: 120px; z-index: 6;
+            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 110px; height: 130px; z-index: 6;
         }
-        .tire { position: absolute; bottom: 0; left: 8px; width: 85px; height: 85px; background: #111; border: 5px solid #333; border-radius: 50%; }
-        .rim { position: absolute; top: 12px; left: 12px; width: 51px; height: 51px; border: 5px solid #fff; border-radius: 50%; }
-        .shell { position: absolute; top: 0; left: 20px; width: 60px; height: 75px; background: #222; border-radius: 12px; border-left: 4px solid #ff0000; }
+        .tire { position: absolute; bottom: 0; left: 10px; width: 90px; height: 90px; background: #111; border: 5px solid #333; border-radius: 50%; }
+        .rim { position: absolute; top: 15px; left: 15px; width: 50px; height: 50px; border: 5px solid #fff; border-radius: 50%; }
+        .shell { position: absolute; top: 0; left: 20px; width: 70px; height: 85px; background: #222; border-radius: 15px; border-left: 5px solid #ff0000; }
 
         .human {
-            position: absolute;
-            bottom: 85px; width: 100%; height: 240px; z-index: 10;
-            display: flex; flex-direction: column; align-items: center;
+            position: absolute; bottom: 90px; width: 100%; height: 250px;
             transform: rotate(15deg); transform-origin: bottom center;
-            animation: activeSuspension 7s linear infinite;
+            animation: proSuspension 7s linear infinite;
         }
 
-        .jersey { position: absolute; bottom: 65px; width: 34px; height: 105px; background: #fff; border-radius: 18px 18px 8px 8px; }
+        .jersey { position: absolute; bottom: 70px; width: 36px; height: 110px; background: #fff; border-radius: 20px; }
         
-        /* FULL ARM: Shoulder -> Elbow -> Hand */
-        .arm-container {
-            position: absolute;
-            top: 20px; right: -5px;
-            width: 50px; height: 80px;
-        }
-        .upper-arm {
-            position: absolute; top: 0; right: 10px;
-            width: 16px; height: 45px; background: #fff;
-            border-left: 1px solid #ccc; border-radius: 8px;
-            transform: rotate(-10deg);
-        }
-        .forearm {
-            position: absolute; top: 35px; right: -5px;
-            width: 14px; height: 45px; background: #fff;
-            border-left: 1px solid #ccc; border-radius: 7px;
-            transform: rotate(40deg);
+        /* FOOT SITTING ON THE SHELL */
+        .foot-left {
+            position: absolute; bottom: -15px; left: 20px;
+            width: 50px; height: 25px; background: #000;
+            border: 1px solid #ff0000; border-radius: 5px 15px 5px 5px;
         }
 
-        .flashlight { 
-            position: absolute; bottom: -5px; right: -10px; 
-            width: 20px; height: 10px; background: #333; border-radius: 3px; 
+        /* ARM WITH PROPER HAND/FLASHLIGHT PLACEMENT */
+        .arm {
+            position: absolute; top: 25px; right: -15px;
+            width: 60px; height: 80px;
         }
+        .upper { position: absolute; top: 0; right: 20px; width: 18px; height: 45px; background: #fff; border-radius: 9px; transform: rotate(-5deg); }
+        .fore { position: absolute; top: 30px; right: -10px; width: 16px; height: 50px; background: #fff; border-radius: 8px; transform: rotate(50deg); }
+        
+        .flashlight { position: absolute; bottom: -5px; right: -15px; width: 25px; height: 12px; background: #333; border-radius: 3px; }
         .light-beam { 
-            position: absolute; top: 50%; left: 15px; width: 250px; height: 70px; 
+            position: absolute; top: 50%; left: 20px; width: 280px; height: 80px; 
             background: radial-gradient(ellipse at left, rgba(255,255,200,0.4) 0%, transparent 80%); 
             transform: translateY(-50%); 
         }
 
-        .mtb-helmet {
-            position: absolute; top: -55px; left: 2px; width: 44px; height: 46px;
-            background: #ff0000; border-radius: 45%; border: 2px solid white;
+        .pro-helmet {
+            position: absolute; top: -60px; left: 0; width: 50px; height: 50px;
+            background: #ff0000; border: 2px solid white; border-radius: 45%;
         }
+        .chin-strap { position: absolute; bottom: 5px; right: -5px; width: 25px; height: 8px; background: #ff0000; border: 1px solid white; border-radius: 0 5px 5px 0; }
+        .visor-small { position: absolute; top: 5px; right: -10px; width: 15px; height: 4px; background: #111; }
 
-        /* --- FENCE --- */
-        .pole { position: absolute; bottom: 20px; width: 5px; height: 280px; background: #222; }
-        .led { fill: #fff; animation: twinkle var(--speed) ease-in-out infinite; }
-        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; fill: #ff0000; } }
+        /* --- FENCE (Minimised Poles) --- */
+        .pole { position: absolute; bottom: 20px; width: 6px; height: 250px; background: #222; }
 
-        /* --- PHYSICS --- */
-        @keyframes longJump {
+        @keyframes proJump {
             0% { left: -25%; bottom: 20px; }
-            30% { left: 20%; bottom: 20px; } 
-            35% { left: 35%; bottom: 18px; } /* Compressing tire */
-            40% { left: 45%; bottom: 65px; } 
-            50% { left: 55%; bottom: 150px; } 
-            60% { left: 70%; bottom: 20px; } 
-            63% { bottom: 35px; } /* Land Bounce */
+            35% { left: 30%; bottom: 18px; } /* Pre-load PUSH */
+            40% { left: 45%; bottom: 85px; } 
+            50% { left: 55%; bottom: 180px; } 
+            60% { left: 80%; bottom: 20px; } 
+            63% { bottom: 40px; } 
             66% { bottom: 20px; } 
             100% { left: 115%; bottom: 20px; }
         }
 
-        @keyframes activeSuspension {
+        @keyframes proSuspension {
             0%, 30% { transform: scaleY(1) translateY(0) rotate(15deg); }
-            35% { transform: scaleY(0.6) translateY(20px) rotate(15deg); } /* SQUAT */
-            40%, 55% { transform: scaleY(1.1) translateY(-5px) rotate(15deg); } 
-            60% { transform: scaleY(0.65) translateY(25px) rotate(20deg); } /* Impact */
+            35% { transform: scaleY(0.55) translateY(25px) rotate(15deg); } /* Deep PUSH */
+            40%, 55% { transform: scaleY(1.1) translateY(-10px) rotate(15deg); } 
+            60% { transform: scaleY(0.6) translateY(30px) rotate(20deg); } /* Impact */
             66% { transform: scaleY(1) translateY(0) rotate(15deg); }
         }
 
@@ -166,13 +170,13 @@
 </head>
 <body>
 
-    <div id="clock">00:00:00 PM</div>
-    <div class="forest-backdrop"></div>
-
-    <div id="header-container">
+    <div id="dashboard">
+        <div id="clock">00:00:00</div>
         <h1 id="nwef">NWEF</h1>
         <div id="countdown">Loading...</div>
     </div>
+
+    <div class="forest-backdrop"></div>
 
     <div class="stage">
         <div id="fence-layer"></div>
@@ -183,28 +187,23 @@
             <div class="euc-body">
                 <div class="shell"></div>
                 <div class="tire">
-                    <div class="rim">
-                         <div style="position:absolute;top:50%;width:100%;height:3px;background:#fff;animation:spin 0.2s linear infinite;"></div>
-                    </div>
+                    <div class="rim"><div style="position:absolute;top:50%;width:100%;height:3px;background:#fff;animation:spin 0.1s linear infinite;"></div></div>
                 </div>
             </div>
 
             <div class="human">
-                <div style="position:absolute; bottom:0; width:35px; height:85px;">
-                    <div style="position:absolute; bottom:0; width:28px; height:70px; background:#1a1a1a; border-radius:12px;"></div>
-                </div>
+                <div class="foot-left"></div>
                 <div class="jersey">
-                    <!-- Arm with Flashlight -->
-                    <div class="arm-container">
-                        <div class="upper-arm"></div>
-                        <div class="forearm">
+                    <div class="arm">
+                        <div class="upper"></div>
+                        <div class="fore">
                             <div class="flashlight"><div class="light-beam"></div></div>
                         </div>
                     </div>
-                    
-                    <div class="mtb-helmet">
-                        <div style="position:absolute; top:8px; right:-10px; width:18px; height:4px; background:#ff0000; border:1px solid white; border-radius:0 10px 10px 0;"></div>
-                        <div style="position:absolute; top:18px; right:0; width:8px; height:8px; background:#111; border-radius:2px;"></div>
+                    <div class="pro-helmet">
+                        <div class="chin-strap"></div>
+                        <div class="visor-small"></div>
+                        <div style="position:absolute; top:18px; right:0; width:10px; height:10px; background:#111; border-radius:2px;"></div>
                     </div>
                 </div>
             </div>
@@ -215,34 +214,32 @@
         const targetDate = new Date("July 15, 2026 00:00:00").getTime();
         function updateUI() {
             const now = new Date();
-            let h = now.getHours();
-            const m = String(now.getMinutes()).padStart(2, '0'), s = String(now.getSeconds()).padStart(2, '0');
-            const ampm = h >= 12 ? 'PM' : 'AM';
-            h = h % 12 || 12;
-            document.getElementById('clock').innerText = `${h}:${m}:${s} ${ampm}`;
+            const h = String(now.getHours() % 12 || 12).padStart(2, '0'), m = String(now.getMinutes()).padStart(2, '0'), s = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').innerText = `${h}:${m}:${s}`;
             const diff = targetDate - now.getTime();
             const d = Math.floor(diff / 864e5), hh = Math.floor((diff % 864e5) / 36e5), mm = Math.floor((diff % 36e5) / 6e4), ss = Math.floor((diff % 6e4) / 1e3);
-            document.getElementById('countdown').innerText = `${d} Days | ${hh}h ${mm}m ${ss}s until July 15th, 2026`;
+            document.getElementById('countdown').innerHTML = `ENERGY REMAINING:<br>${d} DAYS<br>${hh}H ${mm}M ${ss}S`;
         }
         setInterval(updateUI, 1000); updateUI();
 
-        const layer = document.getElementById('fence-layer'), count = 12, space = window.innerWidth / (count - 1);
+        const layer = document.getElementById('fence-layer'), count = 5, space = window.innerWidth / (count - 1);
         for (let i = 0; i < count; i++) {
             const p = document.createElement('div'); p.className = 'pole'; p.style.left = `${i * space}px`; layer.appendChild(p);
             if (i < count - 1) {
                 const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                svg.setAttribute('style', `position:absolute;bottom:350px;left:${i*space}px;width:${space}px;height:50px;overflow:visible;`);
+                svg.setAttribute('style', `position:absolute;bottom:270px;left:${i*space}px;width:${space}px;height:100px;overflow:visible;`);
                 const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                path.setAttribute('d', `M 0 0 Q ${space/2} 30 ${space} 0`); path.setAttribute('stroke', '#222'); path.setAttribute('fill', 'none'); svg.appendChild(path);
-                for (let j = 1; j < 6; j++) {
-                    const t = j / 6, bx = t * space, by = (1-t)*(1-t)*0 + 2*(1-t)*t*30 + t*t*0;
+                path.setAttribute('d', `M 0 0 Q ${space/2} 80 ${space} 0`); path.setAttribute('stroke', '#333'); path.setAttribute('fill', 'none'); svg.appendChild(path);
+                for (let j = 1; j < 8; j++) {
+                    const t = j / 8, bx = t * space, by = (1-t)*(1-t)*0 + 2*(1-t)*t*80 + t*t*0;
                     const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                    c.setAttribute('class', 'led'); c.setAttribute('cx', bx); c.setAttribute('cy', by); c.setAttribute('r', '2.5');
-                    c.style.setProperty('--delay', `${Math.random()*2}s`); c.style.setProperty('--speed', `${1+Math.random()}s`); svg.appendChild(c);
+                    c.setAttribute('cx', bx); c.setAttribute('cy', by); c.setAttribute('r', '3'); c.setAttribute('fill', '#fff');
+                    c.style.animation = `twinkle ${1+Math.random()}s infinite`; svg.appendChild(c);
                 }
                 layer.appendChild(svg);
             }
         }
     </script>
+    <style>@keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; fill: #ff0000; } }</style>
 </body>
 </html>
