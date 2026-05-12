@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EUC Mountain Trail - Smooth Slalom</title>
+    <title>EUC Mountain Trail - Precision Slalom</title>
     <style>
         body {
             margin: 0;
@@ -13,7 +13,6 @@
             height: 100vh;
         }
 
-        /* Red 12-Hour Clock */
         #clock {
             position: absolute;
             top: 5%;
@@ -31,40 +30,41 @@
             overflow: hidden;
         }
 
-        /* The Winding Dirt Trail */
+        /* The Winding Dirt Trail - Centered to Animation */
         .trail-path {
             position: absolute;
             width: 100%;
             height: 100%;
             fill: none;
-            stroke: #3d2b1f; /* Dark brown trail */
-            stroke-width: 60;
+            stroke: #3d2b1f; 
+            stroke-width: 80;
             stroke-linecap: round;
             stroke-linejoin: round;
             z-index: 1;
         }
 
-        /* Brown Dirt Jumps */
+        /* Brown Dirt Jumps - Centered on Path */
         .mound {
             position: absolute;
-            width: 140px;
-            height: 35px;
+            width: 160px;
+            height: 40px;
             background: #8B4513; 
             border-radius: 50% 50% 0 0;
             z-index: 5;
-            border-bottom: 2px solid #3d2b1f;
+            transform: translateX(-50%); /* Ensures left % is the center of the mound */
         }
-        .m1 { top: 22%; left: 32%; transform: rotate(10deg); }
-        .m2 { top: 48%; left: 55%; transform: rotate(-10deg); }
-        .m3 { top: 74%; left: 32%; transform: rotate(10deg); }
+        .m1 { top: 20%; left: 30%; }
+        .m2 { top: 50%; left: 70%; }
+        .m3 { top: 80%; left: 30%; }
 
-        /* THE RIDER UNIT */
         .rider-unit {
             position: absolute;
             width: 100px;
             height: 180px;
             z-index: 20;
-            animation: smoothSlalom 12s ease-in-out infinite;
+            transform: translateX(-50%);
+            /* Using a smoother bezier for the 'carving' feel */
+            animation: precisionSlalom 12s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
         }
 
         .euc-wheel {
@@ -88,7 +88,6 @@
             animation: spin 0.2s linear infinite;
         }
 
-        /* HUMAN RIDER */
         .human {
             position: absolute;
             bottom: 25px;
@@ -98,8 +97,7 @@
             flex-direction: column;
             align-items: center;
             transform-origin: bottom center;
-            /* Handles the knee bending logic */
-            animation: kneePhysics 12s ease-in-out infinite;
+            animation: kneePhysics 12s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
         }
 
         .boot {
@@ -127,7 +125,7 @@
             width: 34px;
             height: 75px;
             background: #333;
-            border-radius: 8px;
+            border-radius: 6px;
         }
 
         .backpack {
@@ -181,51 +179,56 @@
             border-radius: 0 8px 8px 0;
         }
 
-        /* SOFTER ZIGZAG ANIMATION */
-        @keyframes smoothSlalom {
-            0% { top: -10%; left: 10%; transform: scaleX(1); }
+        /* PRECISION SLALOM WITH SMOOTH TURNS */
+        @keyframes precisionSlalom {
+            0%   { top: -10%; left: 30%; transform: translateX(-50%) scaleX(1); }
             
-            /* Jump 1 Arc */
-            18% { top: 18%; left: 28%; } 
-            22% { top: 16%; left: 35%; } /* Approach: low jump */
-            26% { top: 22%; left: 45%; } 
+            /* Jump 1 */
+            18%  { top: 18%; left: 30%; } 
+            22%  { top: 12%; left: 30%; } /* Hop over mound 1 */
+            26%  { top: 22%; left: 30%; } 
             
-            /* Smooth curve to the right */
-            40% { top: 40%; left: 75%; transform: scaleX(1); }
+            /* Smooth carve to Right Turn */
+            35%  { top: 35%; left: 50%; transform: translateX(-50%) scaleX(1); } 
+            40%  { top: 50%; left: 70%; transform: translateX(-50%) scaleX(1); } /* Approach Jump 2 */
             
-            /* Pivot and Jump 2 Arc */
-            44% { transform: scaleX(-1); }
-            48% { top: 48%; left: 65%; }
-            52% { top: 44%; left: 55%; } /* Approach: low jump */
-            56% { top: 52%; left: 40%; }
+            /* Smooth 3D-ish Pivot */
+            41%  { transform: translateX(-50%) scaleX(0.1); } /* Mid-turn compression */
+            42%  { transform: translateX(-50%) scaleX(-1); } /* Face Left */
 
-            /* Smooth curve to the left */
-            70% { top: 70%; left: 10%; transform: scaleX(-1); }
+            /* Jump 2 */
+            48%  { top: 50%; left: 70%; }
+            52%  { top: 42%; left: 70%; } /* Hop over mound 2 */
+            56%  { top: 55%; left: 70%; }
+
+            /* Smooth carve back to Left Turn */
+            65%  { top: 65%; left: 50%; transform: translateX(-50%) scaleX(-1); }
+            70%  { top: 80%; left: 30%; transform: translateX(-50%) scaleX(-1); } /* Approach Jump 3 */
             
-            /* Pivot and Jump 3 Arc */
-            74% { transform: scaleX(1); }
-            78% { top: 74%; left: 28%; }
-            82% { top: 70%; left: 38%; } /* Approach: low jump */
+            /* Smooth 3D-ish Pivot */
+            71%  { transform: translateX(-50%) scaleX(-0.1); }
+            72%  { transform: translateX(-50%) scaleX(1); } /* Face Right */
+
+            /* Jump 3 */
+            78%  { top: 80%; left: 30%; }
+            82%  { top: 72%; left: 30%; } /* Hop over mound 3 */
+            86%  { top: 88%; left: 30%; }
             
-            100% { top: 110%; left: 90%; transform: scaleX(1); }
+            100% { top: 110%; left: 50%; transform: translateX(-50%) scaleX(1); }
         }
 
-        /* KNEE PHYSICS - Bend on approach/climb, Straighten on jump/land */
         @keyframes kneePhysics {
-            /* Cycle 1 */
-            0%, 15% { transform: scaleY(1); bottom: 25px; }
-            20%, 22% { transform: scaleY(0.75); bottom: 10px; } /* Crouch/Climb Jump 1 */
-            26% { transform: scaleY(1); bottom: 25px; } /* Straighten in air */
+            /* Synchronized with Jump 1 */
+            18%, 20% { transform: scaleY(0.75); bottom: 10px; } 
+            26%      { transform: scaleY(1); bottom: 25px; } 
             
-            /* Cycle 2 */
-            45%, 47% { transform: scaleY(1); bottom: 25px; }
-            50%, 52% { transform: scaleY(0.75); bottom: 10px; } /* Crouch/Climb Jump 2 */
-            56% { transform: scaleY(1); bottom: 25px; } /* Straighten in air */
+            /* Synchronized with Jump 2 */
+            48%, 50% { transform: scaleY(0.75); bottom: 10px; } 
+            56%      { transform: scaleY(1); bottom: 25px; } 
 
-            /* Cycle 3 */
-            75%, 77% { transform: scaleY(1); bottom: 25px; }
-            80%, 82% { transform: scaleY(0.75); bottom: 10px; } /* Crouch/Climb Jump 3 */
-            86%, 100% { transform: scaleY(1); bottom: 25px; }
+            /* Synchronized with Jump 3 */
+            78%, 80% { transform: scaleY(0.75); bottom: 10px; } 
+            86%      { transform: scaleY(1); bottom: 25px; }
         }
 
         @keyframes spin {
@@ -239,9 +242,9 @@
     <div id="clock">12:00:00 PM</div>
 
     <div class="mountain-container">
-        <!-- Trail Visualization -->
-        <svg class="trail-path" viewBox="0 0 1000 1000" preserveAspectRatio="none">
-            <path d="M 100 0 Q 300 150 400 250 T 800 500 T 200 750 T 900 1000" />
+        <!-- SVG Trail precisely following the animation keypoints (30% -> 70% -> 30%) -->
+        <svg class="trail-path" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M 30 -10 L 30 25 L 70 55 L 30 85 L 50 110" />
         </svg>
 
         <div class="mound m1"></div>
